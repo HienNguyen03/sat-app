@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class StudentGroup {
 	
+	// Phuc commit 2
 	// Phuc commit
 	private int id;
 	private String codeName;
