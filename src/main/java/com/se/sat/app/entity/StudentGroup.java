@@ -8,5 +8,7 @@ public class StudentGroup {
 	private String codeName;
 	private Date startDate;
 	private Date endDate;
+	
+	// superStudentGroup instead of superStudentGroupId
 	private SuperStudentGroup superStudentGroupId;
 }
