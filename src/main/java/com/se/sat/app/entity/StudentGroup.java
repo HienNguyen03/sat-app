@@ -11,4 +11,6 @@ public class StudentGroup {
 	private Date startDate;
 	private Date endDate;
 	private SuperStudentGroup superStudentGroup;
+	
+	//comment by Hien
 }
