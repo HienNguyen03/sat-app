@@ -12,5 +12,6 @@ public class StudentGroup {
 	private Date endDate;
 	private SuperStudentGroup superStudentGroup;
 	
+	// hjhghg
 	//comment by Hien
 }
