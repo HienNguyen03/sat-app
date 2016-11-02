@@ -8,58 +8,57 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="employee")
+@Table(name = "employee")
 public class Employee {
-	
+
 	@Id
-	@Column(name="ID")
+	@Column(name = "ID")
 	private String id;
-	
-	@Column(name="FIRSTNAME")
+
+	@Column(name = "FIRSTNAME")
 	private String firstname;
-	
-	@Column(name="LASTNAME")
+
+	@Column(name = "LASTNAME")
 	private String lastname;
-	
-	@Column(name="ADDRESS")
+
+	@Column(name = "ADDRESS")
 	private String address;
-	
-	@Column(name="EMAIL")
+
+	@Column(name = "EMAIL")
 	private String email;
-	
-	@Column(name="PHONE")
+
+	@Column(name = "PHONE")
 	private String phone;
-	
-	@Column(name="PASSWORD")
+
+	@Column(name = "PASSWORD")
 	private String password;
-	
-	@Column(name="PROFILE_IMAGE_URL")
+
+	@Column(name = "PROFILE_IMAGE_URL")
 	private String profileImageUrl;
-	
-	@Column(name="LAST_ACCESS")
+
+	@Column(name = "LAST_ACCESS")
 	private Date lastAccess;
-	
-	@Column(name="ATTEMPTS")
+
+	@Column(name = "ATTEMPTS")
 	private int attempts;
-	
-	@Column(name="REGISTERED_DATE")
+
+	@Column(name = "REGISTERED_DATE")
 	private Date registeredDate;
-	
-	@Column(name="ACCEPTED_DATE")
+
+	@Column(name = "ACCEPTED_DATE")
 	private Date acceptedDate;
-	
-	@Column(name="ACTIVATED_DATE")
+
+	@Column(name = "ACTIVATED_DATE")
 	private Date activatedDate;
-	
-	@Column(name="TITLE")
+
+	@Column(name = "TITLE")
 	private String title;
-	
-	@Column(name="STATUS")
+
+	@Column(name = "STATUS")
 	private String status;
-	
+
 	private Employee manager;
 
-	
 	public String getId() {
 		return id;
 	}
@@ -187,5 +186,5 @@ public class Employee {
 	public void setManager(Employee manager) {
 		this.manager = manager;
 	}
-	
+
 }

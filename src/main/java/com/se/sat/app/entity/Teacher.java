@@ -4,7 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +17,10 @@ public class Teacher {
 	@Id
 	@Column(name = "ID")
 	private String id;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DEPARTMENT_ID")
+	private Department department;
 
 	@Column(name = "FIRSTNAME")
 	private String firstname;
@@ -56,8 +63,6 @@ public class Teacher {
 
 	@Column(name = "STATUS")
 	private String status;
-
-	private Department department;
 
 	public String getId() {
 		return id;

@@ -8,26 +8,25 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="information")
+@Table(name = "information")
 public class Information {
-	
+
 	@Id
-	@Column(name="ID")
+	@Column(name = "ID")
 	private int id;
-	
-	@Column(name="APPLIED_DATE")
+
+	@Column(name = "APPLIED_DATE")
 	private Date appliedDate;
-	
-	@Column(name="ACTIVATED_DURATION")
+
+	@Column(name = "ACTIVATED_DURATION")
 	private int activatedDuration;
-	
-	@Column(name="ATTEMPTS")
+
+	@Column(name = "ATTEMPTS")
 	private int attempts;
-	
-	@Column(name="VALID_REGISTERED_DURATION")
+
+	@Column(name = "VALID_REGISTERED_DURATION")
 	private int validRegisteredDuration;
 
-	
 	public int getId() {
 		return id;
 	}
@@ -67,5 +66,5 @@ public class Information {
 	public void setValidRegisteredDuration(int validRegisteredDuration) {
 		this.validRegisteredDuration = validRegisteredDuration;
 	}
-	
+
 }

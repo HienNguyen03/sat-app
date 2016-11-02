@@ -6,14 +6,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="session_category")
+@Table(name = "session_category")
 public class SessionCategory {
-	
+
 	@Id
-	@Column(name="ID")
+	@Column(name = "ID")
 	private int id;
-	
-	@Column(name="NAME")
+
+	@Column(name = "NAME")
 	private String name;
 
 	public int getId() {
@@ -31,6 +31,5 @@ public class SessionCategory {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
 }

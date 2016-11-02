@@ -1,33 +1,48 @@
 package com.se.sat.app.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="department")
+@Table(name = "department")
 public class Department {
-	
+
 	@Id
-	@Column(name="ID")
+	@Column(name = "ID")
 	private int id;
-	
-	@Column(name="CODE_NAME")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
+	private List<Teacher> teachers = new ArrayList<Teacher>();
+
+	@Column(name = "CODE_NAME")
 	private String codeName;
-	
-	@Column(name="NAME")
+
+	@Column(name = "NAME")
 	private String name;
-	
-	@Column(name="DESCRIPTION")
+
+	@Column(name = "DESCRIPTION")
 	private String description;
-	
-	@Column(name="LANGUAGE")
+
+	@Column(name = "LANGUAGE")
 	private String language;
 	
+	@OneToMany(cascade=CascadeType.ALL ,mappedBy="superDepartment")
+	private List<Department> departments = new ArrayList<Department>();
+	
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="DEPARTMENT_ID")
 	private Department superDepartment;
 
-	
 	public int getId() {
 		return id;
 	}
@@ -75,5 +90,21 @@ public class Department {
 	public void setSuperDepartment(Department superDepartment) {
 		this.superDepartment = superDepartment;
 	}
-	
+
+	public List<Teacher> getTeachers() {
+		return teachers;
+	}
+
+	public void setTeachers(List<Teacher> teachers) {
+		this.teachers = teachers;
+	}
+
+	public List<Department> getDepartments() {
+		return departments;
+	}
+
+	public void setDepartments(List<Department> departments) {
+		this.departments = departments;
+	}
+
 }

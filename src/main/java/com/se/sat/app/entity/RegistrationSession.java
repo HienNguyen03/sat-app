@@ -8,26 +8,25 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="registration_session")
+@Table(name = "registration_session")
 public class RegistrationSession {
-	
+
 	@Id
-	@Column(name="ID")
+	@Column(name = "ID")
 	private int id;
-	
-	@Column(name="TYPE")
+
+	@Column(name = "TYPE")
 	private String type;
-	
-	@Column(name="START_DATE")
+
+	@Column(name = "START_DATE")
 	private Date startDate;
-	
-	@Column(name="END_DATE")
+
+	@Column(name = "END_DATE")
 	private Date endDate;
-	
-	@Column(name="VALIDATION_CODE")
+
+	@Column(name = "VALIDATION_CODE")
 	private String validationCode;
 
-	
 	public int getId() {
 		return id;
 	}
@@ -67,5 +66,5 @@ public class RegistrationSession {
 	public void setValidationCode(String validationCode) {
 		this.validationCode = validationCode;
 	}
-	
+
 }
