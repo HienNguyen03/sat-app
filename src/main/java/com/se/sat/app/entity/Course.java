@@ -1,13 +1,19 @@
 package com.se.sat.app.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,13 +23,16 @@ public class Course {
 	@Id
 	@Column(name = "ID")
 	private int id;
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="COURSE_CATEGORY_ID")
-	private CourseCategory courseCategory;
 
-	@Column(name = "CODE_NAME")
-	private String codeName;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
+	private List<CourseGroup> courseGroups = new ArrayList<CourseGroup>();
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
+	private List<StudySession> studySessions = new ArrayList<StudySession>();
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "TEACHER_ID")
+	private Teacher teacher;
 
 	@Column(name = "NAME")
 	private String name;
@@ -43,22 +52,12 @@ public class Course {
 	@Column(name = "STATUS")
 	private String status;
 
-	private Teacher teacher;
-
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getCodeName() {
-		return codeName;
-	}
-
-	public void setCodeName(String codeName) {
-		this.codeName = codeName;
 	}
 
 	public String getName() {
@@ -117,12 +116,21 @@ public class Course {
 		this.teacher = teacher;
 	}
 
-	public CourseCategory getCourseCategory() {
-		return courseCategory;
+	public List<CourseGroup> getCourseGroups() {
+		return courseGroups;
 	}
 
-	public void setCourseCategory(CourseCategory courseCategory) {
-		this.courseCategory = courseCategory;
+	public void setCourseGroups(List<CourseGroup> courseGroups) {
+		this.courseGroups = courseGroups;
 	}
 
+	public List<StudySession> getStudySessions() {
+		return studySessions;
+	}
+
+	public void setStudySessions(List<StudySession> studySessions) {
+		this.studySessions = studySessions;
+	}
+	
+	
 }

@@ -1,10 +1,18 @@
 package com.se.sat.app.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,6 +22,25 @@ public class StudySession {
 	@Id
 	@Column(name = "ID")
 	private int id;
+
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="SESSION_CATEGORY_ID")
+	private SessionCategory sessionCategory;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "COURSE_ID")
+	private Course course;
+			
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "studySessions")
+	private List<CourseGroup> courseGroups = new ArrayList<CourseGroup>();
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "paticipation", joinColumns = @JoinColumn(name = "STUDY_SESSION_ID"), inverseJoinColumns = @JoinColumn(name = "STUDENT_ID"))
+	private List<Student> studentPas = new ArrayList<Student>();
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "student_session", joinColumns = @JoinColumn(name = "STUDY_SESSION_ID"), inverseJoinColumns = @JoinColumn(name = "STUDENT_ID"))
+	private List<Student> studentSts = new ArrayList<Student>();
 
 	@Column(name = "NAME")
 	private String name;
@@ -29,10 +56,6 @@ public class StudySession {
 
 	@Column(name = "PASSWORD")
 	private String password;
-
-	private Course course;
-
-	private SessionCategory sessionCategory;
 
 	public int getId() {
 		return id;
@@ -97,5 +120,31 @@ public class StudySession {
 	public void setSessionCategory(SessionCategory sessionCategory) {
 		this.sessionCategory = sessionCategory;
 	}
+
+	public List<CourseGroup> getCourseGroups() {
+		return courseGroups;
+	}
+
+	public void setCourseGroups(List<CourseGroup> courseGroups) {
+		this.courseGroups = courseGroups;
+	}
+
+	public List<Student> getStudentPas() {
+		return studentPas;
+	}
+
+	public void setStudentPas(List<Student> studentPas) {
+		this.studentPas = studentPas;
+	}
+
+	public List<Student> getStudentSts() {
+		return studentSts;
+	}
+
+	public void setStudentSts(List<Student> studentSts) {
+		this.studentSts = studentSts;
+	}
+	
+	
 
 }

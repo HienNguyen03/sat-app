@@ -1,13 +1,17 @@
 package com.se.sat.app.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,6 +25,9 @@ public class Teacher {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DEPARTMENT_ID")
 	private Department department;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "teacher")
+	private List<Course> courses = new ArrayList<Course>();
 
 	@Column(name = "FIRSTNAME")
 	private String firstname;
@@ -39,24 +46,11 @@ public class Teacher {
 
 	@Column(name = "PASSWORD")
 	private String password;
-
-	@Column(name = "PROFILE_IMAGE_URL")
-	private String profileImageUrl;
-
 	@Column(name = "LAST_ACCESS")
 	private Date lastAccess;
 
-	@Column(name = "ATTEMPS")
-	private int attempts;
-
 	@Column(name = "REGISTERED_DATE")
 	private Date registeredDate;
-
-	@Column(name = "ID")
-	private Date acceptedDate;
-
-	@Column(name = "ACTIVATED_DATE")
-	private Date activatedDate;
 
 	@Column(name = "TITLE")
 	private String title;
@@ -120,52 +114,12 @@ public class Teacher {
 		this.password = password;
 	}
 
-	public String getProfileImageUrl() {
-		return profileImageUrl;
-	}
-
-	public void setProfileImageUrl(String profileImageUrl) {
-		this.profileImageUrl = profileImageUrl;
-	}
-
-	public Date getLastAccess() {
-		return lastAccess;
-	}
-
-	public void setLastAccess(Date lastAccess) {
-		this.lastAccess = lastAccess;
-	}
-
-	public int getAttempts() {
-		return attempts;
-	}
-
-	public void setAttempts(int attempts) {
-		this.attempts = attempts;
-	}
-
 	public Date getRegisteredDate() {
 		return registeredDate;
 	}
 
 	public void setRegisteredDate(Date registeredDate) {
 		this.registeredDate = registeredDate;
-	}
-
-	public Date getAcceptedDate() {
-		return acceptedDate;
-	}
-
-	public void setAcceptedDate(Date acceptedDate) {
-		this.acceptedDate = acceptedDate;
-	}
-
-	public Date getActivatedDate() {
-		return activatedDate;
-	}
-
-	public void setActivatedDate(Date activatedDate) {
-		this.activatedDate = activatedDate;
 	}
 
 	public String getTitle() {
@@ -191,5 +145,23 @@ public class Teacher {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
+
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+
+	public Date getLastAccess() {
+		return lastAccess;
+	}
+
+	public void setLastAccess(Date lastAccess) {
+		this.lastAccess = lastAccess;
+	}
+	
+	
 
 }

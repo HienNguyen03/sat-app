@@ -24,8 +24,8 @@ public class Department {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
 	private List<Teacher> teachers = new ArrayList<Teacher>();
 
-	@Column(name = "CODE_NAME")
-	private String codeName;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
+	private List<AcademicGroup> academicGroups = new ArrayList<AcademicGroup>();
 
 	@Column(name = "NAME")
 	private String name;
@@ -35,12 +35,12 @@ public class Department {
 
 	@Column(name = "LANGUAGE")
 	private String language;
-	
-	@OneToMany(cascade=CascadeType.ALL ,mappedBy="superDepartment")
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "superDepartment")
 	private List<Department> departments = new ArrayList<Department>();
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="DEPARTMENT_ID")
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "DEPARTMENT_ID")
 	private Department superDepartment;
 
 	public int getId() {
@@ -49,14 +49,6 @@ public class Department {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getCodeName() {
-		return codeName;
-	}
-
-	public void setCodeName(String codeName) {
-		this.codeName = codeName;
 	}
 
 	public String getName() {
@@ -105,6 +97,14 @@ public class Department {
 
 	public void setDepartments(List<Department> departments) {
 		this.departments = departments;
+	}
+
+	public List<AcademicGroup> getAcademicGroups() {
+		return academicGroups;
+	}
+
+	public void setAcademicGroups(List<AcademicGroup> academicGroups) {
+		this.academicGroups = academicGroups;
 	}
 
 }

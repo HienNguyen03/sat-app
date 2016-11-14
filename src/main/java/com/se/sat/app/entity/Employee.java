@@ -33,23 +33,11 @@ public class Employee {
 	@Column(name = "PASSWORD")
 	private String password;
 
-	@Column(name = "PROFILE_IMAGE_URL")
-	private String profileImageUrl;
-
 	@Column(name = "LAST_ACCESS")
 	private Date lastAccess;
 
-	@Column(name = "ATTEMPTS")
-	private int attempts;
-
 	@Column(name = "REGISTERED_DATE")
 	private Date registeredDate;
-
-	@Column(name = "ACCEPTED_DATE")
-	private Date acceptedDate;
-
-	@Column(name = "ACTIVATED_DATE")
-	private Date activatedDate;
 
 	@Column(name = "TITLE")
 	private String title;
@@ -115,14 +103,6 @@ public class Employee {
 		this.password = password;
 	}
 
-	public String getProfileImageUrl() {
-		return profileImageUrl;
-	}
-
-	public void setProfileImageUrl(String profileImageUrl) {
-		this.profileImageUrl = profileImageUrl;
-	}
-
 	public Date getLastAccess() {
 		return lastAccess;
 	}
@@ -131,36 +111,12 @@ public class Employee {
 		this.lastAccess = lastAccess;
 	}
 
-	public int getAttempts() {
-		return attempts;
-	}
-
-	public void setAttempts(int attempts) {
-		this.attempts = attempts;
-	}
-
 	public Date getRegisteredDate() {
 		return registeredDate;
 	}
 
 	public void setRegisteredDate(Date registeredDate) {
 		this.registeredDate = registeredDate;
-	}
-
-	public Date getAcceptedDate() {
-		return acceptedDate;
-	}
-
-	public void setAcceptedDate(Date acceptedDate) {
-		this.acceptedDate = acceptedDate;
-	}
-
-	public Date getActivatedDate() {
-		return activatedDate;
-	}
-
-	public void setActivatedDate(Date activatedDate) {
-		this.activatedDate = activatedDate;
 	}
 
 	public String getTitle() {
