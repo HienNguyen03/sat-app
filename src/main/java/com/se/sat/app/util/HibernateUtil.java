@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
-import com.se.sat.app.entity.Student;
+import com.se.sat.app.entity.*;
 
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
@@ -15,7 +15,16 @@ public class HibernateUtil {
 
 	static {
 		Configuration conf = new Configuration();
+		conf.addAnnotatedClass(AcademicGroup.class);
+		conf.addAnnotatedClass(Course.class);
+		conf.addAnnotatedClass(CourseGroup.class);
+		conf.addAnnotatedClass(Department.class);
+		conf.addAnnotatedClass(Employee.class);
+		conf.addAnnotatedClass(SessionCategory.class);
 		conf.addAnnotatedClass(Student.class);
+		conf.addAnnotatedClass(StudySession.class);
+		conf.addAnnotatedClass(Teacher.class);
+		
 		// conf.configure("hibernate.cfg.xml");
 		// conf.configure();
 
