@@ -13,8 +13,9 @@ public class AppController {
 	private static final Logger logger = LoggerFactory.getLogger(AppController.class);
 
 	@RequestMapping("/")
-	public String home() {
-		return "home";
+	public String index() {
+		logger.info("run controller");
+		return "index";
 	}
 	
 	@RequestMapping("/login")
