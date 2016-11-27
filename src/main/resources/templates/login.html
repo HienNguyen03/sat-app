@@ -5,39 +5,32 @@
 
 <body>
 
-	<div class="ui middle aligned center aligned grid">
-		<div class="column">
-			<h2 class="ui teal image header">
-				<img th:src="@{/custom/images/vamk_logo.png}" class="image" />
-				<div class="content">Log-in to your account</div>
-			</h2>
-			<form class="ui large form">
-				<div class="ui stacked segment">
-					<div class="field">
-						<div class="ui left icon input">
-							<i class="user icon"></i> <input type="text" name="email"
-								placeholder="E-mail address" />
-						</div>
-					</div>
-					<div class="field">
-						<div class="ui left icon input">
-							<i class="lock icon"></i> <input type="password" name="password"
-								placeholder="Password" />
-						</div>
-					</div>
-					<div class="ui fluid large teal submit button">Login</div>
-				</div>
+	<div th:replace="common/navbar :: common-navbar"></div>
 
-				<div class="ui error message"></div>
+	<div class="container">
 
-			</form>
-
-			<div class="ui message">
-				New to us? <a href="#">Sign Up</a>
+		<form class="form-signin">
+			<h2 class="form-signin-heading">Please sign in</h2>
+			<label for="inputEmail" class="sr-only">Email address</label> 
+			<input type="email" id="inputEmail" class="form-control"
+				placeholder="Email address" required="required" autofocus="autofocus" /> <label
+				for="inputPassword" class="sr-only">Password</label> <input
+				type="password" id="inputPassword" class="form-control"
+				placeholder="Password" required="required" />
+			<div class="checkbox">
+				<label> <input type="checkbox" value="remember-me" />
+					Remember me
+				</label>
 			</div>
-		</div>
-	</div>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
+				in</button>
+		</form>
 
-	<div th:replace="common/footer :: footer-scripts" />
+	</div>
+	<!-- /container -->
+
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+
 </body>
 </html>
