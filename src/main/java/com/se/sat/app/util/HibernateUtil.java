@@ -15,16 +15,15 @@ public class HibernateUtil {
 
 	static {
 		Configuration conf = new Configuration();
-		conf.addAnnotatedClass(AcademicGroup.class);
+
 		conf.addAnnotatedClass(Course.class);
 		conf.addAnnotatedClass(CourseGroup.class);
-		conf.addAnnotatedClass(Department.class);
-		conf.addAnnotatedClass(Employee.class);
-		conf.addAnnotatedClass(SessionCategory.class);
+		conf.addAnnotatedClass(Admin.class);
+		conf.addAnnotatedClass(User.class);
 		conf.addAnnotatedClass(Student.class);
 		conf.addAnnotatedClass(StudySession.class);
 		conf.addAnnotatedClass(Teacher.class);
-		
+
 		// conf.configure("hibernate.cfg.xml");
 		// conf.configure();
 

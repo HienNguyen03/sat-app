@@ -1,5 +1,6 @@
 package com.se.sat.app.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,6 +9,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -17,20 +20,17 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "study_session")
-public class StudySession {
+public class StudySession implements Serializable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private int id;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="SESSION_CATEGORY_ID")
-	private SessionCategory sessionCategory;
-	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COURSE_ID")
 	private Course course;
-			
+
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "studySessions")
 	private List<CourseGroup> courseGroups = new ArrayList<CourseGroup>();
 
@@ -57,12 +57,49 @@ public class StudySession {
 	@Column(name = "PASSWORD")
 	private String password;
 
+	@Column(name = "SESSION_CATEGORY")
+	private String sessionCategory;
+
+	public StudySession() { }
+
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	public List<CourseGroup> getCourseGroups() {
+		return courseGroups;
+	}
+
+	public void setCourseGroups(List<CourseGroup> courseGroups) {
+		this.courseGroups = courseGroups;
+	}
+
+	public List<Student> getStudentPas() {
+		return studentPas;
+	}
+
+	public void setStudentPas(List<Student> studentPas) {
+		this.studentPas = studentPas;
+	}
+
+	public List<Student> getStudentSts() {
+		return studentSts;
+	}
+
+	public void setStudentSts(List<Student> studentSts) {
+		this.studentSts = studentSts;
 	}
 
 	public String getName() {
@@ -105,46 +142,12 @@ public class StudySession {
 		this.password = password;
 	}
 
-	public Course getCourse() {
-		return course;
-	}
-
-	public void setCourse(Course course) {
-		this.course = course;
-	}
-
-	public SessionCategory getSessionCategory() {
+	public String getSessionCategory() {
 		return sessionCategory;
 	}
 
-	public void setSessionCategory(SessionCategory sessionCategory) {
+	public void setSessionCategory(String sessionCategory) {
 		this.sessionCategory = sessionCategory;
-	}
-
-	public List<CourseGroup> getCourseGroups() {
-		return courseGroups;
-	}
-
-	public void setCourseGroups(List<CourseGroup> courseGroups) {
-		this.courseGroups = courseGroups;
-	}
-
-	public List<Student> getStudentPas() {
-		return studentPas;
-	}
-
-	public void setStudentPas(List<Student> studentPas) {
-		this.studentPas = studentPas;
-	}
-
-	public List<Student> getStudentSts() {
-		return studentSts;
-	}
-
-	public void setStudentSts(List<Student> studentSts) {
-		this.studentSts = studentSts;
-	}
-	
-	
+	};
 
 }

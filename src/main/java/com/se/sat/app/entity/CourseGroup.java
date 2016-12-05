@@ -1,5 +1,6 @@
 package com.se.sat.app.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -16,9 +19,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "course_group")
-public class CourseGroup {
+public class CourseGroup implements Serializable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private int id;
 
@@ -36,6 +40,8 @@ public class CourseGroup {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COURSE_ID")
 	private Course course;
+
+	public CourseGroup() { }
 
 	public int getId() {
 		return id;
@@ -76,7 +82,5 @@ public class CourseGroup {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
-	
-	
 
 }

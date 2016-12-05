@@ -1,31 +1,32 @@
 package com.se.sat.app.entity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "student")
-public class Student {
+public class Student implements Serializable {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private String id;
+	private int id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "ACADEMIC_GROUP_ID")
-	private AcademicGroup academicGroup;
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "USER_ID")
+	private User user;
 
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "students")
 	private List<CourseGroup> courseGroups = new ArrayList<CourseGroup>();
@@ -42,113 +43,23 @@ public class Student {
 	@Column(name = "LASTNAME")
 	private String lastname;
 
-	@Column(name = "ADDRESS")
-	private String address;
-
 	@Column(name = "EMAIL")
 	private String email;
-
-	@Column(name = "PHONE")
-	private String phone;
-
-	@Column(name = "PASSWORD")
-	private String password;
-
-	@Column(name = "LAST_ACCESS")
-	private Date lastAccess;
-
-	@Column(name = "REGISTERED_DATE")
-	private Date registeredDate;
 
 	@Column(name = "STATUS")
 	private String status;
 
-	public String getId() {
+	@Column(name = "ACADEMIC_GROUP")
+	private String academicGroup;
+
+	public Student() { }
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getFirstname() {
-		return firstname;
-	}
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-	public String getLastname() {
-		return lastname;
-	}
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public Date getLastAccess() {
-		return lastAccess;
-	}
-
-	public void setLastAccess(Date lastAccess) {
-		this.lastAccess = lastAccess;
-	}
-
-	public Date getRegisteredDate() {
-		return registeredDate;
-	}
-
-	public void setRegisteredDate(Date registeredDate) {
-		this.registeredDate = registeredDate;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public AcademicGroup getAcademicGroup() {
-		return academicGroup;
-	}
-
-	public void setAcademicGroup(AcademicGroup academicGroup) {
-		this.academicGroup = academicGroup;
 	}
 
 	public List<CourseGroup> getCourseGroups() {
@@ -173,6 +84,54 @@ public class Student {
 
 	public void setStudySessionSts(List<StudySession> studySessionSts) {
 		this.studySessionSts = studySessionSts;
+	}
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getAcademicGroup() {
+		return academicGroup;
+	}
+
+	public void setAcademicGroup(String academicGroup) {
+		this.academicGroup = academicGroup;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	
