@@ -30,26 +30,8 @@
 						</ul></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href=""></a></li>
-					<li><a href="/login">Sign in <span class="glyphicon glyphicon-log-in"></span></a></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span
-							class="glyphicon glyphicon-user"></span> <b class="caret"></b>
-					</a>
-						<ul class="dropdown-menu">
-							<li><a href=""><span class="glyphicon glyphicon-user"></span> Profile</a></li>
-							<li><url var="logoutUrl" value="/logout" />
-								<form id="logoutForm" action="" method="post"></form> <a
-								href="javascript:document.getElementById('logoutForm').submit()"><span
-									class="glyphicon glyphicon-log-out"></span> Sign out</a></li>
-						</ul></li>
-					<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
-						role="button" aria-haspopup="true" aria-expanded="false"><span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="?language=en"></a></li>
-							<li role="separator" class="divider"></li>
-							<li><a href="?language=fi"></a></li>
-							<li><a href="?language=vi"></a></li>
-						</ul></li>
+					<li class="active"><a href="signup.html" th:href="@{/signup}">Sign up</a></li>
+					<li><a th:href="@{/signin}">Sign in <span class="glyphicon glyphicon-log-in"></span></a></li>
 				</ul>
 			</div>
 			<!--/.nav-collapse -->

@@ -40,10 +40,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(
 				"/",
-				"/home",
 				"/signup",
-				"/forgot-password",
-				"/reset-password/**",
+				"/signup-next-1",
+				"/signup-next-2",
+				"/signup-next-3",
 				"/error",
 				"/public/**",
 				"/resources/**",

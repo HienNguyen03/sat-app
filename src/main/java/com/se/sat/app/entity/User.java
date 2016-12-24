@@ -20,6 +20,9 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
+	
+	public static final int USERNAME_MAX = 30;
+	public static final int PASSWORD_MAX = 30;
 
 	public static enum Role {
 		STUDENT, TEACHER, ADMIN
@@ -41,7 +44,7 @@ public class User implements Serializable {
 	@Column(name = "USERNAME", nullable = false)
 	private String username;
 
-	@Column(name = "PASSWORD", nullable = false)
+	@Column(name = "PASSWORD", nullable = false, length=PASSWORD_MAX)
 	private String password;
 
 	@ElementCollection(fetch = FetchType.EAGER)

@@ -1,10 +1,11 @@
 package com.se.sat.app.service;
 
+import com.se.sat.app.dto.SignupForm;
 
 public interface UserService {
 	
-//	public void signup(SignupForm signupForm);
-//
+	public void signup(SignupForm signupForm);
+
 //	public void verify(String verificationCode);
 //
 //	public void forgotPassword(ForgotPasswordForm forgotPasswordForm);

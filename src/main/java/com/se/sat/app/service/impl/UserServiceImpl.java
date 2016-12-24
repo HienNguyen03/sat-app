@@ -18,12 +18,17 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import org.springframework.validation.BindingResult;
 
 import com.se.sat.app.dto.CustomUserDetails;
+import com.se.sat.app.dto.SignupForm;
 import com.se.sat.app.entity.User;
+import com.se.sat.app.entity.User.Role;
 import com.se.sat.app.repository.UserRepo;
 import com.se.sat.app.service.UserService;
+import com.se.sat.app.util.AppUtil;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
+	
+	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	private UserRepo userRepo;
 	private PasswordEncoder passwordEncoder;
@@ -34,36 +39,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-//	@Override
-//	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-//	public void signup(SignupForm signupForm) {
-//		User user = new User();
-//		user.setEmail(signupForm.getEmail());
-//		user.setName(signupForm.getName());
-//		user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
-//		user.setVerificationCode(RandomStringUtils.randomAlphabetic(User.RANDOM_CODE_LENGTH));
-//		
-//		user.getRole().add(Role.UNVERIFIED);
-//		userRepo.save(user);
-//		// int a = 2/0;
-//		
-//		TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronizationAdapter() {
-//			
-//			@Override
-//			public void afterCommit() {
-//				try {
-//					String verifyLink = AppUtil.hostURL() + "/users/" + user.getVerificationCode() + "/verify";
-//					// int a = 2/0;
-//					mailSender.send(user.getEmail(), AppUtil.getMessage("verifySubject"), AppUtil.getMessage("verifyEmail", verifyLink));
-//					
-//					logger.info("Verification mail to " + user.getEmail() + " queued.");
-//				} catch (MessagingException e) {
-//					logger.info(ExceptionUtils.getStackTrace(e));
-//				}
-//			}
-//		});
-//		
-//	}
+	@Override
+	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
+	public void signup(SignupForm signupForm) {
+		User user = new User();
+		user.setUsername(signupForm.getUsername());
+		user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
+		
+		log.info(user.getUsername());
+		log.info(user.getPassword());
+		
+		boolean result = user.getRole().add(Role.STUDENT);
+		log.info(String.valueOf(result));
+		//userRepo.insert(user);
+		// int a = 2/0;
+				
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="common/header :: common-header" />
+<body>
+	<div th:replace="common/navbar :: common-navbar"></div>
+	<div class="container">
+		<div class="panel panel-default">
+		
+			<div class="panel-heading">
+				<h4>Sign up for an account</h4>
+			</div>
+			<div class="panel-body">
+
+				<form action="#" th:action="@{/signup-next-1}" th:object="${signupStudentForm}" method="post">
+					<div class="form-group">
+						<label for="inputName">Firstname</label>
+						<input th:field="*{firstname}" type="text" class="form-control" id="inputFirstname"
+							placeholder="Enter your firstname" aria-describedby="helpBlock2" />
+					</div>
+					<div class="form-group">
+						<label for="inputName">Lastname</label>
+						<input th:field="*{lastname}" type="text" class="form-control" id="inputLastname"
+							placeholder="Enter your lastname" aria-describedby="helpBlock2" />
+					</div>
+					<div class="form-group">
+						<label for="inputName">Email</label>
+						<input th:field="*{email}" type="email" class="form-control" id="inputEmail"
+							placeholder="Enter your email" aria-describedby="helpBlock2" />
+					</div>
+					<div class="form-group">
+						<label for="inputName">Academic group</label>
+						<input th:field="*{academicGroup}" type="text" class="form-control" id="inputAcademicGroup"
+							placeholder="Enter your academic group" aria-describedby="helpBlock2" />
+					</div>
+					<button type="submit" class="btn btn-default">Sign up</button>
+				</form>
+
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+</body>
+</html>
