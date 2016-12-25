@@ -27,6 +27,8 @@ import com.se.sat.app.util.AppUtil;
 @Controller
 @SessionAttributes("user")
 public class AppController {
+	
+	// add some comment - test 2
 
 	private static final Logger log = LoggerFactory.getLogger(AppController.class);
 	private UserService userService;
