@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -26,8 +28,9 @@ public class Course implements Serializable {
 	@Column(name = "ID")
 	private int id;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
-	private List<CourseGroup> courseGroups = new ArrayList<CourseGroup>();
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "enrollment", joinColumns = @JoinColumn(name = "COURSE_ID"), inverseJoinColumns = @JoinColumn(name = "STUDENT_ID"))
+	private List<Student> students = new ArrayList<Student>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
 	private List<StudySession> studySessions = new ArrayList<StudySession>();
@@ -54,7 +57,8 @@ public class Course implements Serializable {
 	@Column(name = "STATUS")
 	private String status;
 
-	public Course() { }
+	public Course() {
+	}
 
 	public int getId() {
 		return id;
@@ -120,20 +124,20 @@ public class Course implements Serializable {
 		this.teacher = teacher;
 	}
 
-	public List<CourseGroup> getCourseGroups() {
-		return courseGroups;
-	}
-
-	public void setCourseGroups(List<CourseGroup> courseGroups) {
-		this.courseGroups = courseGroups;
-	}
-
 	public List<StudySession> getStudySessions() {
 		return studySessions;
 	}
 
 	public void setStudySessions(List<StudySession> studySessions) {
 		this.studySessions = studySessions;
+	}
+
+	public List<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(List<Student> students) {
+		this.students = students;
 	}
 
 }
