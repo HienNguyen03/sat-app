@@ -8,6 +8,7 @@ import com.se.sat.app.entity.User;
 public class SignupForm {
 
 	//add some comments
+	//add some comments - second time
 	
 	@NotNull
 	@Size(min=1, max=User.USERNAME_MAX, message="{Size.signupForm.name}")
