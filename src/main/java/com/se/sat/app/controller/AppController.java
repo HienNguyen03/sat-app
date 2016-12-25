@@ -59,6 +59,7 @@ public class AppController {
 
 		if (result.hasErrors()) {
 			log.info(result.getAllErrors().toString());
+			model.addAttribute("signupForm", signupForm);
 			return "signup";
 		}
 
