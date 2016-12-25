@@ -31,16 +31,9 @@ public class StudySession implements Serializable {
 	@JoinColumn(name = "COURSE_ID")
 	private Course course;
 
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "studySessions")
-	private List<CourseGroup> courseGroups = new ArrayList<CourseGroup>();
-
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "paticipation", joinColumns = @JoinColumn(name = "STUDY_SESSION_ID"), inverseJoinColumns = @JoinColumn(name = "STUDENT_ID"))
 	private List<Student> studentPas = new ArrayList<Student>();
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "student_session", joinColumns = @JoinColumn(name = "STUDY_SESSION_ID"), inverseJoinColumns = @JoinColumn(name = "STUDENT_ID"))
-	private List<Student> studentSts = new ArrayList<Student>();
 
 	@Column(name = "NAME")
 	private String name;
@@ -60,7 +53,8 @@ public class StudySession implements Serializable {
 	@Column(name = "SESSION_CATEGORY")
 	private String sessionCategory;
 
-	public StudySession() { }
+	public StudySession() {
+	}
 
 	public int getId() {
 		return id;
@@ -78,28 +72,12 @@ public class StudySession implements Serializable {
 		this.course = course;
 	}
 
-	public List<CourseGroup> getCourseGroups() {
-		return courseGroups;
-	}
-
-	public void setCourseGroups(List<CourseGroup> courseGroups) {
-		this.courseGroups = courseGroups;
-	}
-
 	public List<Student> getStudentPas() {
 		return studentPas;
 	}
 
 	public void setStudentPas(List<Student> studentPas) {
 		this.studentPas = studentPas;
-	}
-
-	public List<Student> getStudentSts() {
-		return studentSts;
-	}
-
-	public void setStudentSts(List<Student> studentSts) {
-		this.studentSts = studentSts;
 	}
 
 	public String getName() {

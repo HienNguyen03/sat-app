@@ -17,7 +17,6 @@ public class HibernateUtil {
 		Configuration conf = new Configuration();
 
 		conf.addAnnotatedClass(Course.class);
-		conf.addAnnotatedClass(CourseGroup.class);
 		conf.addAnnotatedClass(Admin.class);
 		conf.addAnnotatedClass(User.class);
 		conf.addAnnotatedClass(Student.class);
