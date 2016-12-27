@@ -46,6 +46,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		templateResolver.setOrder(1);
 		templateResolver.setCharacterEncoding("UTF-8");
 		templateResolver.setTemplateMode("HTML5");
+		// make change immediately when html is edited
+		templateResolver.setCacheable(false);
 		return templateResolver;
 	}
 

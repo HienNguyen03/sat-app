@@ -18,6 +18,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "student")
 public class Student implements Serializable {
+	
+	public static final String EMAIL_PATTERN = "[A-Za-z0-9._%-+]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,19 +36,19 @@ public class Student implements Serializable {
 	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "studentPas")
 	private List<StudySession> studySessionPas = new ArrayList<StudySession>();
 
-	@Column(name = "FIRSTNAME")
+	@Column(name = "FIRSTNAME", nullable = false)
 	private String firstname;
 
-	@Column(name = "LASTNAME")
+	@Column(name = "LASTNAME", nullable = false)
 	private String lastname;
 
-	@Column(name = "EMAIL")
+	@Column(name = "EMAIL", nullable = false)
 	private String email;
 
-	@Column(name = "STATUS")
+	@Column(name = "STATUS", nullable = false)
 	private String status;
 
-	@Column(name = "ACADEMIC_GROUP")
+	@Column(name = "ACADEMIC_GROUP", nullable = false)
 	private String academicGroup;
 
 	public Student() {

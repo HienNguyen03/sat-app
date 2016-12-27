@@ -16,7 +16,7 @@
 					</div>
 					<div class="panel-body">
 
-						<form action="#" th:action="@{/signup-next-1}" th:object="${signupStudentForm}" method="post">
+						<form action="#" th:action="@{/signup-next-2}" th:object="${signupTeacherForm}" method="post">
 							<div th:class="${#fields.hasErrors('firstname')}? 'form-group has-error' : 'form-group'">
 								<label class="control-label" for="inputFirstname">First name</label>
 								<input th:field="*{firstname}" type="text" id="inputFirstname" class="form-control"
@@ -37,11 +37,11 @@
 									placeholder="Enter your email" />
 								<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="label-important"></span>
 							</div>
-							<div th:class="${#fields.hasErrors('academicGroup')}? 'form-group has-error' : 'form-group'">
-								<label class="control-label" for="inputAcademicGroup">Academic group</label>
-								<input th:field="*{academicGroup}" type="text" id="inputAcademicGroup" class="form-control"
-									placeholder="Enter your academic group" />
-								<span th:if="${#fields.hasErrors('academicGroup')}" th:errors="*{academicGroup}"
+							<div th:class="${#fields.hasErrors('department')}? 'form-group has-error' : 'form-group'">
+								<label class="control-label" for="inputDepartment">Department</label>
+								<input th:field="*{department}" type="text" id="inputDepartment" class="form-control"
+									placeholder="Enter your department" />
+								<span th:if="${#fields.hasErrors('department')}" th:errors="*{department}"
 									class="label-important"></span>
 							</div>
 							<button type="submit" class="btn btn-default">Sign up</button>

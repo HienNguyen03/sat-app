@@ -9,24 +9,19 @@ import com.se.sat.app.entity.User;
 import com.se.sat.app.entity.User.Role;
 
 
-public class SignupTeacherForm implements SignupPersonForm {
+public class SignupAdminForm implements SignupPersonForm {
 
 	@NotNull
-	@Size(min=1, message="{Size.signupTeacherForm.firstname}")
+	@Size(min=1, message="{Size.signupAdminForm.firstname}")
 	private String firstname;
 	
 	@NotNull
-	@Size(min=1, message="{Size.signupTeacherForm.lastname}")
+	@Size(min=1, message="{Size.signupAdminForm.lastname}")
 	private String lastname;
 	
 	@NotNull
-	@Pattern(regexp=Student.EMAIL_PATTERN, message="{Pattern.signupTeacherForm.email}")
-	private String email;
-	
-	@NotNull
-	@Size(min=1, message="{Size.signupTeacherForm.department}")
-	private String department;
-	
+	@Pattern(regexp=Student.EMAIL_PATTERN, message="{Pattern.signupAdminForm.email}")
+	private String email;	
 	
 	public String getFirstname() {
 		return firstname;
@@ -58,23 +53,13 @@ public class SignupTeacherForm implements SignupPersonForm {
 	}
 
 
-	public String getDepartment() {
-		return department;
-	}
-
-
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-
-
 	@Override
 	public String toString() {
-		return "Signup Teacher Form [firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + ", department=" + department + "]";
+		return "Signup Teacher Form [firstname=" + firstname + ", lastname=" + lastname + ", email=" + email + "]";
 	}
 
 	@Override
 	public Role getPersonType() {
-		return Role.TEACHER;
+		return Role.ADMIN;
 	}
 }

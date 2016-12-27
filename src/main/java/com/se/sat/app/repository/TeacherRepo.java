@@ -6,7 +6,6 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,39 +13,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.se.sat.app.entity.User;
+import com.se.sat.app.entity.Teacher;
 
 @Repository
 @Transactional
-public class UserRepo {
-
-	private static final Logger log = LoggerFactory.getLogger(UserRepo.class);
-
+public class TeacherRepo {
+	
+	private static final Logger log = LoggerFactory.getLogger(TeacherRepo.class);
+	
 	private SessionFactory sessionFactory;
-
+	
 	@Autowired
-	public UserRepo(SessionFactory sessionFactory) {
+	public TeacherRepo(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
 	}
-
-	public void insert(User user) {
+	
+	public void insert(Teacher teacher){
 		Session session = sessionFactory.getCurrentSession();
-		session.save(user);
+		session.save(teacher);
 	}
-
-	public List<User> findAll() {
+	
+	public List<Teacher> findAll(){
 		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(User.class);
-		List<User> users = (List<User>) criteria.list();
-		return users;
+		Criteria criteria = session.createCriteria(Teacher.class);
+		List<Teacher> teachers = (List<Teacher>) criteria.list();
+		return teachers;
 	}
-
-	public User findUserByUsername(String username) {
+	
+	public Teacher findTeacherById(String teacherId){
 		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(User.class);
-		criteria.add(Restrictions.like("username", "%" + username + "%"));
-		User result = (User) criteria.uniqueResult();
+		Criteria criteria = session.createCriteria(Teacher.class);
+		criteria.add(Restrictions.like("ID", teacherId));
+		Teacher result = (Teacher) criteria.uniqueResult();
 		return result;
 	}
-
+	
 }

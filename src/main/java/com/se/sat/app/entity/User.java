@@ -21,7 +21,9 @@ import javax.persistence.UniqueConstraint;
 @Table(name = "user")
 public class User implements Serializable {
 	
+	public static final int USERNAME_MIN = 2;
 	public static final int USERNAME_MAX = 30;
+	public static final int PASSWORD_MIN = 6;
 	public static final int PASSWORD_MAX = 30;
 
 	public static enum Role {
@@ -41,7 +43,7 @@ public class User implements Serializable {
 	@OneToOne(mappedBy = "user")
 	private Admin admin;
 
-	@Column(name = "USERNAME", nullable = false)
+	@Column(name = "USERNAME", nullable = false, unique = true)
 	private String username;
 
 	@Column(name = "PASSWORD", nullable = false, length=PASSWORD_MAX)
