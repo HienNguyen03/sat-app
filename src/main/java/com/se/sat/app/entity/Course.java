@@ -18,6 +18,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "course")
@@ -44,13 +46,20 @@ public class Course implements Serializable {
 
 	@Column(name = "DESCRIPTION")
 	private String description;
-
+	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "START_DATE")
 	private Date startDate;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "END_DATE")
 	private Date endDate;
 
+	@Temporal(TemporalType.DATE)
+	@Column(name="START_ENROLL_DATE")
+	private Date startEnrollDate;	
+	
+	@Temporal(TemporalType.DATE)
 	@Column(name = "END_ENROLL_DATE")
 	private Date endEnrollDate;
 
@@ -140,4 +149,11 @@ public class Course implements Serializable {
 		this.students = students;
 	}
 
+	public Date getStartEnrollDate() {
+		return startEnrollDate;
+	}
+
+	public void setStartEnrollDate(Date startEnrollDate) {
+		this.startEnrollDate = startEnrollDate;
+	}
 }

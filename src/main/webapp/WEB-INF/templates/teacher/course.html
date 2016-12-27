@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="common/header :: common-header" />
+<body>
+	<div th:replace="common/navbar :: common-navbar"></div>
+	<div class="container">
+		<div class="panel panel-default">
+
+			<div class="panel-heading">
+				<h4>Create New Course</h4>
+			</div>
+
+			<div class="panel-body">
+				<form action="#" th:action="@{/teacher/{teacherId}/course" th:object="${courseForm}" method="post">
+					<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputName">Course Name</label>
+						<input class="form-control"	th:field="*{name}" type="text" id="inputName" 
+						placeholder="Enter course's name"/>
+						<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+							class="label-important"></span>					
+					</div>
+					
+					<div th:class="${#fields.hasErrors('description')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputDescription">Description</label>
+						<input class="form-control"	th:field="*{description}" type="text" id="inputDescription" 
+						placeholder="Enter course's description"/>
+						<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+							class="label-important"></span>					
+					</div>
+					
+					
+				</form>
+
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+</body>
+</html>

@@ -48,7 +48,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				"/public/**",
 				"/resources/**",
 				"/custom/**",
-				"/lib/**"
+				"/lib/**",
+				"/teacher/**"
 				).permitAll()
 		.anyRequest().authenticated();
 		
