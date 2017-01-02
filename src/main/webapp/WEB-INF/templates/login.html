@@ -9,28 +9,35 @@
 
 	<div class="container">
 
-		<form class="form-signin" role="form" method="post">
-			<h2 class="form-signin-heading">Please sign in</h2>
-			<label for="inputEmail" class="sr-only">Email address</label> 
-			<input type="text" id="username" class="form-control"
-				placeholder="Username" required="required" autofocus="autofocus" /> <label
-				for="inputPassword" class="sr-only">Password</label> 
-			<input type="password" id="password" class="form-control"
-				placeholder="Password" required="required" />
-			<div class="checkbox">
-				<label> <input type="checkbox" value="remember-me" />
-					Remember me
-				</label>
-			</div>
-			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign
-				in</button>
-		</form>
+		<div th:if="${flashMessage}" th:text="${flashMessage}"
+			th:attr="class='alert alert-' + ${flashType} + ' alert-dismissable'">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			Any kind of message (success / failure)
+		</div>
 
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+			
+				<section class="login-form">
+
+					<form class="form-signin" role="login" method="post">
+						<label for="inputEmail" class="sr-only">Email address</label>
+						<input type="text" id="username" class="form-control" placeholder="Username"
+							required="required" autofocus="autofocus" />
+						<label for="inputPassword" class="sr-only">Password</label>
+						<input type="password" id="password" class="form-control" placeholder="Password"
+							required="required" />
+						<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+					</form>
+
+				</section>
+				
+			</div>
+		</div>
 	</div>
 	<!-- /container -->
 
 	<div th:replace="common/footer :: common-footer"></div>
 	<div th:replace="common/footer :: footer-scripts"></div>
-
 </body>
 </html>

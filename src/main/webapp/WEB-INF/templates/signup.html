@@ -6,42 +6,48 @@
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
 	<div class="container">
-		<div class="panel panel-default">
+		<div class="row">
 
-			<div class="panel-heading">
-				<h4>Sign up - Account info</h4>
-			</div>
-			<div class="panel-body">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-default">
 
-				<form action="#" th:action="@{/signup}" th:object="${signupForm}" method="post">
-					<div th:class="${#fields.hasErrors('username')}? 'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputUsername">Username</label>
-						<input th:field="*{username}" type="text" id="inputUsername" class="form-control"
-							placeholder="Enter your desire display name" aria-describedby="inputError2Status" />
-						<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
-							class="label-important"></span>
-
+					<div class="panel-heading">
+						<h4>Sign up - Step 1: Account information</h4>
 					</div>
-					<div th:class="${#fields.hasErrors('password')}? 'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputPassword">Password</label>
-						<input th:field="*{password}" type="password" id="inputPassword" class="form-control"
-							placeholder="Password" />
-						<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
-							class="label-important"></span>
-					</div>
-					<div class="form-group">
-						<label class="radio-inline"> <input type="radio" name="roleSelection"
-								id="rdoStudentRole" value="student" checked="checked" /> Student
-						</label> <label class="radio-inline"> <input type="radio" name="roleSelection"
-								id="rdoTeacherRole" value="teacher" /> Teacher
-						</label> <label class="radio-inline"> <input type="radio" name="roleSelection"
-								id="rdoAdminRole" value="admin" /> Admin
-						</label>
-					</div>
+					<div class="panel-body">
 
-					<button type="submit" class="btn btn-default">Next</button>
-				</form>
+						<form action="#" th:action="@{/signup}" th:object="${signupForm}" method="post">
+							<div th:class="${#fields.hasErrors('username')}? 'form-group has-error' : 'form-group'">
+								<label class="control-label" for="inputUsername">Username</label>
+								<input th:field="*{username}" type="text" id="inputUsername" class="form-control"
+									placeholder="Enter your desire display name" />
+								<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+									class="label-important"></span>
 
+							</div>
+							<div th:class="${#fields.hasErrors('password')}? 'form-group has-error' : 'form-group'">
+								<label class="control-label" for="inputPassword">Password</label>
+								<input th:field="*{password}" type="password" id="inputPassword" class="form-control"
+									placeholder="Password" />
+								<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+									class="label-important"></span>
+							</div>
+							<div class="form-group">
+								<label class="radio-inline"> <input type="radio" name="roleSelection"
+										id="rdoStudentRole" value="student" checked="checked" /> Student
+								</label> <label class="radio-inline"> <input type="radio" name="roleSelection"
+										id="rdoTeacherRole" value="teacher" /> Teacher
+								</label> <label class="radio-inline"> <input type="radio" name="roleSelection"
+										id="rdoAdminRole" value="admin" /> Admin
+								</label>
+							</div>
+
+							<button type="submit" class="btn btn-default">Next</button>
+						</form>
+						
+					</div>
+				</div>
+				
 			</div>
 		</div>
 	</div>

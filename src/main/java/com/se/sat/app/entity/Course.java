@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "course")
 public class Course implements Serializable {
@@ -46,7 +48,7 @@ public class Course implements Serializable {
 
 	@Column(name = "DESCRIPTION")
 	private String description;
-	
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "START_DATE")
 	private Date startDate;
@@ -56,9 +58,9 @@ public class Course implements Serializable {
 	private Date endDate;
 
 	@Temporal(TemporalType.DATE)
-	@Column(name="START_ENROLL_DATE")
-	private Date startEnrollDate;	
-	
+	@Column(name = "START_ENROLL_DATE")
+	private Date startEnrollDate;
+
 	@Temporal(TemporalType.DATE)
 	@Column(name = "END_ENROLL_DATE")
 	private Date endEnrollDate;
@@ -156,4 +158,12 @@ public class Course implements Serializable {
 	public void setStartEnrollDate(Date startEnrollDate) {
 		this.startEnrollDate = startEnrollDate;
 	}
+
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", name=" + name + ", description=" + description + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", startEnrollDate=" + startEnrollDate + ", endEnrollDate=" + endEnrollDate
+				+ ", status=" + status + "]";
+	}
+
 }

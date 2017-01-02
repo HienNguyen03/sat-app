@@ -8,11 +8,11 @@ import com.se.sat.app.entity.User;
 public class SignupForm {
 	
 	@NotNull
-	@Size(min=1, max=User.USERNAME_MAX, message="{Size.signupForm.name}")
+	@Size(min=User.USERNAME_MIN, max=User.USERNAME_MAX, message="{Size.signupForm.name}")
 	private String username;
 	
 	@NotNull
-	@Size(min=4, max=User.PASSWORD_MAX, message="{Size.signupForm.password}")
+	@Size(min=User.PASSWORD_MIN, max=User.PASSWORD_MAX, message="{Size.signupForm.password}")
 	private String password;
 	
 	public String getUsername() {

@@ -37,14 +37,13 @@ public class TeacherRepo {
 		return teachers;
 	}
 
-	public Teacher findTeacher(Integer teacherId) {
+	public Teacher findTeacher(Integer id) {
 		Session session = sessionFactory.getCurrentSession();
 
 		Criteria criteria = session.createCriteria(Teacher.class);
-		criteria = criteria.add(Restrictions.eq("id", teacherId));
+		criteria = criteria.add(Restrictions.eq("id", id));
 		Teacher teacher = (Teacher) criteria.uniqueResult();
 	
 		return teacher;
 	}
-
 }

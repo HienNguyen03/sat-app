@@ -3,18 +3,21 @@ package com.se.sat.app.dto;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.se.sat.app.entity.Course;
+import com.se.sat.app.entity.Teacher;
 import com.se.sat.app.entity.User;
 
 public class CourseForm {
 
 	@NotNull
-	@Size(min=1, message="{Size.courseForm.name}")
+	@Size(min = 1, message = "{Size.courseForm.name}")
 	private String name;
 
 	@NotNull
-	@Size(min=1, message="{Size.courseForm.description}")
+	@Size(min = 4, message = "{Size.courseForm.description}")
 	private String description;
 
 	@NotNull
@@ -28,7 +31,7 @@ public class CourseForm {
 
 	@NotNull
 	private Date endEnrollDate;
-
+	
 	private String status;
 
 	public String getName() {
@@ -79,6 +82,7 @@ public class CourseForm {
 		this.endEnrollDate = endEnrollDate;
 	}
 
+	
 	public String getStatus() {
 		return status;
 	}
@@ -94,5 +98,4 @@ public class CourseForm {
 				+ status + "]";
 	}
 
-	
 }

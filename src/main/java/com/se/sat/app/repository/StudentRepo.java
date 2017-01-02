@@ -3,10 +3,8 @@ package com.se.sat.app.repository;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,39 +12,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.se.sat.app.entity.User;
+import com.se.sat.app.entity.Student;
 
 @Repository
 @Transactional
-public class UserRepo {
-
-	private static final Logger log = LoggerFactory.getLogger(UserRepo.class);
-
+public class StudentRepo {
+	
+	private static final Logger log = LoggerFactory.getLogger(StudentRepo.class);
+	
 	private SessionFactory sessionFactory;
-
+	
 	@Autowired
-	public UserRepo(SessionFactory sessionFactory) {
+	public StudentRepo(SessionFactory sessionFactory){
 		this.sessionFactory = sessionFactory;
 	}
-
-	public void insert(User user) {
+	
+	public void insert(Student student){
 		Session session = sessionFactory.getCurrentSession();
-		session.save(user);
+		session.save(student);
 	}
-
-	public List<User> findAll() {
+	
+	public List<Student> findAll(){
 		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(User.class);
-		List<User> users = (List<User>) criteria.list();
-		return users;
+		Criteria criteria = session.createCriteria(Student.class);
+		List<Student> students = (List<Student>) criteria.list();
+		return students;
 	}
-
-	public User findUserByUsername(String username) {
+	
+	public Student findStudentById(String studentId){
 		Session session = sessionFactory.getCurrentSession();
-		Criteria criteria = session.createCriteria(User.class);
-		criteria.add(Restrictions.like("username", "%" + username + "%"));
-		User result = (User) criteria.uniqueResult();
+		Criteria criteria = session.createCriteria(Student.class);
+		criteria.add(Restrictions.like("ID", studentId));
+		Student result = (Student) criteria.uniqueResult();
 		return result;
 	}
-
+	
 }
