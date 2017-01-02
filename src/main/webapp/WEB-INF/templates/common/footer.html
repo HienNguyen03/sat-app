@@ -3,8 +3,83 @@
 <body>
 
 	<footer th:fragment="common-footer" class="footer">
-		<div class="container">
-			<p class="text-muted">Ai sửa dùm bạn Phúc cái footer coi :)</p>
+		<div id="footer" data-animate="fadeInUp" class="animated fadeInUp">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 col-sm-6">
+						<h4>Pages</h4>
+						<ul>
+							<li><a href="#">Staff Contact Information</a></li>
+							<li><a href="#">Campus Locations</a></li>
+							<li><a href="#">Units' Contact Information</a></li>
+							<li><a href="#">Invoice Address</a></li>
+						</ul>
+
+						<hr class="hidden-md hidden-lg hidden-sm" />
+
+					</div>
+					<!-- /.col-md-3 -->
+
+					<div class="col-md-3 col-sm-6">
+						<h4>Information</h4>
+						<ul>
+							<li><a href="#">Library</a></li>
+							<li><a href="#">Study Portal</a></li>
+							<li><a href="#">Staff Intra</a></li>
+							<li><a href="#">Alumni</a></li>
+						</ul>
+
+						<hr class="hidden-md hidden-lg" />
+
+					</div>
+					<!-- /.col-md-3 -->
+
+					<div class="col-md-3 col-sm-6">
+						<h4>Where to find us</h4>
+						<p class="blur-text">
+							<strong>Pikipruukki's apartments</strong> <br />Olympiakatu 10 A 11 <br />65100 <br />Vaasa
+							<br />Finland
+						</p>
+						<hr class="hidden-md hidden-lg" />
+					</div>
+					<!-- /.col-md-3 -->
+
+					<div class="col-md-3 col-sm-6">
+						<h4>Stay in touch</h4>
+						<p class="social">
+							<a href="#" class="facebook external"> <i class="fa fa-facebook"></i>
+							</a> <a href="#" class="twitter external"> <i class="fa fa-twitter"></i></a> <a href="#"
+								class="instagram external"> <i class="fa fa-instagram"></i></a> <a href="#"
+								class="google-plus external"> <i class="fa fa-google-plus"></i></a> <a href="#"
+								class="envelope external"> <i class="fa fa-envelope"></i></a>
+						</p>
+
+					</div>
+					<!-- /.col-md-3 -->
+
+				</div>
+				<!-- /.row -->
+
+			</div>
+			<!-- /.container -->
+		</div>
+
+		<div id="copyright">
+			<div class="container">
+				<div class="col-md-6">
+					<p class="pull-left">
+						&copy; 2016 <a th:href="@{/}">Student Activity Tracking Application</a>
+					</p>
+
+				</div>
+				<div class="col-md-6">
+					<p class="pull-right">
+						Designed by <a href="https://www.facebook.com/jamesho287">Hoang Phuc</a> and <a
+							href="https://www.facebook.com/lily.nguyen.76313">Hien Nguyen</a> with the support of <a
+							href="http://getbootstrap.com/">Bootstrap</a>
+					</p>
+				</div>
+			</div>
 		</div>
 	</footer>
 
@@ -13,6 +88,27 @@
 		<script th:src="@{/lib/tether/1.3.7/dist/js/tether.js}"></script>
 		<script th:src="@{/lib/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 		<script th:src="@{/custom/js/app.js}"></script>
+		<script type="text/javascript" th:inline="javascript">
+			$(document).ready(
+					function() {
+						/*<![CDATA[*/
+						var context = /*[[@{~/custom/}]]*/"";
+						/*]]>*/
+						var images = [ 'bg1.jpg', 'bg2.jpg', 'bg3.jpg',
+								'bg4.jpg', 'bg5.jpg' ], selectBG = images[Math
+								.floor(Math.random() * images.length)];
+						$('body').css(
+								'background',
+								'url(' + context + "images/bg/" + selectBG
+										+ ')');
+
+						$('.external').hover(function() {
+							$(this).addClass('animated shake');
+						}, function() {
+							$(this).removeClass('animated shake');
+						});
+					});
+		</script>
 	</div>
 
 </body>

@@ -20,10 +20,9 @@
 	&:focus	{
 		z-index : 2;
 	}
-
 }
+
 body {
-	background: url(../images/bg.jpg) no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -80,34 +79,19 @@ body {
 	margin-bottom: 60px;
 }
 
-.footer {
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	/* Set the fixed height of the footer here */
-	height: 60px;
-	background-color: #f5f5f5;
-}
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
 body>.container {
 	padding: 60px 15px 0;
 }
 
-.container .text-muted {
-	margin: 20px 0;
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background-color: #f5f5f5;
 }
 
-.footer>.container {
-	padding-right: 15px;
-	padding-left: 15px;
-}
 
-code {
-	font-size: 80%;
-}
+
 
 /* Login page */
 body {
@@ -154,4 +138,92 @@ body {
 	margin-bottom: 10px;
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
+}
+
+
+
+/* FOOTER */
+#footer {
+  padding: 14px 0;
+}
+#footer ul {
+  padding-left: 0;
+  list-style: none;
+}
+#footer .social a {
+    margin: 0 10px 0 0;
+    color: #fff;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    line-height: 26px;
+    font-size: 15px;
+    text-align: center;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    vertical-align: bottom;
+    background-color: #555555;
+}
+#footer ul a , .blur-text {
+  color: #6b6b6b;
+}
+#copyright {
+  background: #333;
+  color: #ccc;
+  padding: 20px 0;
+  font-size: 12px;
+}
+#copyright p {
+  margin: 0;
+}
+@media (max-width: 991px) {
+  #copyright p {
+    float: none !important;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}
+#style-switch-button {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+}
+#style-switch {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  width: 200px;
+  padding: 20px;
+  position: fixed;
+  top: 120px;
+  left: 20px;
+  background: #fff;
+  border: solid 1px #eeeeee;
+}
+
+#footer a, #copyright a {
+    color: #4fbfa8;
+    text-decoration: none;
+}
+
+#footer h4, #footer h5 {
+	font-weight: bold;
+}
+
+#footer .form-control {
+	position: relative;
+	font-size: 14px;
+	height: auto;
+	padding: 6px;
+	@include box-sizing(border-box);
+	&:focus	{
+		z-index : 2;
+	}
+}
+
+#footer .social a i {
+    vertical-align: bottom;
+    line-height: 30px;
 }

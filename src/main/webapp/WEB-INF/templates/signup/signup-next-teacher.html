@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="common/header :: common-header" />
+<head>
+<title>Sign Up - Step 2</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
 	<div class="container">
@@ -16,11 +19,11 @@
 					</div>
 					<div class="panel-body">
 
-						<form action="#" th:action="@{/signup-next-2}" th:object="${signupTeacherForm}" method="post">
+						<form action="#" th:action="@{/signup-next}" th:object="${signupTeacherForm}" method="post">
 							<div th:class="${#fields.hasErrors('firstname')}? 'form-group has-error' : 'form-group'">
 								<label class="control-label" for="inputFirstname">First name</label>
 								<input th:field="*{firstname}" type="text" id="inputFirstname" class="form-control"
-									placeholder="Enter your first name" />
+									placeholder="Enter your first name" autofocus="autofocus" />
 								<span th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}"
 									class="label-important"></span>
 							</div>

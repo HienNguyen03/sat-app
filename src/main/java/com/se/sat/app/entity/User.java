@@ -19,6 +19,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.se.sat.app.util.AppUtil;
+
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
@@ -59,13 +61,17 @@ public class User implements Serializable {
 
 	public User() {
 	}
-
-	public boolean isAdmin() {
-		return role.contains(Role.ADMIN);
+	
+	public boolean isStudent() {
+		return role.contains(Role.STUDENT);
 	}
 
 	public boolean isTeacher() {
 		return role.contains(Role.TEACHER);
+	}
+	
+	public boolean isAdmin() {
+		return role.contains(Role.ADMIN);
 	}
 
 	public int getId() {
@@ -123,7 +129,12 @@ public class User implements Serializable {
 	public void setRole(Collection<Role> role) {
 		this.role = role;
 	}
-
 	
+	public boolean isEditable() {
+		User logginUser = AppUtil.getUserFromSession();
+		if(logginUser == null)
+			return false;
+		return logginUser.isAdmin() || logginUser.getId() == id;
+	}
 	
 }

@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="common/header :: common-header" />
+<head>
+<title>Sign Up - Step 1</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
 	<div class="container">
@@ -20,7 +23,7 @@
 							<div th:class="${#fields.hasErrors('username')}? 'form-group has-error' : 'form-group'">
 								<label class="control-label" for="inputUsername">Username</label>
 								<input th:field="*{username}" type="text" id="inputUsername" class="form-control"
-									placeholder="Enter your desire display name" />
+									placeholder="Enter your desire display name" autofocus="autofocus" />
 								<span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
 									class="label-important"></span>
 
