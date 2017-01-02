@@ -18,6 +18,7 @@ import com.se.sat.app.entity.Course;
 import com.se.sat.app.service.CourseService;
 import com.se.sat.app.service.TeacherService;
 import com.se.sat.app.util.AppUtil;
+import com.se.sat.app.validator.CourseFormValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -36,16 +37,24 @@ public class CourseController {
 
 	private TeacherService teacherService;
 	private CourseService courseService;
+	private CourseFormValidator courseFormValidator;
+	
 
 	@Autowired
-	public CourseController(TeacherService teacherService, CourseService courseService) {
+	public CourseController(TeacherService teacherService, CourseService courseService, CourseFormValidator courseFormValidator) {
 		this.teacherService = teacherService;
 		this.courseService = courseService;
+		this.courseFormValidator = courseFormValidator;
 	}
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true, 10));
+	}	
+	
+	@InitBinder("courseForm")
+	protected void initSignupBuilder(WebDataBinder binder){
+		binder.setValidator(courseFormValidator);
 	}
 
 	@RequestMapping(value = "/teacher/{id}/course", method = RequestMethod.GET)

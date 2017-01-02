@@ -30,7 +30,7 @@ public class TeacherController {
 	}
 
 	@RequestMapping(value = "/teacher/{id}")
-	public String teacherHome(@PathVariable Integer id, Model model) {
+	public String teacherHome(@PathVariable("id") Integer id, Model model) {
 		
 		List<Course> courses = courseService.findCoursesByTeacher(id);	
 		

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="common/header :: common-header" />
+<body>
+	<div th:replace="common/navbar :: common-navbar"></div>
+	<div class="container">
+
+		<div th:if="${flashMessage}" th:text="${flashMessage}"
+			th:attr="class='alert alert-' + ${flashType} + ' alert-dismissable'">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			Any kind of message (success / failure)
+		</div>
+
+		<div class="panel panel-default">
+
+			<div class="panel-heading">
+				<div class="span6 pull-right" style="text-align: right">
+					<a href="#" th:href="@{'/teacher/' + ${id} + '/course/' + ${courseId} + '/studySession'}" class="btn btn-primary btn-right" role="button">New Session</a>
+				</div>
+
+				<h4 th:text="${course.name}"></h4>
+			</div>
+
+			<div class="panel-body"></div>
+		</div>
+	</div>
+
+	<!-- /container -->
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+</body>
+</html>

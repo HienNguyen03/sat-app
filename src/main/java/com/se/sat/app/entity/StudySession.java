@@ -17,6 +17,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "study_session")
@@ -38,12 +40,15 @@ public class StudySession implements Serializable {
 	@Column(name = "NAME")
 	private String name;
 
+	@Temporal(TemporalType.TIME)
 	@Column(name = "START_TIME")
 	private Date startTime;
 
+	@Temporal(TemporalType.TIME)
 	@Column(name = "END_TIME")
 	private Date endTime;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "SESSION_DATE")
 	private Date sessionDate;
 
@@ -126,6 +131,13 @@ public class StudySession implements Serializable {
 
 	public void setSessionCategory(String sessionCategory) {
 		this.sessionCategory = sessionCategory;
+	}
+
+	@Override
+	public String toString() {
+		return "StudySession [id=" + id + ", name=" + name + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", sessionDate=" + sessionDate + ", password=" + password + ", sessionCategory=" + sessionCategory
+				+ "]";
 	};
 
 }

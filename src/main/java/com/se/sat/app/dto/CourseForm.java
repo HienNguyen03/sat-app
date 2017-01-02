@@ -31,7 +31,7 @@ public class CourseForm {
 
 	@NotNull
 	private Date endEnrollDate;
-	
+
 	private String status;
 
 	public String getName() {
@@ -82,7 +82,6 @@ public class CourseForm {
 		this.endEnrollDate = endEnrollDate;
 	}
 
-	
 	public String getStatus() {
 		return status;
 	}

@@ -22,12 +22,14 @@
 				</div>
 				<h4>Course overview</h4>
 			</div>
+			
 			<div class="panel-body">
 
 				<div th:each="course : ${courses}" class="list-group">
 					<div class="list-group-item row show-grid">
+					
 						<div class="span6 pull-left">
-							<a href="#" th:text="${course.name}">SE</a>
+							<a href="#" th:href ="@{'/teacher/' + ${id} + '/course/' + ${course.id} }" th:text="${course.name}">SE</a>
 						</div>
 						
 						<div class="span3 pull-right" style="text-align: right">
@@ -40,12 +42,8 @@
 								class="btn btn-default btn-right" role="button">Edit Description</a>
 						</div>
 
-
-
 					</div>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
