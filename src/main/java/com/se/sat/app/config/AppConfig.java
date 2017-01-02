@@ -20,12 +20,19 @@ import org.springframework.dao.annotation.PersistenceExceptionTranslationPostPro
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -37,7 +44,17 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	private static final Logger log = LoggerFactory.getLogger(AppConfig.class);
-
+	
+	@Bean
+    public SessionRegistry getSessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+	
+	@Bean
+    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
+        return new AuthenticationTrustResolverImpl();
+    }
+	
 	@Bean(name = "templateResolver")
 	public ServletContextTemplateResolver getTemplateResolver() {
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
@@ -50,10 +67,16 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		templateResolver.setCacheable(false);
 		return templateResolver;
 	}
+	
+//	@Bean(name="localValidator")
+//	public Validator getValidatorFactory(){
+//		return new LocalValidatorFactoryBean();
+//	}
 
 	@Bean(name = "templateEngine")
 	public SpringTemplateEngine getTemplateEngine() {
 		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+		templateEngine.addDialect(new SpringSecurityDialect());
 		templateEngine.setTemplateResolver(getTemplateResolver());
 		return templateEngine;
 	}
@@ -85,8 +108,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/custom/**").addResourceLocations("classpath:static/");
-		registry.addResourceHandler("/lib/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+		registry.addResourceHandler("/custom/**").addResourceLocations("classpath:static/").setCachePeriod(86400);
+		registry.addResourceHandler("/lib/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(86400);
 	}
 
 	// Hibernate sector

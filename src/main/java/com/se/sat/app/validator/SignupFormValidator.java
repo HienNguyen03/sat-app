@@ -5,18 +5,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import com.se.sat.app.dao.UserDao;
 import com.se.sat.app.dto.SignupForm;
 import com.se.sat.app.entity.User;
-import com.se.sat.app.repository.UserRepo;
 
 @Component
 public class SignupFormValidator extends LocalValidatorFactoryBean {
 	
-	private UserRepo userRepo;
+	private UserDao userDao;
 	
 	@Autowired
-	public void setUserRepo(UserRepo userRepo){
-		this.userRepo = userRepo;
+	public void setUserRepo(UserDao userDao){
+		this.userDao = userDao;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class SignupFormValidator extends LocalValidatorFactoryBean {
 		
 		if(!errors.hasErrors()){
 			SignupForm signupForm = (SignupForm) target;
-			User user = userRepo.findUserByUsername(signupForm.getUsername());
+			User user = userDao.findByUsername(signupForm.getUsername());
 			if(user != null){
 				errors.rejectValue("username", "usernameIsUsed");
 			}

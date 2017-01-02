@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>Student Activity Tracking Application</title>
+<title>Access Denied</title>
 <object th:include="common/header :: common-header" th:remove="tag"></object>
 </head>
 
@@ -11,15 +11,18 @@
 	<div th:replace="common/navbar :: common-navbar"></div>
 
 	<div class="container">
-		<div class="page-header">
-			<h1>Hello !</h1>
+
+		<div class="generic-container">
+			<div class="authbar">
+				<span>Dear <strong th:text="${loggedinUser}">user</strong>, you are not authorized to access this page.
+				</span> <span class="floatRight"><a th:href="@{/logout}">Logout</a></span>
+			</div>
 		</div>
-		<p class="lead">Chào bạn, bạn là ai vậy ? Mình xin tự giới thiệu, mình là
-			sói ! húuuuuu</p>
+
 	</div>
+	<!-- /container -->
 
 	<div th:replace="common/footer :: common-footer"></div>
 	<div th:replace="common/footer :: footer-scripts"></div>
-
 </body>
 </html>

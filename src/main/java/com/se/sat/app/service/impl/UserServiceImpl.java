@@ -14,10 +14,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.se.sat.app.dao.AdminDao;
+import com.se.sat.app.dao.StudentDao;
+import com.se.sat.app.dao.TeacherDao;
+import com.se.sat.app.dao.UserDao;
 import com.se.sat.app.dto.CustomUserDetails;
+import com.se.sat.app.dto.EditProfileAdminForm;
+import com.se.sat.app.dto.EditProfileStudentForm;
+import com.se.sat.app.dto.EditProfileTeacherForm;
 import com.se.sat.app.dto.SignupAdminForm;
 import com.se.sat.app.dto.SignupForm;
-import com.se.sat.app.dto.SignupPersonForm;
+import com.se.sat.app.dto.PersonForm;
 import com.se.sat.app.dto.SignupStudentForm;
 import com.se.sat.app.dto.SignupTeacherForm;
 import com.se.sat.app.entity.Admin;
@@ -25,36 +32,34 @@ import com.se.sat.app.entity.Student;
 import com.se.sat.app.entity.Teacher;
 import com.se.sat.app.entity.User;
 import com.se.sat.app.entity.User.Role;
-import com.se.sat.app.repository.AdminRepo;
-import com.se.sat.app.repository.StudentRepo;
-import com.se.sat.app.repository.TeacherRepo;
-import com.se.sat.app.repository.UserRepo;
 import com.se.sat.app.service.UserService;
+import com.se.sat.app.util.AppUtil;
 
-@Service
+@Service("userService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class UserServiceImpl implements UserService, UserDetailsService {
 
 	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
-	private UserRepo userRepo;
-	private StudentRepo studentRepo;
-	private TeacherRepo teacherRepo;
-	private AdminRepo adminRepo;
+	private UserDao userDao;
+	private StudentDao studentDao;
+	private TeacherDao teacherDao;
+	private AdminDao adminDao;
 	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserServiceImpl(UserRepo userRepo, StudentRepo studentRepo, TeacherRepo teacherRepo, AdminRepo adminRepo, PasswordEncoder passwordEncoder) {
-		this.userRepo = userRepo;
-		this.studentRepo = studentRepo;
-		this.teacherRepo = teacherRepo;
-		this.adminRepo = adminRepo;
+	public UserServiceImpl(UserDao userDao, StudentDao studentDao, TeacherDao teacherDao, AdminDao adminDao,
+			PasswordEncoder passwordEncoder) {
+		this.userDao = userDao;
+		this.studentDao = studentDao;
+		this.teacherDao = teacherDao;
+		this.adminDao = adminDao;
 		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-	public boolean signup(SignupForm signupForm, SignupPersonForm signupPersonForm) {
+	public boolean signup(SignupForm signupForm, PersonForm signupPersonForm) {
 		User user = new User();
 		user.setUsername(signupForm.getUsername());
 		user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
@@ -63,48 +68,50 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			if (signupPersonForm.getPersonType().equals(Role.STUDENT)) {
 				Student student = new Student();
 				SignupStudentForm signupStudentForm = (SignupStudentForm) signupPersonForm;
-	
+
 				student.setFirstname(signupStudentForm.getFirstname());
 				student.setLastname(signupStudentForm.getLastname());
 				student.setEmail(signupStudentForm.getEmail());
 				student.setAcademicGroup(signupStudentForm.getAcademicGroup());
 				student.setStatus("studying");
 				student.setUser(user);
-	
+
 				user.getRole().add(Role.STUDENT);
-				studentRepo.insert(student);
-				
+				studentDao.saveStudent(student);
+
 			} else if (signupPersonForm.getPersonType().equals(Role.TEACHER)) {
 				Teacher teacher = new Teacher();
 				SignupTeacherForm signupTeacherForm = (SignupTeacherForm) signupPersonForm;
-	
+
 				teacher.setFirstname(signupTeacherForm.getFirstname());
 				teacher.setLastname(signupTeacherForm.getLastname());
 				teacher.setEmail(signupTeacherForm.getEmail());
 				teacher.setDepartment(signupTeacherForm.getDepartment());
 				teacher.setStatus("working");
 				teacher.setUser(user);
-	
+
 				user.getRole().add(Role.TEACHER);
-				teacherRepo.insert(teacher);
-				
-			} else {
+				teacherDao.saveTeacher(teacher);
+
+			} else if (signupPersonForm.getPersonType().equals(Role.ADMIN)) {
 				Admin admin = new Admin();
 				SignupAdminForm signupAdminForm = (SignupAdminForm) signupPersonForm;
-	
+
 				admin.setFirstname(signupAdminForm.getFirstname());
 				admin.setLastname(signupAdminForm.getLastname());
 				admin.setEmail(signupAdminForm.getEmail());
 				admin.setStatus("working");
 				admin.setUser(user);
-	
+
 				user.getRole().add(Role.ADMIN);
-				adminRepo.insert(admin);
-				
+				adminDao.saveAdmin(admin);
+
+			} else {
+				return false;
 			}
-			
+
 			return true;
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			log.info("Transaction rollbacked !");
 			return false;
@@ -114,12 +121,78 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepo.findUserByUsername(username);
+		User user = userDao.findByUsername(username);
 
 		if (user == null)
 			throw new UsernameNotFoundException(username);
 
 		return new CustomUserDetails(user);
+	}
+
+	@Override
+	public User findByUsername(String username) {
+		return userDao.findByUsername(username);
+	}
+
+	@Override
+	public boolean updateStudentProfile(EditProfileStudentForm editProfileStudentForm) {
+		try {
+			User loggedInUser = AppUtil.getUserFromSession();
+			loggedInUser.getStudent().setFirstname(editProfileStudentForm.getFirstname());
+			loggedInUser.getStudent().setLastname(editProfileStudentForm.getLastname());
+			loggedInUser.getStudent().setEmail(editProfileStudentForm.getEmail());
+			
+			studentDao.updateStudent(loggedInUser.getStudent());
+			return true;
+		} catch(Exception e){
+			e.printStackTrace();
+			log.info("Transaction rollbacked !");
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateTeacherProfile(EditProfileTeacherForm editProfileTeacherForm) {
+		try {
+			User loggedInUser = AppUtil.getUserFromSession();
+			loggedInUser.getTeacher().setFirstname(editProfileTeacherForm.getFirstname());
+			loggedInUser.getTeacher().setLastname(editProfileTeacherForm.getLastname());
+			loggedInUser.getTeacher().setEmail(editProfileTeacherForm.getEmail());
+			
+			teacherDao.updateTeacher(loggedInUser.getTeacher());
+			return true;
+		} catch(Exception e){
+			e.printStackTrace();
+			log.info("Transaction rollbacked !");
+			return false;
+		}
+	}
+
+	@Override
+	public boolean updateAdminProfile(EditProfileAdminForm editProfileAdminForm) {
+		try {
+			User loggedInUser = AppUtil.getUserFromSession();
+			loggedInUser.getAdmin().setFirstname(editProfileAdminForm.getFirstname());
+			loggedInUser.getAdmin().setLastname(editProfileAdminForm.getLastname());
+			loggedInUser.getAdmin().setEmail(editProfileAdminForm.getEmail());
+			
+			adminDao.updateAdmin(loggedInUser.getAdmin());
+			return true;
+		} catch(Exception e){
+			e.printStackTrace();
+			log.info("Transaction rollbacked !");
+			return false;
+		}
+	}
+
+	@Override
+	public boolean comparePassword(String inputPassword) {
+		User user = userDao.findByUsername(AppUtil.getUserFromSession().getUsername());
+		if(passwordEncoder.matches(inputPassword, user.getPassword()))
+			return true;
+		else
+			return false;
+		
 	}
 
 	// @Override

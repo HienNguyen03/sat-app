@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<title>Personal information</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
+<body>
+	<div th:replace="common/navbar :: common-navbar"></div>
+	<div class="container">
+
+		<div th:if="${flashMessage}" th:text="${flashMessage}"
+			th:attr="class='alert alert-' + ${flashType} + ' alert-dismissable'">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			Any kind of message (success / failure)
+		</div>
+
+		<div class="row">
+
+			<div
+				class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad">
+
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">Personal information</h3>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-md-3 col-lg-3 " align="center">
+								<img alt="User Pic" th:src="@{/custom/images/avatar-300x300.png}"
+									class="img-circle img-responsive" />
+							</div>
+
+							<div class=" col-md-9 col-lg-9 ">
+								<table class="table table-user-information">
+									<tbody>
+										<tr>
+											<td>First name</td>
+											<td th:text="${teacher.firstname}"></td>
+										</tr>
+										<tr>
+											<td>Last name</td>
+											<td th:text="${teacher.lastname}"></td>
+										</tr>
+										<tr>
+											<td>Email</td>
+											<td><a th:href="@{'mailto:' + ${teacher.email}}" th:text="${teacher.email}"></a></td>
+										</tr>
+										<tr>
+											<td>Department</td>
+											<td th:text="${teacher.department}"></td>
+										</tr>
+									</tbody>
+								</table>
+
+								<a th:href="@{/profile/edit}" class="btn btn-primary">Edit</a>
+							</div>
+						</div>
+					</div>
+					<!-- <div class="panel-footer">
+						<a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
+							class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a> <span
+							class="pull-right"> <a href="edit.html" data-original-title="Edit this user"
+							data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i
+								class="glyphicon glyphicon-edit"></i></a> <a data-original-title="Remove this user"
+							data-toggle="tooltip" type="button" class="btn btn-sm btn-danger"><i
+								class="glyphicon glyphicon-remove"></i></a>
+						</span>
+					</div> -->
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /container -->
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+</body>
+</html>
