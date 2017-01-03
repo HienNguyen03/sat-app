@@ -2,16 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-	
-	
+
+
 <head>
-	<title>Dashboard</title>
-	<object th:include="common/header :: common-header" th:remove="tag"></object>
+<title>Dashboard</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
 </head>
 
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
-	
+
 	<div class="container">
 
 		<div th:if="${flashMessage}" th:text="${flashMessage}"
@@ -20,39 +20,43 @@
 			Any kind of message (success / failure)
 		</div>
 
-		<div class="panel panel-default col-md-10">
+		<div class="row">
+			<div class="panel panel-default">
 
-			<div class="panel-heading">
-				<div class="span6 pull-right" style="text-align: right">
-					<a href="course.html" th:href="@{'/teacher/course'}"
-						class="btn btn-info btn-right" role="button">New Course</a>
+				<div class="panel-heading">
+					<div class="span6 pull-right" style="text-align: right">
+						<a href="course.html" th:href="@{'/teacher/course'}" class="btn btn-info btn-right"
+							role="button">New Course</a>
+					</div>
+					<h4>Course overview</h4>
 				</div>
-				<h4>Course overview</h4>
-			</div>
-			
-			<div class="panel-body">
 
-				<div th:each="course : ${courses}" class="list-group">
-					<div class="list-group-item row">
-					
-						<div class="span6 pull-left">
-							<a href="#" th:href ="@{'/teacher/course/' + ${course.id} }" th:text="${course.name}">SE</a>
-						</div>
-						
-						<div class="span3 pull-right" style="text-align: right">
-							<a href="" th:href="@{'/teacher/course/' + ${course.id} + '/delete'}"
-								class="btn btn-default btn-right" role="button">Delete</a>
-						</div>
-						
-						<div class="span3 pull-right" style="text-align: right">
-							<a href="" th:href="@{'/teacher/course/' + ${course.id} + '/edit'}"
-								class="btn btn-default btn-right" role="button">Edit Description</a>
-						</div>
+				<div class="panel-body">
 
+					<div th:each="course : ${courses}" class="list-group">
+						<div class="list-group-item row">
+
+							<div class="span6 pull-left">
+								<a href="#" th:href="@{'/teacher/course/' + ${course.id} }" th:text="${course.name}">SE</a>
+							</div>
+
+							<div class="span3 pull-right" style="text-align: right">
+								<a href="" th:href="@{'/teacher/course/' + ${course.id} + '/delete'}"
+									class="btn btn-default btn-right" role="button">Delete</a>
+							</div>
+
+							<div class="span3 pull-right" style="text-align: right">
+								<a href="" th:href="@{'/teacher/course/' + ${course.id} + '/edit'}"
+									class="btn btn-default btn-right" role="button">Edit Description</a>
+							</div>
+
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+
+
 	</div>
 	<!-- /container -->
 	<div th:replace="common/footer :: common-footer"></div>

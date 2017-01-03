@@ -8,13 +8,11 @@ import com.se.sat.app.entity.Teacher;
 public interface CourseDao {
 
 	void insertCourse(Course course);
-
 	void updateCourse(Course course);
+	void deleteCourseById(int id);
 
-	void deleteCourse(Course course);
-
-	Course finById(int id);
-
-	List<Course> findCourseByTeacher(Teacher teacher);
-
+	Course findCourseById(int id);
+	List<Course> findCoursesByTeacher(Teacher teacher);
+	List<Course> findAllCourses();
+	
 }

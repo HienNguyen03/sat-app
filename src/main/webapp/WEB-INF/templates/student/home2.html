@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Student's dashboard</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
+
+<body>
+
+	<div th:replace="common/navbar :: common-navbar"></div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<a class="pull-right btn btn-primary btn-xs" href="example.edit.php"><i
+							class="fa fa-plus-circle"></i> New record</a>Record list
+					</div>
+					<div class="panel-body">
+						<div class="table-responsive">
+							<div class="table-responsive">
+								<div id="datatable_dfad71782fc63bd75c3a52bafbd988e3_wrapper"
+									class="dataTables_wrapper form-inline" role="grid">
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="dataTables_length">
+												<label>
+													<select class="form-control input-sm">
+														<option value="10">10</option>
+														<option value="25">25</option>
+														<option value="50">50</option>
+														<option value="100">100</option>
+													</select> 
+													records per page
+												</label>
+											</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="dataTables_filter">
+												<label>Search:<input type="search" class="form-control input-sm"/></label>
+											</div>
+										</div>
+									</div>
+									<table class="table table-bordered table-hover dataTable no-footer">
+										<thead>
+											<tr role="row">
+												<th class="boolean sorting" tabindex="0" rowspan="1" colspan="1"
+													aria-label="&amp;nbsp;: activate to sort column ascending">&nbsp;</th>
+												<th class="sorting_asc" tabindex="0" rowspan="1" colspan="1"
+													aria-sort="ascending" aria-label="Name: activate to sort column ascending">Name</th>
+												<th class="sorting" tabindex="0" rowspan="1" colspan="1"
+													aria-label="Company: activate to sort column ascending">Company</th>
+												<th class="date sorting" tabindex="0" rowspan="1" colspan="1"
+													aria-label="Birthday: activate to sort column ascending">Birthday</th>
+												<th class="action sorting_disabled" rowspan="1" colspan="1" aria-label="&amp;nbsp;">&nbsp;</th>
+												<th class="action action_delete sorting_disabled" rowspan="1" colspan="1"
+													aria-label="&amp;nbsp;">&nbsp;</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="odd">
+												<td class=" boolean"><i class="fa fa-check text-success"></i></td>
+												<td class=" ">luis</td>
+												<td class=" ">Disney</td>
+												<td class=" date">2016-12-15</td>
+												<td class=" action"><a href="example.edit.php?id=2024"><i
+														class="fa fa-caret-square-o-right"></i></a></td>
+												<td class=" action action_delete"><a href="#" id="delete_2024"
+													onclick="$(this).delete_row(event);"><i class="fa fa-times-circle"></i></a></td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="row">
+										<div class="col-sm-6">
+											<div class="dataTables_info" role="alert" aria-live="polite" aria-relevant="all">Showing 1 to 1 of 1 entries</div>
+										</div>
+										<div class="col-sm-6">
+											<div class="dataTables_paginate paging_simple_numbers">
+												<ul class="pagination">
+													<li class="paginate_button previous disabled" tabindex="0">
+														<a href="#">Previous</a></li>
+													<li class="paginate_button active" tabindex="0">
+														<a href="#">1</a></li>
+													<li class="paginate_button next disabled" tabindex="0"><a href="#">Next</a></li>
+												</ul>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+
+</body>
+</html>

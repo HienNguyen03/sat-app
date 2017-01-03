@@ -26,6 +26,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.se.sat.app.CustomAuthenticationSuccessHandler;
 import com.se.sat.app.ProperCookieClearingLogoutHandler;
 
 @Configuration
@@ -86,6 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/login")
 				.usernameParameter("username")
 				.passwordParameter("password")
+				.successHandler(new CustomAuthenticationSuccessHandler())
 				.permitAll()
 			.and()
 				.logout().logoutUrl("/logout")
@@ -118,7 +120,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 	        .authorizeRequests()
 			.antMatchers("/", "/public/**", "/resources/**", "/custom/**", "/lib/**").permitAll()
-			.antMatchers("/signup", "/signup-next", "/signup-next-1", "/signup-next-2", "/signup-next-3", "/session-expired").anonymous()
+			.antMatchers("/signup", "/signup-next", "/session-expired", "/access-denied").anonymous()
 			.antMatchers("/admin/**").hasRole("ADMIN")
 			.antMatchers("/teacher/**").hasRole("TEACHER")
 			.antMatchers("/student/**").hasRole("STUDENT")

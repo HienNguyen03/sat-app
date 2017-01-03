@@ -29,7 +29,7 @@ public class StudySessionServiceImpl implements StudySessionService{
 	}
 
 	@Override
-	public boolean addStudySession(Integer courseId, StudySessionForm studySessionForm) {
+	public boolean insertStudySession(Integer courseId, StudySessionForm studySessionForm) {
 		
 		StudySession studySession = new StudySession();
 		
@@ -41,7 +41,7 @@ public class StudySessionServiceImpl implements StudySessionService{
 		
 		try{
 			
-			Course course = courseDao.finById(courseId);
+			Course course = courseDao.findCourseById(courseId);
 			studySession.setCourse(course);
 			studySessionDao.insertStudySession(studySession);
 			

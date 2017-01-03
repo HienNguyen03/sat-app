@@ -8,15 +8,12 @@ import com.se.sat.app.entity.Teacher;
 
 public interface CourseService {
 
-	public boolean addCourse(CourseForm courseForm);
-	
+	public boolean insertCourse(CourseForm courseForm);
 	public boolean updateCourse(Integer id, CourseForm editCourseForm);
-	
 	public boolean deleteCourse(Integer id);
 	
 	public List<Course> findCoursesByTeacher(Teacher teacher);
-	
 	public Course findCourseInfo(Integer id);
+	public List<Course> findStudentCourseList();
 	
-
 }

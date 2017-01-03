@@ -77,7 +77,7 @@ public class StudySessionController {
 			return "/teacher/study-session";
 		}
 
-		boolean saveResult = studySessionService.addStudySession(courseId, studySessionForm);
+		boolean saveResult = studySessionService.insertStudySession(courseId, studySessionForm);
 
 		if (saveResult)
 			AppUtil.flash(redirectAttributes, "success", "studySession.success");

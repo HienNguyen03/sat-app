@@ -2,82 +2,86 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-	
+
 <head>
-	<title>New Course</title>
-	<object th:include="common/header :: common-header" th:remove="tag"></object>
+<title>New Course</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
 </head>
 
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
 	<div class="container">
-		<div class="panel panel-default">
 
-			<div class="panel-heading">
-				<h4>Create New Course</h4>
-			</div>
-			
-			<div th:if="${flashMessage}" th:text="${flashMessage}"
+		<div th:if="${flashMessage}" th:text="${flashMessage}"
 			th:attr="class='alert alert-' + ${flashType} + ' alert-dismissable'">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 			Any kind of message (success / failure)
-			</div>
+		</div>
 
-			<div class="panel-body">
-				<form action="#" th:action="@{'/teacher/course'}" th:object="${courseForm}"
-					method="post">
-					<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputName">Course Name : *</label> <input
-							class="form-control" th:field="*{name}" type="text" id="inputName"
-							placeholder="Enter course's name" /> <span th:if="${#fields.hasErrors('name')}"
-							th:errors="*{name}" class="label-important"></span>
-					</div>
+		<div class="row">
+			<div class="panel panel-default">
 
-					<div th:class="${#fields.hasErrors('description')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputDescription">Description : *</label> <textarea
-							class="form-control" th:field="*{description}" rows="3" id="inputDescription"
-							placeholder="Enter course's description" > </textarea>
+				<div class="panel-heading">
+					<h4>Create New Course</h4>
+				</div>
+
+				<div class="panel-body">
+					<form action="#" th:action="@{'/teacher/course'}" th:object="${courseForm}" method="post">
+						<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputName">Course Name : *</label> <input
+								class="form-control" th:field="*{name}" type="text" id="inputName"
+								placeholder="Enter course's name" /> <span th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}" class="label-important"></span>
+						</div>
+
+						<div th:class="${#fields.hasErrors('description')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputDescription">Description : *</label>
+							<textarea class="form-control" th:field="*{description}" rows="3" id="inputDescription"
+								placeholder="Enter course's description"> </textarea>
 							<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
-							class="label-important"></span>
-					</div>
+								class="label-important"></span>
+						</div>
 
-					<div th:class="${#fields.hasErrors('startDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputStartDate">Start Course Date : *</label> <input
-							class="form-control" th:field="*{startDate}" type="text" id="inputStartDate"
-							placeholder="Enter course's start date" /> <span th:if="${#fields.hasErrors('startDate')}"
-							th:errors="*{startDate}" class="label-important"></span>
-					</div>
+						<div th:class="${#fields.hasErrors('startDate')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputStartDate">Start Course Date : *</label> <input
+								class="form-control" th:field="*{startDate}" type="text" id="inputStartDate"
+								placeholder="Enter course's start date" /> <span th:if="${#fields.hasErrors('startDate')}"
+								th:errors="*{startDate}" class="label-important"></span>
+						</div>
 
-					<div th:class="${#fields.hasErrors('endDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputEndDate">End Course Date : *</label> <input
-							class="form-control" th:field="*{endDate}" type="text" id="inputEndDate"
-							placeholder="Enter course's end date" /> <span th:if="${#fields.hasErrors('endDate')}"
-							th:errors="*{endDate}" class="label-important"></span>
-					</div>
+						<div th:class="${#fields.hasErrors('endDate')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputEndDate">End Course Date : *</label> <input
+								class="form-control" th:field="*{endDate}" type="text" id="inputEndDate"
+								placeholder="Enter course's end date" /> <span th:if="${#fields.hasErrors('endDate')}"
+								th:errors="*{endDate}" class="label-important"></span>
+						</div>
 
 
-					<div th:class="${#fields.hasErrors('startEnrollDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputStartEnrollDate">Start Enroll Date : *</label> <input
-							class="form-control" th:field="*{startEnrollDate}" type="text" id="inputStartEnrollDate"
-							placeholder="Enter course's start enroll date" /> <span
-							th:if="${#fields.hasErrors('startEnrollDate')}" th:errors="*{startEnrollDate}"
-							class="label-important"></span>
-					</div>
+						<div
+							th:class="${#fields.hasErrors('startEnrollDate')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputStartEnrollDate">Start Enroll Date : *</label> <input
+								class="form-control" th:field="*{startEnrollDate}" type="text" id="inputStartEnrollDate"
+								placeholder="Enter course's start enroll date" /> <span
+								th:if="${#fields.hasErrors('startEnrollDate')}" th:errors="*{startEnrollDate}"
+								class="label-important"></span>
+						</div>
 
-					<div th:class="${#fields.hasErrors('endEnrollDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputEndEnrollDate">End Enroll Date : *</label> <input
-							class="form-control" th:field="*{endEnrollDate}" type="text" id="inputEndEnrollDate"
-							placeholder="Enter course's end enroll date" /> <span
-							th:if="${#fields.hasErrors('endEnrollDate')}" th:errors="*{endEnrollDate}"
-							class="label-important"></span>
-					</div>				
+						<div th:class="${#fields.hasErrors('endEnrollDate')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputEndEnrollDate">End Enroll Date : *</label> <input
+								class="form-control" th:field="*{endEnrollDate}" type="text" id="inputEndEnrollDate"
+								placeholder="Enter course's end enroll date" /> <span
+								th:if="${#fields.hasErrors('endEnrollDate')}" th:errors="*{endEnrollDate}"
+								class="label-important"></span>
+						</div>
 
-					<button type="submit" class="btn btn-default">Create</button>
+						<button type="submit" class="btn btn-default">Create</button>
 
-				</form>
+					</form>
 
+				</div>
 			</div>
 		</div>
+
 	</div>
 	<!-- /container -->
 	<div th:replace="common/footer :: common-footer"></div>
@@ -86,20 +90,28 @@
 	<script>
 		$(document).ready(function() {
 			$('#inputStartDate').datetimepicker({
-				 timepicker:false, mask:false, format:'Y-m-d'
-			});	
-			
+				timepicker : false,
+				mask : false,
+				format : 'Y-m-d'
+			});
+
 			$('#inputEndDate').datetimepicker({
-				 timepicker:false, mask:false, format:'Y-m-d'
-			});	
-			
+				timepicker : false,
+				mask : false,
+				format : 'Y-m-d'
+			});
+
 			$('#inputStartEnrollDate').datetimepicker({
-				 timepicker:false, mask:false, format:'Y-m-d'
-			});	
-			
+				timepicker : false,
+				mask : false,
+				format : 'Y-m-d'
+			});
+
 			$('#inputEndEnrollDate').datetimepicker({
-				 timepicker:false, mask:false, format:'Y-m-d'
-			});	
+				timepicker : false,
+				mask : false,
+				format : 'Y-m-d'
+			});
 		});
 	</script>
 </body>

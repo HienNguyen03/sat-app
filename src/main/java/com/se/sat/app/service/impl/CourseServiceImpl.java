@@ -18,7 +18,8 @@ import com.se.sat.app.entity.Teacher;
 import com.se.sat.app.service.CourseService;
 import com.se.sat.app.util.AppUtil;
 
-@Service
+@Service("courseService")
+@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public class CourseServiceImpl implements CourseService {
 
 	private static final Logger log = LoggerFactory.getLogger(CourseServiceImpl.class);
@@ -30,11 +31,10 @@ public class CourseServiceImpl implements CourseService {
 	public CourseServiceImpl(CourseDao courseDao, TeacherDao teacherDao) {
 		this.courseDao = courseDao;
 		this.teacherDao = teacherDao;
-
 	}
 
 	@Override
-	public boolean addCourse(CourseForm courseForm) {
+	public boolean insertCourse(CourseForm courseForm) {
 		Course course = new Course();
 
 		course.setName(courseForm.getName());
@@ -46,41 +46,25 @@ public class CourseServiceImpl implements CourseService {
 		course.setStatus("On-going");
 
 		Teacher teacher = AppUtil.getUserFromSession().getTeacher();
-		
+
 		course.setTeacher(teacher);
 
 		try {
 			courseDao.insertCourse(course);
-			
+
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			//log.debug("Cannot save");
+			// log.debug("Cannot save");
 			return false;
 		}
 
 	}
-
-	@Override
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-	public List<Course> findCoursesByTeacher(Teacher teacher) {		
-		List<Course> courses = new ArrayList<Course>();
-		courses = courseDao.findCourseByTeacher(teacher);
-
-		return courses;
-	}
-
-	@Override
-	public Course findCourseInfo(Integer id) {
-		Course course = courseDao.finById(id);
-
-		return course;
-	}
-
+	
 	@Override
 	public boolean updateCourse(Integer id, CourseForm editCourseForm) {
 
-		Course course = courseDao.finById(id);
+		Course course = courseDao.findCourseById(id);
 		course.setName(editCourseForm.getName());
 		course.setDescription(editCourseForm.getDescription());
 		course.setStartDate(editCourseForm.getStartDate());
@@ -98,14 +82,12 @@ public class CourseServiceImpl implements CourseService {
 			return false;
 		}
 	}
-
+	
 	@Override
 	public boolean deleteCourse(Integer id) {
 
-		Course course = courseDao.finById(id);
-
 		try {
-			courseDao.deleteCourse(course);
+			courseDao.deleteCourseById(id);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -114,4 +96,26 @@ public class CourseServiceImpl implements CourseService {
 		}
 	}
 
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
+	public List<Course> findCoursesByTeacher(Teacher teacher) {
+		List<Course> courses = new ArrayList<Course>();
+		courses = courseDao.findCoursesByTeacher(teacher);
+
+		return courses;
+	}
+
+	@Override
+	public Course findCourseInfo(Integer id) {
+		Course course = courseDao.findCourseById(id);
+
+		return course;
+	}
+
+	@Override
+	public List<Course> findStudentCourseList() {
+		return null;
+	}
+
+	
 }

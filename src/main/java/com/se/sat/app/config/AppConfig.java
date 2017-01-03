@@ -37,6 +37,8 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import com.se.sat.app.CustomAuthenticationSuccessHandler;
+
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
@@ -49,6 +51,11 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public SessionRegistry getSessionRegistry() {
         return new SessionRegistryImpl();
     }
+	
+	@Bean
+	public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler(){
+		return new CustomAuthenticationSuccessHandler();
+	}
 	
 	@Bean
     public AuthenticationTrustResolver getAuthenticationTrustResolver() {

@@ -10,7 +10,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.se.sat.app.dto.CourseForm;
@@ -69,7 +68,7 @@ public class CourseController {
 			return "/teacher/course";
 		}
 
-		boolean saveResult = courseService.addCourse(courseForm);
+		boolean saveResult = courseService.insertCourse(courseForm);
 	
 		if (saveResult)
 			AppUtil.flash(redirectAttributes, "success", "course.success");
