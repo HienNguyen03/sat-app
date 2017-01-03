@@ -3,7 +3,7 @@
 <body>
 
 	<footer th:fragment="common-footer" class="footer">
-		<div id="footer" data-animate="fadeInUp" class="animated fadeInUp">
+		<div id="footer" class="container">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-3 col-sm-6">
@@ -89,19 +89,17 @@
 		<script th:src="@{/lib/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
 		<script th:src="@{/custom/js/app.js}"></script>
 		<script type="text/javascript" th:inline="javascript">
-			$(document).ready(
-					function() {
+			$(document).ready( function() {
 						/*<![CDATA[*/
 						var context = /*[[@{~/custom/}]]*/"";
 						/*]]>*/
-						var images = [ 'bg1.jpg', 'bg2.jpg', 'bg3.jpg',
-								'bg4.jpg', 'bg5.jpg' ], selectBG = images[Math
-								.floor(Math.random() * images.length)];
-						$('body').css(
-								'background',
-								'url(' + context + "images/bg/" + selectBG
-										+ ')');
+						
+						// random background
+						var images = [ 'bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg' ], 
+						selectBG = images[Math.floor(Math.random() * images.length)];
+						//$('body').css('background', 'url(' + context + "images/bg/" + selectBG + ')');
 
+						// footer social icon
 						$('.external').hover(function() {
 							$(this).addClass('animated shake');
 						}, function() {

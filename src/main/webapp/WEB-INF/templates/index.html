@@ -11,11 +11,15 @@
 	<div th:replace="common/navbar :: common-navbar"></div>
 
 	<div class="container">
-		<div class="page-header">
-			<h1>Hello !</h1>
+		<div class="jumbotron">
+			<h1>Student Activity Tracking Application</h1>
+			<p>This example is a quick exercise to illustrate how the default, static navbar and fixed to
+				top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and
+				device.</p>
+			<p>
+				<a class="btn btn-lg btn-primary animated shake" th:href="@{/signup}" role="button">Get started <i class="fa fa-angle-double-right"></i></a>
+			</p>
 		</div>
-		<p class="lead">Chào bạn, bạn là ai vậy ? Mình xin tự giới thiệu, mình là
-			sói ! húuuuuu</p>
 	</div>
 
 	<div th:replace="common/footer :: common-footer"></div>
