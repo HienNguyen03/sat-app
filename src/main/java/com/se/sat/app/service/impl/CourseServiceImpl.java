@@ -10,30 +10,31 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.se.sat.app.dao.CourseDao;
+import com.se.sat.app.dao.TeacherDao;
 import com.se.sat.app.dto.CourseForm;
 import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Teacher;
-import com.se.sat.app.repository.CourseRepo;
-import com.se.sat.app.repository.TeacherRepo;
 import com.se.sat.app.service.CourseService;
+import com.se.sat.app.util.AppUtil;
 
 @Service
 public class CourseServiceImpl implements CourseService {
 
 	private static final Logger log = LoggerFactory.getLogger(CourseServiceImpl.class);
 
-	private CourseRepo courseRepo;
-	private TeacherRepo teacherRepo;
+	private CourseDao courseDao;
+	private TeacherDao teacherDao;
 
 	@Autowired
-	public CourseServiceImpl(CourseRepo courseRepo, TeacherRepo teacherRepo) {
-		this.courseRepo = courseRepo;
-		this.teacherRepo = teacherRepo;
+	public CourseServiceImpl(CourseDao courseDao, TeacherDao teacherDao) {
+		this.courseDao = courseDao;
+		this.teacherDao = teacherDao;
 
 	}
 
 	@Override
-	public boolean addCourse(Integer id, CourseForm courseForm) {
+	public boolean addCourse(CourseForm courseForm) {
 		Course course = new Course();
 
 		course.setName(courseForm.getName());
@@ -44,15 +45,17 @@ public class CourseServiceImpl implements CourseService {
 		course.setEndEnrollDate(courseForm.getEndEnrollDate());
 		course.setStatus("On-going");
 
-		Teacher teacher = teacherRepo.findTeacher(id);
+		Teacher teacher = AppUtil.getUserFromSession().getTeacher();
+		
 		course.setTeacher(teacher);
 
 		try {
-			courseRepo.insert(course);
+			courseDao.insertCourse(course);
+			
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			log.debug("Cannot save");
+			//log.debug("Cannot save");
 			return false;
 		}
 
@@ -60,25 +63,24 @@ public class CourseServiceImpl implements CourseService {
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-	public List<Course> findCoursesByTeacher(Integer id) {
-		Teacher teacher = teacherRepo.findTeacher(id);
+	public List<Course> findCoursesByTeacher(Teacher teacher) {		
 		List<Course> courses = new ArrayList<Course>();
-		courses = courseRepo.findCourseByTeacher(teacher);
+		courses = courseDao.findCourseByTeacher(teacher);
 
 		return courses;
 	}
 
 	@Override
 	public Course findCourseInfo(Integer id) {
-		Course course = courseRepo.findCourse(id);
+		Course course = courseDao.finById(id);
 
 		return course;
 	}
 
 	@Override
-	public boolean update(Integer id, CourseForm editCourseForm) {
+	public boolean updateCourse(Integer id, CourseForm editCourseForm) {
 
-		Course course = courseRepo.findCourse(id);
+		Course course = courseDao.finById(id);
 		course.setName(editCourseForm.getName());
 		course.setDescription(editCourseForm.getDescription());
 		course.setStartDate(editCourseForm.getStartDate());
@@ -88,7 +90,7 @@ public class CourseServiceImpl implements CourseService {
 		course.setStatus(editCourseForm.getStatus());
 
 		try {
-			courseRepo.saveOrUpdate(course);
+			courseDao.updateCourse(course);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -98,12 +100,12 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public boolean delete(Integer id) {
+	public boolean deleteCourse(Integer id) {
 
-		Course course = courseRepo.findCourse(id);
+		Course course = courseDao.finById(id);
 
 		try {
-			courseRepo.delete(course);
+			courseDao.deleteCourse(course);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -2,7 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="common/header :: common-header" />
+	
+<head>
+	<title>New Course</title>
+	<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
+
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
 	<div class="container">
@@ -19,7 +24,7 @@
 			</div>
 
 			<div class="panel-body">
-				<form action="#" th:action="@{'/teacher/' + ${id} + '/course'}" th:object="${courseForm}"
+				<form action="#" th:action="@{'/teacher/course'}" th:object="${courseForm}"
 					method="post">
 					<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
 						<label class="control-label" for="inputName">Course Name : *</label> <input
@@ -81,19 +86,19 @@
 	<script>
 		$(document).ready(function() {
 			$('#inputStartDate').datetimepicker({
-				 timepicker:false, mask:true, format:'Y-m-d'
+				 timepicker:false, mask:false, format:'Y-m-d'
 			});	
 			
 			$('#inputEndDate').datetimepicker({
-				 timepicker:false, mask:true, format:'Y-m-d'
+				 timepicker:false, mask:false, format:'Y-m-d'
 			});	
 			
 			$('#inputStartEnrollDate').datetimepicker({
-				 timepicker:false, mask:true, format:'Y-m-d'
+				 timepicker:false, mask:false, format:'Y-m-d'
 			});	
 			
 			$('#inputEndEnrollDate').datetimepicker({
-				 timepicker:false, mask:true, format:'Y-m-d'
+				 timepicker:false, mask:false, format:'Y-m-d'
 			});	
 		});
 	</script>

@@ -17,7 +17,7 @@
 
 			<div class="panel-heading">
 				<div class="span6 pull-right" style="text-align: right">
-					<a href="#" th:href="@{'/teacher/' + ${id} + '/course/' + ${courseId} + '/studySession'}" class="btn btn-primary btn-right" role="button">New Session</a>
+					<a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/studySession'}" class="btn btn-primary btn-right" role="button">New Session</a>
 				</div>
 
 				<h4 th:text="${course.name}"></h4>

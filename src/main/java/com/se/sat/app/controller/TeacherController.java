@@ -14,6 +14,7 @@ import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Teacher;
 import com.se.sat.app.service.CourseService;
 import com.se.sat.app.service.TeacherService;
+import com.se.sat.app.util.AppUtil;
 
 @Controller
 public class TeacherController {
@@ -29,16 +30,17 @@ public class TeacherController {
 		this.courseService = courseService;
 	}
 
-	@RequestMapping(value = "/teacher/{id}")
-	public String teacherHome(@PathVariable("id") Integer id, Model model) {
+	@RequestMapping(value = "/teacher")
+	public String teacherHome(Model model) {
 		
-		List<Course> courses = courseService.findCoursesByTeacher(id);	
+		Teacher teacher = AppUtil.getUserFromSession().getTeacher();
+		
+		List<Course> courses = courseService.findCoursesByTeacher(teacher);	
 		
 		model.addAttribute("courses", courses);
-
-		for(Course course : courses){
-			log.debug(course.toString());
-		}
+//		for(Course course : courses){
+//			log.debug(course.toString());
+//		}
 		
 		return "/teacher/home";
 	}

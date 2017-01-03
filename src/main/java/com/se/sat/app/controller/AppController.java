@@ -49,7 +49,7 @@ import com.se.sat.app.util.AppUtil;
 import com.se.sat.app.validator.SignupFormValidator;
 
 @Controller
-@SessionAttributes({ "ssUser", "ssSignupForm", "ssSignupRole" })
+@SessionAttributes({ "ssSignupForm", "ssSignupRole" })
 public class AppController {
 
 	private static final Logger log = LoggerFactory.getLogger(AppController.class);
@@ -305,7 +305,6 @@ public class AppController {
 			editProfileStudentForm.setAcademicGroup(user.getStudent().getAcademicGroup());
 
 			model.addAttribute(editProfileStudentForm);
-			model.addAttribute("ssUser", user);
 			return "profile/profile-student-edit";
 		} else if (user.isTeacher()) {
 			EditProfileTeacherForm editProfileTeacherForm = new EditProfileTeacherForm();

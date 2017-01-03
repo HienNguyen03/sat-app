@@ -18,7 +18,6 @@ import com.se.sat.app.entity.Course;
 import com.se.sat.app.service.CourseService;
 import com.se.sat.app.service.TeacherService;
 import com.se.sat.app.util.AppUtil;
-import com.se.sat.app.validator.CourseFormValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -37,28 +36,20 @@ public class CourseController {
 
 	private TeacherService teacherService;
 	private CourseService courseService;
-	private CourseFormValidator courseFormValidator;
-	
 
 	@Autowired
-	public CourseController(TeacherService teacherService, CourseService courseService, CourseFormValidator courseFormValidator) {
+	public CourseController(TeacherService teacherService, CourseService courseService) {
 		this.teacherService = teacherService;
 		this.courseService = courseService;
-		this.courseFormValidator = courseFormValidator;
 	}
 
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true, 10));
-	}	
-	
-	@InitBinder("courseForm")
-	protected void initSignupBuilder(WebDataBinder binder){
-		binder.setValidator(courseFormValidator);
 	}
 
-	@RequestMapping(value = "/teacher/{id}/course", method = RequestMethod.GET)
-	public String addCourse(@PathVariable("id") Integer id, Model model) {
+	@RequestMapping(value = "/teacher/course", method = RequestMethod.GET)
+	public String addCourse(Model model) {
 
 		CourseForm courseForm = new CourseForm();
 		model.addAttribute("courseForm", courseForm);
@@ -66,34 +57,30 @@ public class CourseController {
 		return "/teacher/course";
 	}
 
-	@RequestMapping(value = "/teacher/{id}/course", method = RequestMethod.POST)
-	public String addCourse(@PathVariable("id") Integer id, Model model,
-			@ModelAttribute("courseForm") @Valid CourseForm courseForm, BindingResult result,
-			RedirectAttributes redirectAttributes, SessionStatus status, HttpServletRequest request)
+	@RequestMapping(value = "/teacher/course", method = RequestMethod.POST)
+	public String addCourse(Model model, @ModelAttribute("courseForm") @Valid CourseForm courseForm,
+			BindingResult result, RedirectAttributes redirectAttributes)
 			throws ServletException {
 
 		if (result.hasErrors()) {
-			log.info(result.getAllErrors().toString());
+			//log.info(result.getAllErrors().toString());
 			model.addAttribute("courseForm", courseForm);
 
 			return "/teacher/course";
 		}
 
-		boolean saveResult = courseService.addCourse(id, courseForm);
-
-		log.debug(courseForm.toString());
-
+		boolean saveResult = courseService.addCourse(courseForm);
+	
 		if (saveResult)
 			AppUtil.flash(redirectAttributes, "success", "course.success");
 		else
 			AppUtil.flash(redirectAttributes, "danger", "course.failure");
 
-		status.setComplete();
-		return "redirect:/teacher/{id}";
+		return "redirect:/teacher";
 	}
 
-	@RequestMapping(value = "/teacher/{id}/course/{courseId}/edit", method = RequestMethod.GET)
-	public String editCourse(@PathVariable("id") Integer id, @PathVariable("courseId") Integer courseId, Model model) {
+	@RequestMapping(value = "/teacher/course/{courseId}/edit", method = RequestMethod.GET)
+	public String editCourse(@PathVariable("courseId") Integer courseId, Model model) {
 
 		Course course = courseService.findCourseInfo(courseId);
 		CourseForm editCourseForm = new CourseForm();
@@ -110,19 +97,19 @@ public class CourseController {
 		return "/teacher/edit-course";
 	}
 
-	@RequestMapping(value = "/teacher/{id}/course/{courseId}/edit", method = RequestMethod.POST)
-	public String editCourse(@PathVariable("id") Integer id, @PathVariable("courseId") Integer courseId, Model model,
+	@RequestMapping(value = "/teacher/course/{courseId}/edit", method = RequestMethod.POST)
+	public String editCourse(@PathVariable("courseId") Integer courseId, Model model,
 			@ModelAttribute @Valid CourseForm editCourseForm, BindingResult result,
 			RedirectAttributes redirectAttributes, HttpServletRequest request) throws ServletException {
 
 		if (result.hasErrors()) {
-			log.info(result.getAllErrors().toString());
+			//log.info(result.getAllErrors().toString());
 			model.addAttribute("editCourseForm", editCourseForm);
 
 			return "/teacher/edit-course";
 		}
 
-		boolean updateResult = courseService.update(courseId, editCourseForm);
+		boolean updateResult = courseService.updateCourse(courseId, editCourseForm);
 
 		if (updateResult)
 			AppUtil.flash(redirectAttributes, "success", "course.success");
@@ -130,21 +117,22 @@ public class CourseController {
 		else
 			AppUtil.flash(redirectAttributes, "danger", "course.failure");
 
-		return "redirect:/teacher/{id}";
+		return "redirect:/teacher";
 	}
 
-	@RequestMapping(value = "/teacher/{id}/course/{courseId}/delete")
-	public String deleteCourse(@PathVariable("id") Integer id, @PathVariable("courseId") Integer courseId, final RedirectAttributes redirectAttributes) {
-		
-		boolean deleteResult = courseService.delete(courseId);
-		
+	@RequestMapping(value = "/teacher/course/{courseId}/delete")
+	public String deleteCourse(@PathVariable("courseId") Integer courseId,
+			final RedirectAttributes redirectAttributes) {
+
+		boolean deleteResult = courseService.deleteCourse(courseId);
+
 		if (deleteResult)
 			AppUtil.flash(redirectAttributes, "success", "course.deleteSuccess");
 
 		else
 			AppUtil.flash(redirectAttributes, "danger", "course.deleteFailure");
-		
-		return "redirect:/teacher/{id}";
+
+		return "redirect:/teacher";
 
 	}
 

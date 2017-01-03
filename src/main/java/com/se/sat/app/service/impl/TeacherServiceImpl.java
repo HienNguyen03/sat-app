@@ -4,11 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.se.sat.app.dao.TeacherDao;
 import com.se.sat.app.entity.Teacher;
-import com.se.sat.app.repository.TeacherRepo;
 import com.se.sat.app.service.TeacherService;
 
 @Service
@@ -16,16 +14,16 @@ public class TeacherServiceImpl implements TeacherService {
 
 	private static final Logger log = LoggerFactory.getLogger(TeacherServiceImpl.class);
 
-	private TeacherRepo teacherRepo;
+	private TeacherDao teacherDao;
 
 	@Autowired
-	public TeacherServiceImpl(TeacherRepo teacherRepo) {
-		this.teacherRepo = teacherRepo;
+	public TeacherServiceImpl(TeacherDao teacherRepo) {
+		this.teacherDao = teacherRepo;
 	}
 
 	@Override
 	public boolean findTeacher(Integer id) {
-		Teacher teacher = teacherRepo.findTeacher(id);
+		Teacher teacher = teacherDao.findById(id);
 		if(teacher != null){
 			return true;
 		}
