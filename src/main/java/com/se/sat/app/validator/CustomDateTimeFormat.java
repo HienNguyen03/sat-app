@@ -8,7 +8,14 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CustomDateTimeFormat extends DateFormat {
+	
+	
+	private static final Logger log = LoggerFactory.getLogger(CustomDateTimeFormat.class);
+
 
 	private static final List<? extends DateFormat> DATE_FORMATS = Arrays.asList(new SimpleDateFormat("yyyy-MM-dd"),
 			new SimpleDateFormat("HH:mm:ss"));
@@ -23,7 +30,9 @@ public class CustomDateTimeFormat extends DateFormat {
 	public Date parse(final String source, final ParsePosition pos) {
 		Date res = null;
 		for (final DateFormat dateFormat : DATE_FORMATS) {
+			log.info("..dateFormat: "+dateFormat);
 			if ((res = dateFormat.parse(source, pos)) != null) {
+				log.info("..!null");
 				return res;
 			}
 		}

@@ -27,64 +27,64 @@ import com.se.sat.app.service.StudySessionService;
 import com.se.sat.app.util.AppUtil;
 import com.se.sat.app.validator.CustomDateTimeFormat;
 
-@Controller
+//@Controller
 public class StudySessionController {
 
-	private static final Logger log = LoggerFactory.getLogger(StudySessionController.class);
-
-	private CourseService courseService;
-	private StudySessionService studySessionService;
-
-	@Autowired
-	public StudySessionController(CourseService courseService, StudySessionService studySessionService) {
-		this.courseService = courseService;
-		this.studySessionService = studySessionService;
-	}
-
-	@InitBinder
-	public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(new CustomDateTimeFormat(), true));
-	}
-
-	@RequestMapping(value = "/teacher/course/{courseId}")
-	public String coursePage(@PathVariable("courseId") Integer courseId, Model model) {
-
-		Course course = courseService.findCourseInfo(courseId);
-
-		model.addAttribute("course", course);
-
-		return "/teacher/course-page";
-	}
-
-	@RequestMapping(value = "/teacher/course/{courseId}/studySession", method = RequestMethod.GET)
-	public String addSession(@PathVariable("courseId") Integer courseId, Model model) {
-
-		StudySessionForm studySessionForm = new StudySessionForm();
-		model.addAttribute("studySessionForm", studySessionForm);
-
-		return "/teacher/study-session";
-	}
-
-	@RequestMapping(value = "/teacher/course/{courseId}/studySession", method = RequestMethod.POST)
-	public String addSession(@PathVariable("courseId") Integer courseId, Model model,
-			@ModelAttribute("studySessionForm") @Valid StudySessionForm studySessionForm, BindingResult result,
-			RedirectAttributes redirectAttributes) throws ServletException {
-
-		if (result.hasErrors()) {
-			// log.info(result.getAllErrors().toString());
-			model.addAttribute("studySessionForm", studySessionForm);
-
-			return "/teacher/study-session";
-		}
-
-		boolean saveResult = studySessionService.insertStudySession(courseId, studySessionForm);
-
-		if (saveResult)
-			AppUtil.flash(redirectAttributes, "success", "studySession.success");
-		else
-			AppUtil.flash(redirectAttributes, "danger", "studySession.failure");
-
-		return "redirect:/teacher/course/{courseId}";
-	}
+//	private static final Logger log = LoggerFactory.getLogger(StudySessionController.class);
+//
+//	private CourseService courseService;
+//	private StudySessionService studySessionService;
+//
+//	@Autowired
+//	public StudySessionController(CourseService courseService, StudySessionService studySessionService) {
+//		this.courseService = courseService;
+//		this.studySessionService = studySessionService;
+//	}
+//
+//	@InitBinder
+//	public void initBinder(WebDataBinder binder) {
+//		binder.registerCustomEditor(Date.class, new CustomDateEditor(new CustomDateTimeFormat(), true));
+//	}
+//
+//	@RequestMapping(value = "/teacher/course/{courseId}")
+//	public String coursePage(@PathVariable("courseId") Integer courseId, Model model) {
+//
+//		Course course = courseService.findCourseInfo(courseId);
+//
+//		model.addAttribute("course", course);
+//
+//		return "/teacher/course-page";
+//	}
+//
+//	@RequestMapping(value = "/teacher/course/{courseId}/studySession", method = RequestMethod.GET)
+//	public String addSession(@PathVariable("courseId") Integer courseId, Model model) {
+//
+//		StudySessionForm studySessionForm = new StudySessionForm();
+//		model.addAttribute("studySessionForm", studySessionForm);
+//
+//		return "/teacher/study-session";
+//	}
+//
+//	@RequestMapping(value = "/teacher/course/{courseId}/studySession", method = RequestMethod.POST)
+//	public String addSession(@PathVariable("courseId") Integer courseId, Model model,
+//			@ModelAttribute("studySessionForm") @Valid StudySessionForm studySessionForm, BindingResult result,
+//			RedirectAttributes redirectAttributes) throws ServletException {
+//
+//		if (result.hasErrors()) {
+//			// log.info(result.getAllErrors().toString());
+//			model.addAttribute("studySessionForm", studySessionForm);
+//
+//			return "/teacher/study-session";
+//		}
+//
+//		boolean saveResult = studySessionService.insertStudySession(courseId, studySessionForm);
+//
+//		if (saveResult)
+//			AppUtil.flash(redirectAttributes, "success", "studySession.success");
+//		else
+//			AppUtil.flash(redirectAttributes, "danger", "studySession.failure");
+//
+//		return "redirect:/teacher/course/{courseId}";
+//	}
 
 }

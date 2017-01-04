@@ -3,6 +3,7 @@ package com.se.sat.app.dao;
 import java.util.List;
 
 import com.se.sat.app.entity.Course;
+import com.se.sat.app.entity.Student;
 import com.se.sat.app.entity.Teacher;
 
 public interface CourseDao {
@@ -13,6 +14,7 @@ public interface CourseDao {
 
 	Course findCourseById(int id);
 	List<Course> findCoursesByTeacher(Teacher teacher);
+	List<Course> findCoursesByStudent(Student student);
 	List<Course> findAllCourses();
 	
 }

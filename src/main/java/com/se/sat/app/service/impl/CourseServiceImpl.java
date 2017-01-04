@@ -14,6 +14,7 @@ import com.se.sat.app.dao.CourseDao;
 import com.se.sat.app.dao.TeacherDao;
 import com.se.sat.app.dto.CourseForm;
 import com.se.sat.app.entity.Course;
+import com.se.sat.app.entity.Student;
 import com.se.sat.app.entity.Teacher;
 import com.se.sat.app.service.CourseService;
 import com.se.sat.app.util.AppUtil;
@@ -113,8 +114,8 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	public List<Course> findStudentCourseList() {
-		return null;
+	public List<Course> findCoursesByStudent(Student student) {
+		return courseDao.findCoursesByStudent(student);
 	}
 
 	

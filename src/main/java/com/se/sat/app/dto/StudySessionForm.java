@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class StudySessionForm {
 
 	@NotNull
@@ -12,12 +14,15 @@ public class StudySessionForm {
 	private String name;
 
 	@NotNull
+	@DateTimeFormat(iso=DateTimeFormat.ISO.TIME)
 	private Date startTime;
 
 	@NotNull
+	@DateTimeFormat(iso=DateTimeFormat.ISO.TIME)
 	private Date endTime;
 
 	@NotNull
+	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
 	private Date sessionDate;
 
 	@NotNull

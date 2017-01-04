@@ -42,7 +42,8 @@ public class StudentDaoImpl extends AbstractDao<Integer, Student> implements Stu
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Student student = (Student) crit.uniqueResult();
-		delete(student);
+		if(student != null)
+			delete(student);
 	}
 
 	@Override

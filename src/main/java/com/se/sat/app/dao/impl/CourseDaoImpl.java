@@ -2,6 +2,8 @@ package com.se.sat.app.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.se.sat.app.dao.AbstractDao;
 import com.se.sat.app.dao.CourseDao;
 import com.se.sat.app.entity.Course;
+import com.se.sat.app.entity.Student;
 import com.se.sat.app.entity.Teacher;
 
 @Repository("courseDao")
@@ -20,12 +23,12 @@ import com.se.sat.app.entity.Teacher;
 public class CourseDaoImpl extends AbstractDao<Integer, Course> implements CourseDao {
 
 	private static final Logger log = LoggerFactory.getLogger(CourseDaoImpl.class);
-	
+
 	@Override
 	public void insertCourse(Course course) {
 		persist(course);
 	}
-	
+
 	@Override
 	public void updateCourse(Course course) {
 		update(course);
@@ -38,13 +41,13 @@ public class CourseDaoImpl extends AbstractDao<Integer, Course> implements Cours
 		Course course = (Course) crit.uniqueResult();
 		delete(course);
 	}
-	
+
 	@Override
 	public Course findCourseById(int id) {
 		Course course = getByKey(id);
 		return course;
 	}
-	
+
 	@Override
 	public List<Course> findCoursesByTeacher(Teacher teacher) {
 		Criteria criteria = createEntityCriteria();
@@ -56,13 +59,22 @@ public class CourseDaoImpl extends AbstractDao<Integer, Course> implements Cours
 	}
 
 	@Override
-	public List<Course> findAllCourses() {
-		Criteria criteria = createEntityCriteria().addOrder(Order.asc("firstname"));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); //To avoid duplicates.
-        List<Course> courses = (List<Course>) criteria.list();
-        return courses;
+	public List<Course> findCoursesByStudent(Student student) {
+		String hql = "select c FROM Student s join s.courses c "
+					+ "WHERE s.id = :studentId";
+		Query query = getSession().createQuery(hql);
+		query.setInteger("studentId", student.getId());
+		
+		List<Course> courses = (List<Course>) query.list();
+		return courses;
 	}
-	
-	
+
+	@Override
+	public List<Course> findAllCourses() {
+		Criteria criteria = createEntityCriteria().addOrder(Order.asc("name"));
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); // To avoid duplicates.
+		List<Course> courses = (List<Course>) criteria.list();
+		return courses;
+	}
 
 }

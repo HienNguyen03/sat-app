@@ -3,12 +3,9 @@ package com.se.sat.app.dto;
 import java.util.Date;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.se.sat.app.entity.Course;
-import com.se.sat.app.entity.Teacher;
-import com.se.sat.app.entity.User;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class CourseForm {
 
@@ -21,15 +18,19 @@ public class CourseForm {
 	private String description;
 
 	@NotNull
+	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
 	private Date startDate;
 
 	@NotNull
+	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
 	private Date endDate;
 
 	@NotNull
+	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
 	private Date startEnrollDate;
 
 	@NotNull
+	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
 	private Date endEnrollDate;
 
 	private String status;

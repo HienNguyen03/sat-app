@@ -27,7 +27,11 @@
 							<li class="dropdown-header">Nav header</li>
 							<li><a href="#">Separated link</a></li>
 							<li><a href="#">One more separated link</a></li>
-						</ul></li>
+						</ul>
+					</li>
+					<li sec:authorize="hasRole('STUDENT')"><a href="home.html" th:href="@{/student}">Dashboard</a></li>
+					<li sec:authorize="hasRole('TEACHER')"><a href="home.html" th:href="@{/teacher}">Dashboard</a></li>
+					<li sec:authorize="hasRole('ADMIN')"><a href="home.html" th:href="@{/admin}">Dashboard</a></li>
 				</ul>
 				<ul sec:authorize="isAnonymous()" class="nav navbar-nav navbar-right">
 					<li><a href="signup.html" th:href="@{/signup}">Sign up</a></li>

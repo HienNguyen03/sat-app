@@ -42,7 +42,8 @@ public class TeacherDaoImpl extends AbstractDao<Integer, Teacher> implements Tea
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Teacher teacher = (Teacher) crit.uniqueResult();
-		delete(teacher);
+		if(teacher != null)
+			delete(teacher);
 	}
 
 	@Override

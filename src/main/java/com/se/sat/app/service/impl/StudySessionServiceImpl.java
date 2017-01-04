@@ -35,6 +35,7 @@ public class StudySessionServiceImpl implements StudySessionService{
 		
 		studySession.setName(studySessionForm.getName());
 		studySession.setStartTime(studySessionForm.getStartTime());
+		studySession.setEndTime(studySessionForm.getEndTime());
 		studySession.setSessionDate(studySessionForm.getSessionDate());
 		studySession.setPassword(studySessionForm.getPassword());
 		studySession.setSessionCategory(studySessionForm.getSessionCategory());

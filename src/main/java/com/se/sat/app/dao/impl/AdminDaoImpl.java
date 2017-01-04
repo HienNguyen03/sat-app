@@ -42,7 +42,8 @@ public class AdminDaoImpl extends AbstractDao<Integer, Admin> implements AdminDa
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Admin admin = (Admin) crit.uniqueResult();
-		delete(admin);
+		if(admin != null)
+			delete(admin);
 	}
 
 	@Override

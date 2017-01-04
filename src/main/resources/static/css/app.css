@@ -22,6 +22,14 @@
 	}
 }
 
+.small-corner-btn {
+	margin: 0px 0px 0px 10px;
+}
+
+.small-corner-btn > i {
+	padding-right: 2px;
+}
+
 body {
 	background: url('../images/bg/bg3.jpg') no-repeat;
 	-webkit-background-size: cover;
