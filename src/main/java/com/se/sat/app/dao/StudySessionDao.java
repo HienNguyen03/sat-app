@@ -14,4 +14,5 @@ public interface StudySessionDao {
 
 	StudySession findById(int id);
 	List<StudySession> findStudySessionByCourse(Course course);
+	List<StudySession> findStudySessionsByStudent(Student student);
 }

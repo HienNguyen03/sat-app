@@ -1,10 +1,12 @@
 package com.se.sat.app.service;
 
+import java.util.Hashtable;
 import java.util.List;
 
 import com.se.sat.app.dto.CourseForm;
 import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Student;
+import com.se.sat.app.entity.StudySession;
 import com.se.sat.app.entity.Teacher;
 
 public interface CourseService {

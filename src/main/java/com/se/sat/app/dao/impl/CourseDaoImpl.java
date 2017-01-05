@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Query;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -45,6 +46,10 @@ public class CourseDaoImpl extends AbstractDao<Integer, Course> implements Cours
 	@Override
 	public Course findCourseById(int id) {
 		Course course = getByKey(id);
+		if(course != null){
+			Hibernate.initialize(course.getTeacher());
+			Hibernate.initialize(course.getStudySessions());
+		}
 		return course;
 	}
 

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,9 +21,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 @Table(name = "study_session")
 public class StudySession implements Serializable {
+	
+	
+	private static final Logger log = LoggerFactory.getLogger(StudySession.class);
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -139,5 +147,21 @@ public class StudySession implements Serializable {
 				+ ", sessionDate=" + sessionDate + ", password=" + password + ", sessionCategory=" + sessionCategory
 				+ "]";
 	};
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		if (!(o instanceof StudySession)) {
+			return false;
+		}
+		StudySession s = (StudySession) o;
+		return id == s.id;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, name, startTime, endTime, sessionDate, password, sessionCategory, course);
+	}
 
 }
