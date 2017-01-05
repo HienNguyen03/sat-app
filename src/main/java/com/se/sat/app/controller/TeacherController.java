@@ -1,6 +1,5 @@
 package com.se.sat.app.controller;
 
-import java.beans.PropertyEditorSupport;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +36,6 @@ import com.se.sat.app.service.CourseService;
 import com.se.sat.app.service.StudySessionService;
 import com.se.sat.app.service.TeacherService;
 import com.se.sat.app.util.AppUtil;
-import com.se.sat.app.validator.CustomDateTimeFormat;
 
 @Controller
 @RequestMapping("/teacher")

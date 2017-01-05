@@ -15,7 +15,7 @@ import com.se.sat.app.entity.User;
 
 @Repository("StudySessionDao")
 @Transactional
-public class StusySessionDaoImpl extends AbstractDao<Integer, StudySession> implements StudySessionDao {
+public class StudySessionDaoImpl extends AbstractDao<Integer, StudySession> implements StudySessionDao {
 
 	@Override
 	public void insertStudySession(StudySession studySession) {
