@@ -34,7 +34,7 @@ public class StudySession implements Serializable {
 	private Course course;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "paticipation", joinColumns = @JoinColumn(name = "STUDY_SESSION_ID"), inverseJoinColumns = @JoinColumn(name = "STUDENT_ID"))
+	@JoinTable(name = "participation", joinColumns = @JoinColumn(name = "STUDY_SESSION_ID"), inverseJoinColumns = @JoinColumn(name = "STUDENT_ID"))
 	private List<Student> studentPas = new ArrayList<Student>();
 
 	@Column(name = "NAME")

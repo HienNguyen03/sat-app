@@ -11,6 +11,7 @@ import com.se.sat.app.dao.AbstractDao;
 import com.se.sat.app.dao.StudySessionDao;
 import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.StudySession;
+import com.se.sat.app.entity.User;
 
 @Repository("StudySessionDao")
 @Transactional
@@ -18,17 +19,24 @@ public class StusySessionDaoImpl extends AbstractDao<Integer, StudySession> impl
 
 	@Override
 	public void insertStudySession(StudySession studySession) {
-		persist(studySession);		
+		persist(studySession);
 	}
 
 	@Override
 	public void updateStudySession(StudySession studySession) {
-		update(studySession);		
+		update(studySession);
 	}
 
 	@Override
-	public void deleteStudySession(StudySession studySession) {
-		delete(studySession);
+	public void deleteStudySessionById(Integer id) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("id", id));
+		StudySession studySession = (StudySession) criteria.uniqueResult();
+
+		if (studySession != null) {
+
+			delete(studySession);
+		}
 	}
 
 	@Override
@@ -38,13 +46,13 @@ public class StusySessionDaoImpl extends AbstractDao<Integer, StudySession> impl
 	}
 
 	@Override
-	public List<StudySession> findCourseByCourse(Course course) {
+	public List<StudySession> findStudySessionByCourse(Course course) {
 		Criteria criteria = createEntityCriteria();
 		criteria = criteria.add(Restrictions.eq("course", course));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		
+
 		List<StudySession> studySessions = (List<StudySession>) criteria.list();
-		
+
 		return studySessions;
 	}
 

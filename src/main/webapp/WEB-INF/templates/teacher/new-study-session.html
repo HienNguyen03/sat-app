@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<title>New Session</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
+
+<body>
+	<div th:replace="common/navbar :: common-navbar"></div>
+	<div class="container">
+
+		<div th:if="${flashMessage}" th:text="${flashMessage}"
+			th:attr="class='alert alert-' + ${flashType} + ' alert-dismissable'">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			Any kind of message (success / failure)
+		</div>
+
+		<div class="row">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h4>Create New Session</h4>
+				</div>
+
+				<div class="panel-body">
+					<form action="#" th:action="@{'/teacher/course/' + ${courseId} + '/new-study-session'}"
+						th:object="${studySessionForm}" method="post">
+						<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputName">Session Name : *</label> <input
+								class="form-control" th:field="*{name}" type="text" id="inputName"
+								placeholder="Enter session's name" /> <span th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}" class="label-important"></span>
+						</div>
+
+						<div th:class="${#fields.hasErrors('startTime')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputStartTime">Session start time : *</label> <input
+								class="form-control" th:field="*{startTime}" type="text" id="inputStartTime"
+								placeholder="Choose session's start time" /> <span
+								th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" class="label-important"></span>
+						</div>
+
+						<div th:class="${#fields.hasErrors('endTime')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputEndTime">Session end time: *</label> <input
+								class="form-control" th:field="*{endTime}" type="text" id="inputEndTime"
+								placeholder="Choose session's end time" /> <span th:if="${#fields.hasErrors('endTime')}"
+								th:errors="*{endTime}" class="label-important"></span>
+						</div>
+
+
+						<div th:class="${#fields.hasErrors('sessionDate')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputSessionDate">Session date : *</label> <input
+								class="form-control" th:field="*{sessionDate}" type="text" id="inputSessionDate"
+								placeholder="Enter session's date" /> <span th:if="${#fields.hasErrors('sessionDate')}"
+								th:errors="*{sessionDate}" class="label-important"></span>
+						</div>
+
+						<div th:class="${#fields.hasErrors('password')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputPassword">Password : *</label> <input
+								class="form-control" th:field="*{password}" type="password" id="inputPassword"
+								placeholder="Session's password" /> <span th:if="${#fields.hasErrors('password')}"
+								th:errors="*{password}" class="label-important"></span>
+						</div>
+
+						<div
+							th:class="${#fields.hasErrors('sessionCategory')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputSessionCategory">Session category : *</label> <input
+								class="form-control" th:field="*{sessionCategory}" type="text" id="inputSessionCategory"
+								placeholder="Session's category" /> <span th:if="${#fields.hasErrors('sessionCategory')}"
+								th:errors="*{sessionCategory}" class="label-important"></span>
+						</div>
+
+						<button type="submit" class="btn btn-default">Create</button>
+
+					</form>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- /container -->
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+	<script th:src="@{/custom/js/jquery.datetimepicker.full.min.js}"></script>
+	<script>
+		$(document).ready(function() {
+			$('#inputStartTime').datetimepicker({
+				timepicker : true,
+				mask : false,
+				datepicker : false,
+				format : 'H:i:s'
+			});
+
+			$('#inputEndTime').datetimepicker({
+				timepicker : true,
+				mask : false,
+				datepicker : false,
+				format : 'H:i:s'
+			});
+
+			$('#inputSessionDate').datetimepicker({
+				timepicker : false,
+				mask : false,
+				format : 'Y-m-d'
+			});
+
+		});
+	</script>
+</body>
+</html>

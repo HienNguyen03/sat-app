@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "student")
 public class Student implements Serializable {
-	
+
 	public static final String EMAIL_PATTERN = "[A-Za-z0-9._%-+]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
 
 	@Id
@@ -124,6 +124,12 @@ public class Student implements Serializable {
 
 	public void setCourses(List<Course> courses) {
 		this.courses = courses;
+	}
+
+	@Override
+	public String toString() {
+		return "Student [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+				+ ", status=" + status + ", academicGroup=" + academicGroup + "]";
 	}
 
 }

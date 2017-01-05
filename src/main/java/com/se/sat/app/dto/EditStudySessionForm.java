@@ -7,27 +7,23 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-public class StudySessionForm {
+public class EditStudySessionForm {
 
 	@NotNull
 	@Size(min = 1, message = "{Size.studySessionForm.name}")
 	private String name;
 
 	@NotNull
-	@DateTimeFormat(iso=DateTimeFormat.ISO.TIME)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
 	private Date startTime;
 
 	@NotNull
-	@DateTimeFormat(iso=DateTimeFormat.ISO.TIME)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
 	private Date endTime;
 
 	@NotNull
-	@DateTimeFormat(iso=DateTimeFormat.ISO.DATE)
+	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	private Date sessionDate;
-
-	@NotNull
-	@Size(min = 4, message = "{Size.studySessionForm.password}")
-	private String password;
 
 	@NotNull
 	private String sessionCategory;
@@ -64,14 +60,6 @@ public class StudySessionForm {
 		this.sessionDate = sessionDate;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public String getSessionCategory() {
 		return sessionCategory;
 	}
@@ -82,8 +70,8 @@ public class StudySessionForm {
 
 	@Override
 	public String toString() {
-		return "StudySessionForm [name=" + name + ", startTime=" + startTime + ", endTime=" + endTime + ", sessionDate="
-				+ sessionDate + ", password=" + password + ", sessionCategory=" + sessionCategory + "]";
+		return "EditStudySessionForm [name=" + name + ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", sessionDate=" + sessionDate + ", sessionCategory=" + sessionCategory + "]";
 	}
 
 }
