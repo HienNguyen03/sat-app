@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="common/header :: common-header" />
+<body>
+	<div th:replace="common/navbar :: common-navbar"></div>
+	<div class="container">
+
+		<div th:if="${flashMessage}" th:text="${flashMessage}"
+			th:attr="class='alert alert-' + ${flashType} + ' alert-dismissable'">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			Any kind of message (success / failure)
+		</div>
+
+		<div class="row">
+			<div class="panel panel-default">
+
+				<div class="panel-heading">
+
+					<h4>Change Session's Password</h4>
+				</div>
+
+				<div class="panel-body">
+					<form action="#"
+						th:action="@{'/teacher/course/' + ${courseId} + '/study-session/'+ ${studySessionId}+'/change-password'}"
+						th:object="${studySessionPasswordForm}" method="post">
+						
+						<div th:class="${#fields.hasErrors('password')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputPassword">Password : *</label> <input
+								class="form-control" th:field="*{password}" type="password" id="inputPassword"
+								placeholder="Session's password" /> <span th:if="${#fields.hasErrors('password')}"
+								th:errors="*{password}" class="label-important"></span>
+						</div>
+						
+						<button type="submit" class="btn btn-default">Update</button>
+
+					</form>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- /container -->
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+</body>
+</html>

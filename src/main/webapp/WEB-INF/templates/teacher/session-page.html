@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="common/header :: common-header" />
+<body>
+	<div th:replace="common/navbar :: common-navbar"></div>
+	<div class="container">
+
+		<div th:if="${flashMessage}" th:text="${flashMessage}"
+			th:attr="class='alert alert-' + ${flashType} + ' alert-dismissable'">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			Any kind of message (success / failure)
+		</div>
+
+		<div class="row">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+
+					<h4 th:text="${studySession.name} + ' - Date: ' + ${sessionDate}"></h4>
+				</div>
+
+				<div class="panel-body">
+					<table class="table">
+						<tr>
+							<th>First Name</th>
+							<th>Last Name</th>
+
+						</tr>
+						<tr th:each="student : ${students}">
+							<td th:text="${student.firstname}">firstname</td>
+							<td th:text="${student.lastname}">lastname</td>
+						</tr>
+					</table>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- /container -->
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+</body>
+</html>

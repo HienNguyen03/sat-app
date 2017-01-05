@@ -10,7 +10,7 @@ public interface StudySessionDao {
 
 	void insertStudySession(StudySession studySession);
 	void updateStudySession(StudySession studySession);
-	void deleteStudySession(StudySession studySession);
+	void deleteStudySessionById(Integer id);
 
 	StudySession findById(int id);
 	List<StudySession> findStudySessionsByCourse(Course course);

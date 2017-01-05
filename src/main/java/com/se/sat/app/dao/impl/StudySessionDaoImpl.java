@@ -29,8 +29,14 @@ public class StudySessionDaoImpl extends AbstractDao<Integer, StudySession> impl
 	}
 
 	@Override
-	public void deleteStudySession(StudySession studySession) {
-		delete(studySession);
+	public void deleteStudySessionById(Integer id) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("id", id));
+		StudySession studySession = (StudySession) criteria.uniqueResult();
+
+		if (studySession != null) {
+			delete(studySession);
+		}
 	}
 
 	@Override

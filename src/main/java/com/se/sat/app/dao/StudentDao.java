@@ -3,6 +3,7 @@ package com.se.sat.app.dao;
 import java.util.List;
 
 import com.se.sat.app.entity.Student;
+import com.se.sat.app.entity.StudySession;
 
 public interface StudentDao {
 	
@@ -10,6 +11,7 @@ public interface StudentDao {
 	void saveStudent(Student student);
 	void updateStudent(Student student);
 	void deleteById(int id);
-	List<Student> findAllStudents();
 	
+	List<Student> findAllStudents();
+	List<Student> findStudentByStudySession(StudySession studySession);
 }
