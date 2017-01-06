@@ -9,6 +9,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.se.sat.app.dto.CustomUserDetails;
@@ -31,6 +32,11 @@ public class AppUtil {
 	public static void flash(RedirectAttributes redirectAttributes, String kind, String messageKey){ 
 		redirectAttributes.addFlashAttribute("flashType", kind);
 		redirectAttributes.addFlashAttribute("flashMessage", getMessage(messageKey));
+	}
+	
+	public static void flashModelAttribute(Model model, String kind, String messageKey){ 
+		model.addAttribute("flashType", kind);
+		model.addAttribute("flashMessage", getMessage(messageKey));
 	}
 	
 	public static String getMessage(String messageKey, Object... args){

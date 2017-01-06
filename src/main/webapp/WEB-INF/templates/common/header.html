@@ -7,6 +7,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 	
+	<meta th:name="_csrf" th:content="${_csrf.token}"/>
+	<meta th:name="_csrf_header" th:content="${_csrf.headerName}"/>
+	
 	<meta name="description" content="A small project for Software Engineering course" />
     <meta name="author" content="Hoang Phuc, Hien Nguyen" />
     <link rel="icon" th:href="@{/custom/images/favicon.ico}" />

@@ -21,17 +21,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 @Entity
 @Table(name = "study_session")
 public class StudySession implements Serializable {
 	
-	
-	private static final Logger log = LoggerFactory.getLogger(StudySession.class);
-
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")

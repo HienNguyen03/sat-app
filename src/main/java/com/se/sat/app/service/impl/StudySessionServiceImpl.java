@@ -1,17 +1,13 @@
 package com.se.sat.app.service.impl;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +25,7 @@ import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Student;
 import com.se.sat.app.entity.StudySession;
 import com.se.sat.app.service.StudySessionService;
+import com.se.sat.app.util.AppUtil;
 
 @Service
 public class StudySessionServiceImpl implements StudySessionService {
@@ -159,60 +156,71 @@ public class StudySessionServiceImpl implements StudySessionService {
 		LinkedHashMap<StudySession, Boolean> list = new LinkedHashMap<StudySession, Boolean>();
 
 		for (StudySession studySession : courseSessions) {
-			if (studentSessions.contains(studySession)) {
+			if (studentSessions.contains(studySession))
 				list.put(studySession, true);
-				log.info(">" + studySession.getId());
-			} else {
+			else
 				list.put(studySession, false);
-				log.info(">" + studySession.getId());
-			}
+
 		}
 		return list;
 	}
 
 	@Override
-	public boolean checkValidTimeForMarkParticipation(Course course) {
-		List<StudySession> studySessions = studySessionDao.findStudySessionsByCourse(course);
+	public String getParticipationRate(List<StudySession> studentSessions, List<StudySession> courseSessions) {
+		DecimalFormat df = new DecimalFormat("###");
+		return df.format(((double) studentSessions.size() / (double) courseSessions.size()) * 100) + "%";
+	}
 
-		if (!studySessions.isEmpty()) {
-			final Iterator<StudySession> itr = studySessions.iterator();
-			StudySession lastStudySession = itr.next();
-			while (itr.hasNext()) {
-				lastStudySession = itr.next();
-			}
+	@Override
+	public boolean checkValidForMarkParticipation(Course course, Student student) {
+		StudySession theLastStudySession = studySessionDao.findTheLastStudySessionByCourse(course);
 
-			log.info("result: " + lastStudySession.toString());
+		if (theLastStudySession != null) {
+			// check the current date with the date the study session happens
+			Date currentDateTime = new Date();
 
-			// check current date
 			SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat sdfTime = new SimpleDateFormat("HH:mm:ss");
-			Date currentDateTime = new Date();
 
 			Date currentDate, givenDate;
 			Date currentTime, givenStartTime, givenEndTime;
 
 			try {
 				currentDate = sdfDate.parse(sdfDate.format(currentDateTime));
-				givenDate = sdfDate.parse(sdfDate.format(lastStudySession.getSessionDate()));
+				givenDate = sdfDate.parse(sdfDate.format(theLastStudySession.getSessionDate()));
 
+				// if the date is fine
 				if (currentDate.compareTo(givenDate) == 0) {
+					
+					// continue to check time
 					currentTime = sdfTime.parse(sdfTime.format(currentDateTime));
-					givenStartTime = sdfTime.parse(sdfTime.format(lastStudySession.getStartTime()));
-					givenEndTime = sdfTime.parse(sdfTime.format(lastStudySession.getEndTime()));
+					givenStartTime = sdfTime.parse(sdfTime.format(theLastStudySession.getStartTime()));
+					givenEndTime = sdfTime.parse(sdfTime.format(theLastStudySession.getEndTime()));
 
-					if (currentTime.compareTo(givenStartTime) >= 0 && currentTime.compareTo(givenEndTime) <= 0) {
-						return true;
+					// if time is valid, allow to mark participation
+					if (currentTime.compareTo(givenStartTime) >= 0 && currentTime.compareTo(givenEndTime) < 0) {
+
+						StudySession theLastStudySessionParticipation = studySessionDao
+								.findTheLastStudySessionByStudentAndCourse(student, course);
+
+						// if student attended to any session of this course
+						if (theLastStudySessionParticipation != null) {
+							// if those sessions are not matched, means 
+							// student did not checked the newest study session
+							if (theLastStudySessionParticipation.getId() != theLastStudySession.getId()) {
+								// then do it
+								return true;
+							}
+						} else {
+							return true;
+						}
 					}
-				} else {
-					return false;
 				}
 
 			} catch (ParseException e) {
 				e.printStackTrace();
 				return false;
 			}
-
-			return false;
 		}
 
 		return false;
@@ -225,6 +233,29 @@ public class StudySessionServiceImpl implements StudySessionService {
 		List<Student> students = studentDao.findStudentByStudySession(studySession);
 
 		return students;
+	}
+
+	@Override
+	public boolean markParticipation(String inputPassword, Course course) {
+		// compare password
+		StudySession theLastStudySession = studySessionDao.findTheLastStudySessionByCourse(course);
+		boolean success = passwordEncoder.matches(inputPassword, theLastStudySession.getPassword());
+
+		// mark
+		if (success) {
+			Student student = AppUtil.getUserFromSession().getStudent();
+			student = studentDao.findById(student.getId());
+
+			student.getStudySessionPas().add(theLastStudySession);
+			theLastStudySession.getStudentPas().add(student);
+
+			studySessionDao.updateStudySession(theLastStudySession);
+			studentDao.updateStudent(student);
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 }
