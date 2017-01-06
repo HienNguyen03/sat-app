@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="common/header :: common-header" />
+<head>
+<title>Course's Sessions</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
 	<div class="container">
@@ -14,10 +17,13 @@
 		</div>
 
 		<div class="row">
-			<div class="panel panel-default">
+			<div class="panel panel-default animated fadeInDown">
 				<div class="panel-heading">
 				
 					<div class="span6 pull-right" style="text-align: right">
+						<a class="pull-right btn btn-primary" th:href="@{/teacher}"><i
+						class="fa fa-chevron-circle-left"></i> Back</a>
+					
 						<a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/participants'}"
 							class="btn btn-primary btn-right" role="button"> <i class="fa fa-group"></i> All Participants</a>
 					</div>

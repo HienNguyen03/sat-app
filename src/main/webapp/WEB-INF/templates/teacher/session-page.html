@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="common/header :: common-header" />
+<head>
+<title>Session Page</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
 	<div class="container">

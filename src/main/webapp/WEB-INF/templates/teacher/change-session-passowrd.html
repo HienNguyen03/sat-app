@@ -2,7 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="common/header :: common-header" />
+<head>
+<title>Change Session's Password</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
 	<div class="container">
@@ -14,9 +17,11 @@
 		</div>
 
 		<div class="row">
-			<div class="panel panel-default">
+			<div class="panel panel-info animated fadeInDown">
 
 				<div class="panel-heading">
+					<a class="pull-right btn btn-primary" th:href="@{/teacher/course/}+${courseId}"><i
+						class="fa fa-chevron-circle-left"></i> Back</a>	
 
 					<h4>Change Session's Password</h4>
 				</div>
@@ -33,7 +38,7 @@
 								th:errors="*{password}" class="label-important"></span>
 						</div>
 						
-						<button type="submit" class="btn btn-default">Update</button>
+						<button type="submit" class="btn btn-primary"> Update <i class="fa fa-pencil-square-o"></i> </button>
 
 					</form>
 				</div>
