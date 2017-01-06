@@ -71,5 +71,19 @@ public class StudentDaoImpl extends AbstractDao<Integer, Student> implements Stu
 		return students;
 
 	}
+	
+	@Override
+	public List<Student> findStudentByCourse(Course course) {
+		
+		String hql = "SELECT stu "
+				+ "FROM Student stu join stu.courses c "
+				+ "WHERE c.id = :courseId";
+		Query query = getSession().createQuery(hql);
+		
+		query.setInteger("courseId", course.getId());
+		
+		List<Student> students = (List<Student>) query.list();		
+		return students;
+	}
 
 }

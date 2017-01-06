@@ -18,5 +18,5 @@ public interface CourseService {
 	public List<Course> findCoursesByTeacher(Teacher teacher);
 	public List<Course> findCoursesByStudent(Student student);
 	public Course findCourseInfo(Integer id);
-	
+	public List<Student> findStudentByCourse(Integer courseId);
 }

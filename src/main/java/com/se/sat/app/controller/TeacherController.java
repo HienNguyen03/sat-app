@@ -179,6 +179,16 @@ public class TeacherController {
 
 	}
 
+	@RequestMapping(value = "/course/{courseId}/participants", method = RequestMethod.GET)
+	public String courseParticipants(@PathVariable("courseId") Integer courseId, Model model) {
+		
+		List<Student> students = courseService.findStudentByCourse(courseId);
+		
+		model.addAttribute("students", students);
+
+		return "/teacher/course-participants";
+	}
+
 	/**
 	 * 
 	 * STUDY SESSION
@@ -186,15 +196,21 @@ public class TeacherController {
 	 * 
 	 */
 	@RequestMapping(value = "/course/{courseId}")
-	public String coursePage(@PathVariable("courseId") Integer courseId, Model model) {
+	public String coursePage(@PathVariable("courseId") Integer courseId, Model model, RedirectAttributes redirectAttributes) throws ServletException {
 
 		Course course = courseService.findCourseInfo(courseId);
-		List<StudySession> studySessions = studySessionService.findStudySessionByCourse(courseId);
+		if(course != null){
+			List<StudySession> studySessions = studySessionService.findStudySessionByCourse(courseId);
 
-		model.addAttribute("studySessions", studySessions);
-		model.addAttribute("course", course);
+			model.addAttribute("studySessions", studySessions);
+			model.addAttribute("course", course);
 
-		return "/teacher/course-page";
+			return "/teacher/course-page";
+		}
+		
+		else 
+			return "redirect:/teacher";
+	
 	}
 
 	@RequestMapping(value = "/course/{courseId}/new-study-session", method = RequestMethod.GET)
@@ -323,23 +339,29 @@ public class TeacherController {
 
 	@RequestMapping(value = "/course/{courseId}/study-session/{studySessionId}", method = RequestMethod.GET)
 	public String sessionPage(@PathVariable("courseId") Integer courseId,
-			@PathVariable("studySessionId") Integer studySessionId, Model model) {
+			@PathVariable("studySessionId") Integer studySessionId, Model model, RedirectAttributes redirectAttributes) throws ServletException {
 
 		StudySession studySession = studySessionService.findStudySessionInfo(studySessionId);
+		if(studySession != null){
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			String sessionDate = formatter.format(studySession.getSessionDate());
 
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		String sessionDate = formatter.format(studySession.getSessionDate());
+			List<Student> students = studySessionService.findStudentByStudySession(studySessionId);
+			// for (Student student : students) {
+			// log.debug(student.toString());
+			// }
 
-		List<Student> students = studySessionService.findStudentByStudySession(studySessionId);
-//		for (Student student : students) {
-//			log.debug(student.toString());
-//		}
+			model.addAttribute("studySession", studySession);
+			model.addAttribute("sessionDate", sessionDate);
+			model.addAttribute("students", students);
 
-		model.addAttribute("studySession", studySession);
-		model.addAttribute("sessionDate", sessionDate);
-		model.addAttribute("students", students);
+			return "/teacher/session-page";
+		}
 
-		return "/teacher/session-page";
+		else
+			return "redirect:/teacher/course/{courseId}";
+			
+		
 	}
 
 }

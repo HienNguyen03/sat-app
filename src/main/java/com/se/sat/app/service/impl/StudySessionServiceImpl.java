@@ -30,7 +30,7 @@ import com.se.sat.app.entity.Student;
 import com.se.sat.app.entity.StudySession;
 import com.se.sat.app.service.StudySessionService;
 
-@Service
+@Service("studySessionService")
 public class StudySessionServiceImpl implements StudySessionService {
 
 	private static final Logger log = LoggerFactory.getLogger(StudySessionServiceImpl.class);
@@ -62,7 +62,6 @@ public class StudySessionServiceImpl implements StudySessionService {
 		studySession.setSessionCategory(studySessionForm.getSessionCategory());
 
 		try {
-
 			Course course = courseDao.findCourseById(courseId);
 			studySession.setCourse(course);
 			studySessionDao.insertStudySession(studySession);

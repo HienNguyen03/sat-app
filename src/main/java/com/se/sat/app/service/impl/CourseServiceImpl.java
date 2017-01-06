@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.se.sat.app.dao.CourseDao;
+import com.se.sat.app.dao.StudentDao;
 import com.se.sat.app.dao.TeacherDao;
 import com.se.sat.app.dto.CourseForm;
 import com.se.sat.app.entity.Course;
@@ -29,11 +30,13 @@ public class CourseServiceImpl implements CourseService {
 
 	private CourseDao courseDao;
 	private TeacherDao teacherDao;
+	private StudentDao studentDao;
 
 	@Autowired
-	public CourseServiceImpl(CourseDao courseDao, TeacherDao teacherDao) {
+	public CourseServiceImpl(CourseDao courseDao, TeacherDao teacherDao, StudentDao studentDao) {
 		this.courseDao = courseDao;
 		this.teacherDao = teacherDao;
+		this.studentDao = studentDao;
 	}
 
 	@Override
@@ -119,5 +122,19 @@ public class CourseServiceImpl implements CourseService {
 	public List<Course> findCoursesByStudent(Student student) {
 		return courseDao.findCoursesByStudent(student);
 	}
+	
+	@Override
+	public List<Student> findStudentByCourse(Integer courseId) {
+		Course course = courseDao.findCourseById(courseId);
+		
+		if(course != null){
+			List<Student> students = studentDao.findStudentByCourse(course);
+			return students;
+		}
+		
+		else
+			return null;
+	}
+	
 	
 }
