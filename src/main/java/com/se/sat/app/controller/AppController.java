@@ -349,7 +349,7 @@ public class AppController {
 			}
 
 			// check Password
-			boolean passwordMatched = userService.comparePassword(editProfileStudentForm.getPassword());
+			boolean passwordMatched = userService.compareUserPassword(editProfileStudentForm.getPassword());
 			if (!passwordMatched) {
 				result1.rejectValue("password", "passwordIsWrong");
 				model.addAttribute("editProfileStudentForm", editProfileStudentForm);
@@ -365,7 +365,7 @@ public class AppController {
 			}
 
 			// check Password
-			boolean passwordMatched = userService.comparePassword(editProfileTeacherForm.getPassword());
+			boolean passwordMatched = userService.compareUserPassword(editProfileTeacherForm.getPassword());
 			if (!passwordMatched) {
 				result2.rejectValue("password", "passwordIsWrong");
 				model.addAttribute("editProfileTeacherForm", editProfileTeacherForm);
@@ -381,7 +381,7 @@ public class AppController {
 			}
 
 			// check Password
-			boolean passwordMatched = userService.comparePassword(editProfileAdminForm.getPassword());
+			boolean passwordMatched = userService.compareUserPassword(editProfileAdminForm.getPassword());
 			if (!passwordMatched) {
 				result3.rejectValue("password", "passwordIsWrong");
 				model.addAttribute("editProfileAdminForm", editProfileAdminForm);

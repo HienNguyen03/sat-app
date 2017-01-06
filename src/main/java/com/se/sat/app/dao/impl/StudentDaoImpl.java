@@ -3,6 +3,7 @@ package com.se.sat.app.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -27,6 +28,10 @@ public class StudentDaoImpl extends AbstractDao<Integer, Student> implements Stu
 	@Override
 	public Student findById(int id) {
 		Student student = getByKey(id);
+
+		if (student != null)
+			Hibernate.initialize(student.getStudySessionPas());
+		
 		return student;
 	}
 
@@ -60,10 +65,8 @@ public class StudentDaoImpl extends AbstractDao<Integer, Student> implements Stu
 	@Override
 	public List<Student> findStudentByStudySession(StudySession studySession) {
 
-		String hql = "SELECT stu " 
-				+ "FROM Student stu join stu.studySessionPas ss " 
-				+ "WHERE ss.id = :studySessionId";
-		
+		String hql = "SELECT stu " + "FROM Student stu join stu.studySessionPas ss " + "WHERE ss.id = :studySessionId";
+
 		Query query = getSession().createQuery(hql);
 		query.setInteger("studySessionId", studySession.getId());
 

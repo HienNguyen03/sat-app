@@ -15,4 +15,6 @@ public interface StudySessionDao {
 	StudySession findById(int id);
 	List<StudySession> findStudySessionByCourse(Course course);
 	List<StudySession> findStudySessionsByStudent(Student student);
+	StudySession findTheLastStudySessionByCourse(Course course);
+	StudySession findTheLastStudySessionByStudentAndCourse(Student student, Course course);
 }

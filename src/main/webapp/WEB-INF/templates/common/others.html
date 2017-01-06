@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<div th:fragment="studentSession" class="modal-dialog model-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Session history</h4>
+			</div>
+			<div th:if="${noSessionFound} == false" class="modal-body">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="text-center">#</th>
+							<th>Session name</th>
+							<th class="text-center">Start time</th>
+							<th class="text-center">End time</th>
+							<th class="text-center">Date</th>
+							<th>Category</th>
+							<th class="text-center">Participation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="instance,iterationStatus : ${participationList}"
+							th:class="${iterationStatus.count == iterationStatus.size and flashType == 'success'} ? 'animated bounceIn '+${flashType} : ''">
+							<td class="text-center" th:text="${iterationStatus.count}"></td>
+							<td th:text="${instance.key.name}"></td>
+							<td class="text-center" th:text="${instance.key.startTime}"></td>
+							<td class="text-center" th:text="${instance.key.endTime}"></td>
+							<td class="text-center" th:text="${instance.key.sessionDate}"></td>
+							<td th:text="${instance.key.sessionCategory}"></td>
+							<td class="text-center"><i th:if="${instance.value == true}" class="fa fa-check"></i></td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="6"><strong>Total</strong></td>
+							<td class="text-center"><strong th:text="${participationRate}"></strong></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<div th:if="${allowMark} == true" class="panel panel-default">
+					<div th:if="${flashType != null and flashType.equals('danger')}" class="alert alert-danger fade in alert-dismissable">
+					  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					  <span th:text="${flashMessage}"></span>
+					</div>
+					<div class="panel-body">
+					
+						<form class="form-inline form-group-sm pull-right" method="post">
+							<div class="form-group">
+								<label for="inputPassword">Password</label>
+								<input type="password" class="form-control" id="inputPassword" name="sessionPassword"
+									placeholder="Password" required="required" />
+								<button id="btnMark" type="submit" class="btn btn-default">Mark participation</button>
+							</div>
+						</form>
+					</div>
+				</div>
+				<script type="text/javascript" th:inline="javascript">
+					$(document)
+							.ready(
+									function() {
+										/*<![CDATA[*/
+										var mark_url = /*[[@{~/student/course/}+${course.id}+'/mark-participation']]*/"";
+										/*]]>*/
+
+										var token = $("meta[name='_csrf']")
+												.attr("content");
+										var header = $(
+												"meta[name='_csrf_header']")
+												.attr("content");
+										var inputPwd = $('#inputPassword')
+												.val();
+
+										$('#btnMark')
+												.click(
+														function(event) {
+															event
+																	.preventDefault();
+															$
+																	.ajax({
+																		type : "POST",
+																		url : mark_url,
+																		data : {
+																			pwd : $(
+																					'#inputPassword')
+																					.val()
+																		},
+																		async : true,
+																		//contentType : "application/json; charset=utf-8",
+																		beforeSend : function(
+																				xhr) {
+																			//xhr.setRequestHeader("Accept", "application/json");
+																			//xhr.setRequestHeader("Content-Type", "application/json");
+																			xhr
+																					.setRequestHeader(
+																							header,
+																							token);
+																		},
+																		success : function(
+																				data) {
+																			$(
+																					'#markParticipationPanel')
+																					.html(
+																							data);
+																		}
+																	});
+														});
+									});
+				</script>
+			</div>
+
+			<div th:if="${noSessionFound} == true" class="modal-body">
+				<h4>No session available !</h4>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>

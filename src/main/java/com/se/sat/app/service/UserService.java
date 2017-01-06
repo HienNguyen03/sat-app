@@ -14,7 +14,7 @@ public interface UserService {
 	public boolean updateStudentProfile(EditProfileStudentForm editProfileStudentForm);
 	public boolean updateTeacherProfile(EditProfileTeacherForm editProfileTeacherForm);
 	public boolean updateAdminProfile(EditProfileAdminForm editProfileAdminForm);
-	public boolean comparePassword(String inputPassword);
+	public boolean compareUserPassword(String inputPassword);
 
 //	public void verify(String verificationCode);
 //

@@ -1,7 +1,6 @@
 package com.se.sat.app.controller;
 
 import java.text.DecimalFormat;
-import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -15,14 +14,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Student;
 import com.se.sat.app.entity.StudySession;
-import com.se.sat.app.entity.Teacher;
 import com.se.sat.app.entity.User;
 import com.se.sat.app.service.CourseService;
 import com.se.sat.app.service.StudySessionService;
+import com.se.sat.app.service.UserService;
 import com.se.sat.app.util.AppUtil;
 
 @Controller
@@ -51,92 +52,81 @@ public class StudentController {
 	@RequestMapping(value = "/course/{id}", method = RequestMethod.GET)
 	public String viewCourse(Model model, @PathVariable Integer id) {
 		Course course = courseService.findCourseInfo(id);
-		Student student = AppUtil.getUserFromSession().getStudent();
-
-		// course and teacher info
 		model.addAttribute("course", course);
 		model.addAttribute("teacher", course.getTeacher());
-
-		List<StudySession> courseSessions = course.getStudySessions();
-
-		if (!courseSessions.isEmpty()) {
-			model.addAttribute("noSessionFound", false);
-
-			List<StudySession> studentSessions = studySessionService.findStudySessionsByStudent(student);
-
-			LinkedHashMap<StudySession, Boolean> participationList = studySessionService
-					.matchStudentSessions(studentSessions, courseSessions);
-
-			DecimalFormat df = new DecimalFormat("###");
-			String participationRate = df
-					.format(((double) studentSessions.size() / (double) courseSessions.size()) * 100) + "%";
-
-			log.info("rate: " + participationRate);
-
-			// participation list and rate
-			model.addAttribute("participationList", participationList);
-			model.addAttribute("participationRate", participationRate);
-
-			boolean allowMark = studySessionService.checkValidTimeForMarkParticipation(course);
-
-			// allow mark participation if it is valid
-			model.addAttribute("allowMark", allowMark);
-			
-		} else {
-			model.addAttribute("noSessionFound", true);
-		}
-
 		return "student/course";
 	}
-	
-	@RequestMapping(value = "/course/{id}/reload", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/course/{id}/mark-participation", method = RequestMethod.GET)
 	public String viewCourseReload(Model model, @PathVariable Integer id) {
-		log.info("run run run");
-		Course course = courseService.findCourseInfo(id);
+		displayParticipationInfo(model, id);
+		return "common/others :: studentSession";
+	}
+
+	@RequestMapping(value = "/course/{id}/mark-participation", method = RequestMethod.POST)
+	public String markParticipation(Model model, @RequestParam(value = "pwd", required = true) String password,
+			@PathVariable Integer id, HttpServletRequest request) {
+
+		// password must have at least 4 chars
+		if (password != null && password.trim().length() > 4) {
+			Student student = AppUtil.getUserFromSession().getStudent();
+			Course course = courseService.findCourseInfo(id);
+			boolean validToProceed = studySessionService.checkValidForMarkParticipation(course, student);
+
+			if (validToProceed) {
+				boolean success = studySessionService.markParticipation(password, course);
+
+				if (success)
+					AppUtil.flashModelAttribute(model, "success", "markParticipation.success");
+				else
+					AppUtil.flashModelAttribute(model, "danger", "markParticipation.failure");
+
+			} else {
+				AppUtil.flashModelAttribute(model, "danger", "markParticipation.failure.valid");
+			}
+		} else {
+			AppUtil.flashModelAttribute(model, "danger", "markParticipation.failure.password");
+		}
+
+		displayParticipationInfo(model, id);
+		return "common/others :: studentSession";
+
+	}
+
+	/**
+	 * This method determine to show 'no session found' message participation
+	 * list and rate allow mark participation if it is valid
+	 */
+	protected void displayParticipationInfo(Model model, Integer courseId) {
+		Course course = courseService.findCourseInfo(courseId);
 		Student student = AppUtil.getUserFromSession().getStudent();
 
-		// course and teacher info
 		model.addAttribute("course", course);
-		model.addAttribute("teacher", course.getTeacher());
 
 		List<StudySession> courseSessions = course.getStudySessions();
 
 		if (!courseSessions.isEmpty()) {
+			// show 'no session found' message
 			model.addAttribute("noSessionFound", false);
 
 			List<StudySession> studentSessions = studySessionService.findStudySessionsByStudent(student);
 
 			LinkedHashMap<StudySession, Boolean> participationList = studySessionService
 					.matchStudentSessions(studentSessions, courseSessions);
-
-			DecimalFormat df = new DecimalFormat("###");
-			String participationRate = df
-					.format(((double) studentSessions.size() / (double) courseSessions.size()) * 100) + "%";
-
-			log.info("rate: " + participationRate);
-
-			// participation list and rate
+			// set participation list
 			model.addAttribute("participationList", participationList);
+
+			String participationRate = studySessionService.getParticipationRate(studentSessions, courseSessions);
+			// set participation rate
 			model.addAttribute("participationRate", participationRate);
 
-			boolean allowMark = studySessionService.checkValidTimeForMarkParticipation(course);
-
+			boolean allowMark = studySessionService.checkValidForMarkParticipation(course, student);
 			// allow mark participation if it is valid
 			model.addAttribute("allowMark", allowMark);
-			
+
 		} else {
 			model.addAttribute("noSessionFound", true);
 		}
-
-		return "common/other :: studentSession";
-	}
-	
-	@RequestMapping(value = "/course/{id}/mark-participation", method = RequestMethod.POST)
-	public String markParticipation(Model model, @PathVariable Integer id, HttpServletRequest request) {
-		
-		String inputPassword = (String) request.getParameter("sessionPassword");
-		
-		return null;
 	}
 
 }

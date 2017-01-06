@@ -186,13 +186,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	}
 
 	@Override
-	public boolean comparePassword(String inputPassword) {
+	public boolean compareUserPassword(String inputPassword) {
 		User user = userDao.findByUsername(AppUtil.getUserFromSession().getUsername());
-		if(passwordEncoder.matches(inputPassword, user.getPassword()))
-			return true;
-		else
-			return false;
-		
+		return passwordEncoder.matches(inputPassword, user.getPassword());
 	}
 
 	// @Override

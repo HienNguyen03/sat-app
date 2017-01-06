@@ -21,7 +21,11 @@ public interface StudySessionService {
 	public List<StudySession> findStudySessionByCourse(Integer courseId);
 	public StudySession findStudySessionInfo(Integer id);
 	
-	public LinkedHashMap<StudySession, Boolean> matchStudentSessions(List<StudySession> studentSessions, List<StudySession> courseSessions);
-	public boolean checkValidTimeForMarkParticipation(Course course);
+	
+	public boolean checkValidForMarkParticipation(Course course, Student student);
 	public List<Student> findStudentByStudySession(Integer id);
+	public boolean markParticipation(String inputPassword, Course course);
+	
+	public LinkedHashMap<StudySession, Boolean> matchStudentSessions(List<StudySession> studentSessions, List<StudySession> courseSessions);
+	public String getParticipationRate(List<StudySession> studentSessions, List<StudySession> courseSessions);
 }
