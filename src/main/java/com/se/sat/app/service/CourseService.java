@@ -3,6 +3,7 @@ package com.se.sat.app.service;
 import java.util.Hashtable;
 import java.util.List;
 
+import com.se.sat.app.dto.CourseEnrollmentObjects;
 import com.se.sat.app.dto.CourseForm;
 import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Student;
@@ -19,4 +20,6 @@ public interface CourseService {
 	public List<Course> findCoursesByStudent(Student student);
 	public Course findCourseInfo(Integer id);
 	
+	public List<CourseEnrollmentObjects> getGroupOfCoursesByTeacher();
+	public boolean enrollToACourse(Student student, Course course);
 }

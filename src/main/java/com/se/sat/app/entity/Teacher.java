@@ -112,6 +112,10 @@ public class Teacher implements Serializable {
 		this.user = user;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Teacher [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
+				+ ", status=" + status + ", department=" + department + "]";
+	}
 
 }

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>Student's dashboard</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
+
+<body>
+
+	<div th:replace="common/navbar :: common-navbar"></div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div th:class="${flash == false}? 'panel panel-default' : 'panel panel-default animated fadeInDown'">
+					<div class="panel-heading">
+						<a class="pull-right btn btn-primary btn-xs small-corner-btn" th:href="@{/student}"><i
+							class="fa fa-chevron-circle-left"></i>Back</a><strong>Course Enrollment</strong>
+					</div>
+					<div class="panel-body">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th class="col-md-4">Department</th>
+									<th>Teacher</th>
+									<th>Course</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class='clickable courseitem' th:each="item,iterationStatus : ${enrollmentList}" data-toggle="modal" data-target="#courseInfoPanel" th:attr="data-id=${item.course.id}" >
+									<td><strong th:if="${item.department != null}" th:text="${item.department}"></strong></td>
+									<td><span th:if="${item.teacher != null}" th:text="${item.teacher.firstname}+' '+${item.teacher.lastname}"></span></td>
+									<td><span th:if="${item.course != null}" th:text="${item.course.name}"></span></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal -->
+	<div id="courseInfoPanel" class="modal fade" role="dialog"></div>
+
+	<div th:replace="common/footer :: common-footer"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>
+	
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		var enrollUrl = /*[[@{~/student/enrollment/}]]*/"";
+		/*]]>*/
+		$(document).ready(function() {
+			$('.courseitem').click(function(){
+				var modalId = $(this).attr("data-id");
+				$('#courseInfoPanel').load(enrollUrl+modalId);
+			});
+		});
+	</script>
+
+</body>
+</html>

@@ -29,9 +29,10 @@ public class StudentDaoImpl extends AbstractDao<Integer, Student> implements Stu
 	public Student findById(int id) {
 		Student student = getByKey(id);
 
-		if (student != null)
+		if (student != null) {
 			Hibernate.initialize(student.getStudySessionPas());
-		
+			Hibernate.initialize(student.getCourses());
+		}
 		return student;
 	}
 

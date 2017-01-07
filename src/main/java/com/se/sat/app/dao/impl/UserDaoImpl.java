@@ -20,11 +20,11 @@ import com.se.sat.app.entity.User;
 public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 
 	private static final Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
-	
+
 	@Override
 	public User findById(int id) {
 		User user = getByKey(id);
-		
+
 		if (user != null) {
 			if (user.isStudent())
 				Hibernate.initialize(user.getStudent());
@@ -33,7 +33,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 			else if (user.isAdmin())
 				Hibernate.initialize(user.getAdmin());
 		}
-		
+
 		return user;
 	}
 
@@ -42,16 +42,18 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("username", username));
 		User user = (User) criteria.uniqueResult();
-		
+
 		if (user != null) {
-			if (user.isStudent())
+			if (user.isStudent()) {
 				Hibernate.initialize(user.getStudent());
-			else if (user.isTeacher())
+				Hibernate.initialize(user.getStudent().getCourses());
+			} else if (user.isTeacher()) {
 				Hibernate.initialize(user.getTeacher());
-			else if (user.isAdmin())
+			} else if (user.isAdmin()) {
 				Hibernate.initialize(user.getAdmin());
+			}
 		}
-		
+
 		return user;
 	}
 
@@ -59,7 +61,7 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	public void saveUser(User user) {
 		persist(user);
 	}
-	
+
 	@Override
 	public void updateUser(User user) {
 		update(user);
@@ -76,9 +78,11 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
 	@Override
 	public List<User> findAllUsers() {
 		Criteria criteria = createEntityCriteria().addOrder(Order.asc("username"));
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); //To avoid duplicates.
-        List<User> users = (List<User>) criteria.list();
-        return users;
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); // To
+																		// avoid
+																		// duplicates.
+		List<User> users = (List<User>) criteria.list();
+		return users;
 	}
 
 }

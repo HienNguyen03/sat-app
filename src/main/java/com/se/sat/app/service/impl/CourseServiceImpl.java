@@ -1,8 +1,10 @@
 package com.se.sat.app.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +14,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.se.sat.app.dao.CourseDao;
+import com.se.sat.app.dao.StudentDao;
 import com.se.sat.app.dao.TeacherDao;
+import com.se.sat.app.dto.CourseEnrollmentObjects;
 import com.se.sat.app.dto.CourseForm;
 import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Student;
@@ -29,11 +33,13 @@ public class CourseServiceImpl implements CourseService {
 
 	private CourseDao courseDao;
 	private TeacherDao teacherDao;
+	private StudentDao studentDao;
 
 	@Autowired
-	public CourseServiceImpl(CourseDao courseDao, TeacherDao teacherDao) {
+	public CourseServiceImpl(CourseDao courseDao, TeacherDao teacherDao, StudentDao studentDao) {
 		this.courseDao = courseDao;
 		this.teacherDao = teacherDao;
+		this.studentDao = studentDao;
 	}
 
 	@Override
@@ -118,6 +124,60 @@ public class CourseServiceImpl implements CourseService {
 	@Override
 	public List<Course> findCoursesByStudent(Student student) {
 		return courseDao.findCoursesByStudent(student);
+	}
+	
+	@Override
+	public List<CourseEnrollmentObjects> getGroupOfCoursesByTeacher(){
+		Student student = AppUtil.getUserFromSession().getStudent();
+		//Map<Teacher,ArrayList<Course>> multiMap = new HashMap<Teacher,ArrayList<Course>>();
+		List<CourseEnrollmentObjects> list = new ArrayList<CourseEnrollmentObjects>();
+		
+		List<Object[]> items = courseDao.getGroupsOfCoursesByTeachers(student);
+		String lastDepartment = null;
+		Teacher lastTeacher = null;
+		
+		for (Object[] objects : items) {
+			Teacher teacher = (Teacher)objects[0];
+			Course course = (Course)objects[1];
+			
+			if(lastDepartment == null){
+				lastDepartment = teacher.getDepartment();
+				lastTeacher = teacher;
+				list.add(new CourseEnrollmentObjects(teacher.getDepartment(), teacher, course));
+			} else {
+				if(teacher.getDepartment().equals(lastDepartment)){
+					if(teacher == lastTeacher){
+						list.add(new CourseEnrollmentObjects(course));
+					} else {
+						lastTeacher = teacher;
+						list.add(new CourseEnrollmentObjects(teacher, course));
+					}
+				} else {
+					lastDepartment = teacher.getDepartment();
+					list.add(new CourseEnrollmentObjects(teacher.getDepartment(), teacher, course));
+				}
+			}
+			
+		}
+		
+		return list;
+	}
+
+	@Override
+	public boolean enrollToACourse(Student student, Course course) {
+		try {
+			student.getCourses().add(course);
+			course.getStudents().add(student);
+			
+			studentDao.updateStudent(student);
+			courseDao.updateCourse(course);
+			return true;
+			
+		} catch(Exception e){
+			log.info(e.getMessage());
+			return true;
+		}
+		
 	}
 	
 }

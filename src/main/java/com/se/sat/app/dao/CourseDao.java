@@ -1,6 +1,8 @@
 package com.se.sat.app.dao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Student;
@@ -16,5 +18,6 @@ public interface CourseDao {
 	List<Course> findCoursesByTeacher(Teacher teacher);
 	List<Course> findCoursesByStudent(Student student);
 	List<Course> findAllCourses();
-	
+
+	List<Object[]> getGroupsOfCoursesByTeachers(Student student);
 }

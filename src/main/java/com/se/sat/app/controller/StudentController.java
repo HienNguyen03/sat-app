@@ -1,6 +1,5 @@
 package com.se.sat.app.controller;
 
-import java.text.DecimalFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.se.sat.app.dto.CourseEnrollmentObjects;
 import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Student;
 import com.se.sat.app.entity.StudySession;
@@ -34,11 +33,14 @@ public class StudentController {
 
 	private CourseService courseService;
 	private StudySessionService studySessionService;
+	private UserService userService;
 
 	@Autowired
-	public StudentController(CourseService courseService, StudySessionService studySessionService) {
+	public StudentController(CourseService courseService, StudySessionService studySessionService,
+			UserService userService) {
 		this.courseService = courseService;
 		this.studySessionService = studySessionService;
+		this.userService = userService;
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -129,4 +131,47 @@ public class StudentController {
 		}
 	}
 
+	/**
+	 * ENROLLMENT
+	 */
+
+	@RequestMapping(value = "/enrollment", method = RequestMethod.GET)
+	public String listCourses(Model model) {
+		List<CourseEnrollmentObjects> list = courseService.getGroupOfCoursesByTeacher();
+		model.addAttribute("enrollmentList", list);
+
+		return "student/courseEnrollmentList";
+	}
+
+	@RequestMapping(value = "/enrollment/{courseId}", method = RequestMethod.GET)
+	public String viewCourseInfo(Model model, @PathVariable("courseId") Integer courseId) {
+
+		Course course = courseService.findCourseInfo(courseId);
+		model.addAttribute("course", course);
+		model.addAttribute("teacher", course.getTeacher());
+
+		return "common/others :: courseInfo";
+
+	}
+
+	@RequestMapping(value = "/enrollment", method = RequestMethod.POST)
+	public String enrollToCourse(Model model, @RequestParam(value = "courseId", required = true) Integer courseId) {
+		Student student = userService.findByUsername(AppUtil.getUserFromSession().getUsername()).getStudent();
+		Course course = courseService.findCourseInfo(courseId);
+
+		boolean result = courseService.enrollToACourse(student, course);
+
+		if (result) {
+			AppUtil.flashModelAttribute(model, "success", "enrollment.success");
+			model.addAttribute("enrolled", true);
+		} else {
+			AppUtil.flashModelAttribute(model, "danger", "enrollment.failure");
+		}
+
+		model.addAttribute("course", course);
+		model.addAttribute("teacher", course.getTeacher());
+
+		return "common/others :: courseInfo";
+
+	}
 }

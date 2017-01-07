@@ -1,3 +1,15 @@
+.phuc-alert {
+    margin: 0 auto !important;
+    line-height: 14px;
+    border-radius: 0;
+}
+
+.row-is-done {
+    cursor: no-drop !important;
+    background-color: #f7f7f7;
+    color: #929292;
+}
+
 .label-important {
 	color: #a94442;
 	font-size: small;
@@ -23,14 +35,25 @@
 }
 
 .small-corner-btn {
-	margin: 0px 0px 0px 10px;
+    margin: 3px 0px 0px 10px;
+    line-height: 25px;
+}
+
+.panel-heading > strong {
+    font-variant: small-caps;
+    font-size: x-large;
+}
+
+.modal-header .modal-title {
+	font-size: x-large;
+	font-weight: bold;
 }
 
 .small-corner-btn > i {
 	padding-right: 2px;
 }
 
-.clickable-row {
+.clickable {
 	cursor: pointer;
 }
 
@@ -58,6 +81,7 @@ body {
 	-o-background-size: cover;
 	background-size: cover;
 	background-size: 100% auto;
+	margin-bottom: 340px;
 	
 }
 
@@ -125,11 +149,6 @@ form[role=login]>div {
 html {
 	position: relative;
 	min-height: 100%;
-}
-
-body {
-	/* Margin bottom by footer height */
-	margin-bottom: 260px;
 }
 
 .footer {

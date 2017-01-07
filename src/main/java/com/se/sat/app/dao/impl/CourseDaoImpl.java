@@ -1,6 +1,8 @@
 package com.se.sat.app.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 
@@ -46,9 +48,10 @@ public class CourseDaoImpl extends AbstractDao<Integer, Course> implements Cours
 	@Override
 	public Course findCourseById(int id) {
 		Course course = getByKey(id);
-		if(course != null){
+		if (course != null) {
 			Hibernate.initialize(course.getTeacher());
 			Hibernate.initialize(course.getStudySessions());
+			Hibernate.initialize(course.getStudents());
 		}
 		return course;
 	}
@@ -65,11 +68,10 @@ public class CourseDaoImpl extends AbstractDao<Integer, Course> implements Cours
 
 	@Override
 	public List<Course> findCoursesByStudent(Student student) {
-		String hql = "select c FROM Student s join s.courses c "
-					+ "WHERE s.id = :studentId";
+		String hql = "select c FROM Student s join s.courses c " + "WHERE s.id = :studentId";
 		Query query = getSession().createQuery(hql);
 		query.setInteger("studentId", student.getId());
-		
+
 		List<Course> courses = (List<Course>) query.list();
 		return courses;
 	}
@@ -77,9 +79,23 @@ public class CourseDaoImpl extends AbstractDao<Integer, Course> implements Cours
 	@Override
 	public List<Course> findAllCourses() {
 		Criteria criteria = createEntityCriteria().addOrder(Order.asc("name"));
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); // To avoid duplicates.
+		// To avoid duplicates.
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); 
 		List<Course> courses = (List<Course>) criteria.list();
 		return courses;
+	}
+
+	@Override
+	public List<Object[]> getGroupsOfCoursesByTeachers(Student student) {
+		String hql = "SELECT T, C FROM Course C JOIN C.teacher T "
+					+ "WHERE C.id NOT IN (SELECT CS.id FROM Student ST JOIN ST.courses CS WHERE ST.id = :studentId) "
+					+ "AND C.startEnrollDate <= current_date AND C.endEnrollDate >= current_date "
+					+ "ORDER BY T.department, T.firstname";
+		Query query = getSession().createQuery(hql);
+		query.setInteger("studentId", student.getId());
+
+		List<Object[]> items = (List<Object[]>) query.list();
+		return items;
 	}
 
 }
