@@ -1,3 +1,9 @@
+.hien-modal-alert {
+	border-radius: 0px;
+    margin: 0px auto !important; 
+    line-height: 14px;
+}
+
 .label-important {
 	color: #a94442;
 	font-size: small;
