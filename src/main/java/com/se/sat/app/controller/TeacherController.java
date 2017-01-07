@@ -1,6 +1,5 @@
 package com.se.sat.app.controller;
 
-import java.beans.PropertyEditorSupport;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +36,6 @@ import com.se.sat.app.service.CourseService;
 import com.se.sat.app.service.StudySessionService;
 import com.se.sat.app.service.TeacherService;
 import com.se.sat.app.util.AppUtil;
-import com.se.sat.app.validator.CustomDateTimeFormat;
 
 @Controller
 @RequestMapping("/teacher")
@@ -100,28 +98,34 @@ public class TeacherController {
 		CourseForm courseForm = new CourseForm();
 		model.addAttribute("courseForm", courseForm);
 
-		return "/teacher/new-course";
+		return "/teacher/new-course-modal :: newCourse";
 	}
 
 	@RequestMapping(value = "/new-course", method = RequestMethod.POST)
 	public String addCourse(Model model, @ModelAttribute("courseForm") @Valid CourseForm courseForm,
-			BindingResult result, RedirectAttributes redirectAttributes) throws ServletException {
+			BindingResult result) throws ServletException {
 
+		log.info("mydata: "+ courseForm.getName());
+		
 		if (result.hasErrors()) {
-			// log.info(result.getAllErrors().toString());
+			log.info(result.getAllErrors().toString());
 			model.addAttribute("courseForm", courseForm);
 
-			return "/teacher/new-course";
+			return "/teacher/new-course-modal :: newCourse";
 		}
 
 		boolean saveResult = courseService.insertCourse(courseForm);
 
-		if (saveResult)
-			AppUtil.flash(redirectAttributes, "success", "course.success");
-		else
-			AppUtil.flash(redirectAttributes, "danger", "course.failure");
-
-		return "redirect:/teacher";
+		if (saveResult){
+			AppUtil.flashModelAttribute(model, "success", "course.success");
+			model.addAttribute(new CourseForm());
+		}else{
+			AppUtil.flashModelAttribute(model, "danger", "course.failure");
+			model.addAttribute(courseForm);
+		}
+		
+		return "/teacher/new-course-modal :: newCourse";
+		
 	}
 
 	@RequestMapping(value = "/course/{courseId}/edit", method = RequestMethod.GET)
@@ -139,7 +143,7 @@ public class TeacherController {
 
 		model.addAttribute("editCourseForm", editCourseForm);
 
-		return "/teacher/edit-course";
+		return "/teacher/edit-course-modal :: editCourse";
 	}
 
 	@RequestMapping(value = "/course/{courseId}/edit", method = RequestMethod.POST)
@@ -181,6 +185,16 @@ public class TeacherController {
 
 	}
 
+	@RequestMapping(value = "/course/{courseId}/participants", method = RequestMethod.GET)
+	public String courseParticipants(@PathVariable("courseId") Integer courseId, Model model) {
+
+		List<Student> students = courseService.findStudentByCourse(courseId);
+
+		model.addAttribute("students", students);
+
+		return "/teacher/course-participants";
+	}
+
 	/**
 	 * 
 	 * STUDY SESSION
@@ -188,15 +202,32 @@ public class TeacherController {
 	 * 
 	 */
 	@RequestMapping(value = "/course/{courseId}")
-	public String coursePage(@PathVariable("courseId") Integer courseId, Model model) {
+	public String coursePage(@PathVariable("courseId") Integer courseId, Model model,
+			RedirectAttributes redirectAttributes) throws ServletException {
 
 		Course course = courseService.findCourseInfo(courseId);
+		if (course != null) {
+
+			model.addAttribute("course", course);
+
+			return "/teacher/course-page";
+		}
+
+		else
+			return "redirect:/teacher";
+
+	}
+
+	@RequestMapping(value = "/course/{courseId}/sessions")
+	public String courseSessions(@PathVariable("courseId") Integer courseId, Model model,
+			RedirectAttributes redirectAttributes) throws ServletException {
+
 		List<StudySession> studySessions = studySessionService.findStudySessionByCourse(courseId);
 
 		model.addAttribute("studySessions", studySessions);
-		model.addAttribute("course", course);
 
-		return "/teacher/course-page";
+		return "/teacher/course-sessions";
+
 	}
 
 	@RequestMapping(value = "/course/{courseId}/new-study-session", method = RequestMethod.GET)
@@ -227,7 +258,7 @@ public class TeacherController {
 		else
 			AppUtil.flash(redirectAttributes, "danger", "studySession.failure");
 
-		return "redirect:/teacher/course/{courseId}";
+		return "redirect:/teacher/course/{courseId}/sessions";
 	}
 
 	@RequestMapping(value = "/course/{courseId}/study-session/{studySessionId}/edit", method = RequestMethod.GET)
@@ -325,23 +356,29 @@ public class TeacherController {
 
 	@RequestMapping(value = "/course/{courseId}/study-session/{studySessionId}", method = RequestMethod.GET)
 	public String sessionPage(@PathVariable("courseId") Integer courseId,
-			@PathVariable("studySessionId") Integer studySessionId, Model model) {
+			@PathVariable("studySessionId") Integer studySessionId, Model model, RedirectAttributes redirectAttributes)
+			throws ServletException {
 
 		StudySession studySession = studySessionService.findStudySessionInfo(studySessionId);
+		if (studySession != null) {
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			String sessionDate = formatter.format(studySession.getSessionDate());
 
-		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		String sessionDate = formatter.format(studySession.getSessionDate());
+			List<Student> students = studySessionService.findStudentByStudySession(studySessionId);
+			// for (Student student : students) {
+			// log.debug(student.toString());
+			// }
 
-		List<Student> students = studySessionService.findStudentByStudySession(studySessionId);
-//		for (Student student : students) {
-//			log.debug(student.toString());
-//		}
+			model.addAttribute("studySession", studySession);
+			model.addAttribute("sessionDate", sessionDate);
+			model.addAttribute("students", students);
 
-		model.addAttribute("studySession", studySession);
-		model.addAttribute("sessionDate", sessionDate);
-		model.addAttribute("students", students);
+			return "/teacher/session-page";
+		}
 
-		return "/teacher/session-page";
+		else
+			return "redirect:/teacher/course/{courseId}";
+
 	}
 
 }

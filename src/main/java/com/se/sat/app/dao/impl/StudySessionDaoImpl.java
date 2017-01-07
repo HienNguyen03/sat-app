@@ -3,6 +3,7 @@ package com.se.sat.app.dao.impl;
 import java.util.List;
 
 import org.hibernate.Criteria;
+
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
@@ -44,17 +45,18 @@ public class StudySessionDaoImpl extends AbstractDao<Integer, StudySession> impl
 		StudySession studySession = (StudySession) criteria.uniqueResult();
 
 		if (studySession != null) {
+
 			delete(studySession);
 		}
 	}
 	
 	@Override
-	public List<StudySession> findStudySessionsByCourse(Course course) {
+	public List<StudySession> findStudySessionByCourse(Course course) {
 		Criteria criteria = createEntityCriteria();
 		criteria = criteria.add(Restrictions.eq("course", course));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
-		List<StudySession> studySessions = (List<StudySession>) criteria.list();
+		List<StudySession> studySessions = (List<StudySession>) criteria.list();	
 
 		return studySessions;
 	}
@@ -99,5 +101,4 @@ public class StudySessionDaoImpl extends AbstractDao<Integer, StudySession> impl
 			Hibernate.initialize(studySession.getStudentPas());
 		return studySession;
 	}
-
 }

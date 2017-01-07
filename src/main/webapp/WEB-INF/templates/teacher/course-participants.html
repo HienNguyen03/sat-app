@@ -3,7 +3,7 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<title>Session Page</title>
+<title>Course's Participants</title>
 <object th:include="common/header :: common-header" th:remove="tag"></object>
 </head>
 <body>
@@ -17,25 +17,25 @@
 		</div>
 
 		<div class="row">
-			<div class="panel panel-default animated fadeInDown">
-
+			<div class="panel panel-default">
 				<div class="panel-heading">
-
-					<a class="pull-right btn btn-default" th:href="@{'/teacher/course/' + ${courseId} + '/sessions'}"><i
-						class="fa fa-chevron-circle-left"></i> Back</a>				
+				
+					<a class="pull-right btn btn-primary" th:href="@{/teacher/course/}+${courseId}"><i
+						class="fa fa-chevron-circle-left"></i> Back</a>	
 						
-					<h4 th:text="${studySession.name} + ' - Date: ' + ${sessionDate}"></h4>
+					<h4>Course's Participants</h4>
 				</div>
 
 				<div class="panel-body">
 					<table class="table table-hover">
 						<tr>
-							<th><span class="glyphicon glyphicon-check"></span></th>
+							<th><i class="fa fa-user-o"></i></th>
 							<th>First Name</th>
 							<th>Last Name</th>
 
 						</tr>
-						<tr th:each="student, iterationStatus : ${students}">
+						<tr class = "clickable-row" th:each="student, iterationStatus : ${students}"
+						th:attr="data-href=@{'/teacher/course/' + ${courseId}+ '/participants/student'}">
 							<td th:text="${iterationStatus.count}"></td>
 							<td th:text="${student.firstname}">firstname</td>
 							<td th:text="${student.lastname}">lastname</td>

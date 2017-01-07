@@ -13,7 +13,7 @@ public interface StudySessionDao {
 	void deleteStudySessionById(Integer id);
 
 	StudySession findById(int id);
-	List<StudySession> findStudySessionsByCourse(Course course);
+	List<StudySession> findStudySessionByCourse(Course course);
 	List<StudySession> findStudySessionsByStudent(Student student);
 	StudySession findTheLastStudySessionByCourse(Course course);
 	StudySession findTheLastStudySessionByStudentAndCourse(Student student, Course course);

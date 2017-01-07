@@ -2,11 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head th:replace="common/header :: common-header" />
+<head>
+<title>Course Page</title>
+<object th:include="common/header :: common-header" th:remove="tag"></object>
+</head>
 <body>
 	<div th:replace="common/navbar :: common-navbar"></div>
 	<div class="container">
-	
+
 		<div th:if="${flashMessage}" th:text="${flashMessage}"
 			th:attr="class='alert alert-' + ${flashType} + ' alert-dismissable'">
 			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -14,54 +17,50 @@
 		</div>
 
 		<div class="row">
-			<div class="panel panel-default">
+			<div class="panel panel-default animated fadeInDown">
 				<div class="panel-heading">
-					<div class="span6 pull-right" style="text-align: right">
-						<a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/new-study-session'}"
-							class="btn btn-primary btn-right" role="button">New Session</a>
-					</div>
 
+					<div class="span6 pull-right" style="text-align: right">
+						<a class="pull-right btn btn-primary" th:href="@{/teacher}"><i
+							class="fa fa-chevron-circle-left"></i> Back</a> 
+						<a id="btnEditCourse" data-toggle="modal" data-target="#editCoursePanel" href="#"class="btn btn-primary pull-right"
+							role="button"> <i class="fa fa-edit"></i> Edit Course Information
+						</a> <a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/participants'}"
+							class="btn btn-primary pull-right" role="button"> <i class="fa fa-group"></i> All
+							Participants
+						</a>
+						<a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/sessions'}"
+							class="btn btn-primary pull-right" role="button"> <span
+							class="glyphicon glyphicon-th-list"></span> All Sessions
+						</a>
+					</div>					
 					<h4 th:text="${course.name}"></h4>
 				</div>
 
 				<div class="panel-body">
-					<div th:each="studySession : ${studySessions}" class="list-group">
-						<div class="list-group-item row">
-
-							<div class="span6 pull-left">
-								<a href="#"
-									th:href="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySession.id}}"
-									th:text="${studySession.name}">SE</a>
-							</div>
-
-							<div class="span3 pull-right" style="text-align: right">
-								<a href=""
-									th:href="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySession.id} + '/delete'}"
-									class="btn btn-default btn-right" role="button">Delete</a>
-							</div>
-
-							<div class="span3 pull-right" style="text-align: right">
-								<a href=""
-									th:href="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySession.id} + '/edit' }"
-									class="btn btn-default btn-right" role="button">Edit Infomation</a>
-							</div>
-							
-							<div class="span3 pull-right" style="text-align: right">
-								<a href=""
-									th:href="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySession.id} + '/change-password' }"
-									class="btn btn-default btn-right" role="button">Change Password</a>
-							</div>
-
-						</div>
-					</div>
+					<p>Course's content</p>
 				</div>
 			</div>
 		</div>
-
 	</div>
-
 	<!-- /container -->
+	
+	<!-- Modal -->
+	<div id="editCoursePanel" class="modal fade" role="dialog"></div>
+	
 	<div th:replace="common/footer :: common-footer"></div>
 	<div th:replace="common/footer :: footer-scripts"></div>
+	<script type="text/javascript" th:inline="javascript">
+		$(document).ready(function() {
+			/*<![CDATA[*/
+			var reload_url = /*[[@{'/teacher/course/' + ${course.id} + '/edit'}]]*/"";
+			/*]]>*/
+			
+			$('#btnEditCourse').clikc(function() {
+				
+				$('#editCoursePanel').load(reload_url);
+			});
+		});
+	</script>
 </body>
 </html>

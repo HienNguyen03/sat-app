@@ -27,7 +27,7 @@ import com.se.sat.app.entity.StudySession;
 import com.se.sat.app.service.StudySessionService;
 import com.se.sat.app.util.AppUtil;
 
-@Service
+@Service("studySessionService")
 public class StudySessionServiceImpl implements StudySessionService {
 
 	private static final Logger log = LoggerFactory.getLogger(StudySessionServiceImpl.class);
@@ -59,7 +59,6 @@ public class StudySessionServiceImpl implements StudySessionService {
 		studySession.setSessionCategory(studySessionForm.getSessionCategory());
 
 		try {
-
 			Course course = courseDao.findCourseById(courseId);
 			studySession.setCourse(course);
 			studySessionDao.insertStudySession(studySession);
@@ -129,7 +128,7 @@ public class StudySessionServiceImpl implements StudySessionService {
 	public List<StudySession> findStudySessionByCourse(Integer courseId) {
 
 		Course course = courseDao.findCourseById(courseId);
-		List<StudySession> studySessions = studySessionDao.findStudySessionsByCourse(course);
+		List<StudySession> studySessions = studySessionDao.findStudySessionByCourse(course);
 
 		return studySessions;
 	}
@@ -166,10 +165,12 @@ public class StudySessionServiceImpl implements StudySessionService {
 	}
 
 	@Override
+
 	public String getParticipationRate(List<StudySession> studentSessions, List<StudySession> courseSessions) {
 		DecimalFormat df = new DecimalFormat("###");
 		return df.format(((double) studentSessions.size() / (double) courseSessions.size()) * 100) + "%";
 	}
+
 
 	@Override
 	public boolean checkValidForMarkParticipation(Course course, Student student) {

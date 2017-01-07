@@ -2,6 +2,7 @@ package com.se.sat.app.dao;
 
 import java.util.List;
 
+import com.se.sat.app.entity.Course;
 import com.se.sat.app.entity.Student;
 import com.se.sat.app.entity.StudySession;
 
@@ -14,4 +15,5 @@ public interface StudentDao {
 	
 	List<Student> findAllStudents();
 	List<Student> findStudentByStudySession(StudySession studySession);
+	List<Student> findStudentByCourse(Course course);
 }

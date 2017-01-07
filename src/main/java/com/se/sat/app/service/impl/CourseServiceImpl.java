@@ -179,5 +179,18 @@ public class CourseServiceImpl implements CourseService {
 		}
 		
 	}
+
+	public List<Student> findStudentByCourse(Integer courseId) {
+		Course course = courseDao.findCourseById(courseId);
+		
+		if(course != null){
+			List<Student> students = studentDao.findStudentByCourse(course);
+			return students;
+		}
+		
+		else
+			return null;
+	}
+	
 	
 }

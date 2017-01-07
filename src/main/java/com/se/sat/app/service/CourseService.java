@@ -22,4 +22,5 @@ public interface CourseService {
 	
 	public List<CourseEnrollmentObjects> getGroupOfCoursesByTeacher();
 	public boolean enrollToACourse(Student student, Course course);
+	public List<Student> findStudentByCourse(Integer courseId);
 }
