@@ -190,7 +190,6 @@
 				
 			});
 		</script>
-
 	</div>
 	
 	
@@ -351,15 +350,17 @@
 								},
 								success : function(data) {
 									$('#addNewSessionPanel').html(data);
-									
-									var myerror = $('#myerrorhidden').text();
-									if(myerror == 'success'){
-										location.reload();
-									}
 								}
 							});
 								
 								
+						});
+						
+						$('#addNewSessionPanel').on('hidden.bs.modal', function () {	
+							var myerror = $('#myerrorhidden').text();
+							if(myerror == 'success'){
+								location.reload();
+							}
 						});
 						
 						$('#inputStartTime').datetimepicker({

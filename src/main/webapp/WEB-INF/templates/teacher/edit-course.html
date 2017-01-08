@@ -29,8 +29,9 @@
 					
 				</div>
 
-				<div class="panel-body">
-					<form action="#" th:action="@{'/teacher/course/' + ${courseId} + '/edit'}"
+				<div class="panel-body">				
+				
+					<form id="editCourseForm"action="#" th:action="@{'/teacher/course/' + ${courseId} + '/edit'}"
 						th:object="${editCourseForm}" method="post">
 						<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
 							<label class="control-label" for="inputName">Course Name : *</label> <input

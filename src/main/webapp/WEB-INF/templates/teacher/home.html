@@ -20,47 +20,52 @@
 		</div>
 
 		<div class="row">
-			<div class="col-md-9 col-center">
-				<div class="panel panel-default animated fadeInDown">
+
+			<div id="teacherHome" class="panel panel-default animated fadeInDown">
+
 					
-					<div class="panel-heading">
-						<a id= "btnNewCourse" data-toggle="modal" data-target="#newCoursePanel" href="#" role="button" class="pull-right btn btn-primary btn-xs small-corner-btn"><i
-							class="fa fa-plus-circle"></i> Create new course</a><strong>Dashboard</strong>
-					</div>
-					<div class="panel-body">
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th class="col-md-1 text-center">#</th>
-									<th>Course's name</th>
-									<th class="col-md-1"></th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class='courseInfo clickable' th:each="course,iterationStatus : ${courses}"
-									th:attr="data-href=@{/teacher/course/}+${course.id}">
-									<td class="text-center" th:text="${iterationStatus.count}"></td>
-									<td th:text="${course.name}"></td>
-									<td><a th:href="@{'/teacher/course/' + ${course.id} + '/delete'}" class="btn btn-default btn-right btn-xs" role="button"> <i class="fa fa-minus-square-o"></i> Delete </a> </td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
+				<div class="panel-heading">
+					<a id="btnNewCourse" data-toggle="modal" data-target="#newCoursePanel" class="pull-right btn btn-primary btn-xs small-corner-btn"><i
+						class="fa fa-plus-circle"></i> Add new course</a><strong>Dashboard</strong>
+				</div>
+				<div class="panel-body">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th class="col-md-1 text-center">#</th>
+								<th>Course's name</th>
+								<th class="col-md-1"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class='courseInfo clickable' th:each="course,iterationStatus : ${courses}"
+								th:attr="data-href=@{/teacher/course/}+${course.id}">
+								<td class="text-center" th:text="${iterationStatus.count}"></td>
+								<td th:text="${course.name}"></td>
+								<td><a data-toggle="modal" data-target="#deleteCoursePanel" th:href="@{'/teacher/course/' + ${course.id} + '/delete'}" class="courseitem btn btn-default btn-right btn-xs" th:attr="courseIdUrl=${course.id}" role="button"> <i class="fa fa-minus-square-o"></i> Delete </a> </td>
+							</tr>
+						</tbody>
+					</table>
 				</div>
 			</div>
+				
 		</div>
 	</div>
 	<!-- /container -->
 	
 	<!-- Modal -->
 	<div id="newCoursePanel" class="modal fade" role="dialog"></div>
+	<div id="deleteCoursePanel" class="modal fade" role="dialog"></div>
 	
 	<div th:replace="common/footer :: common-footer"></div>
 	<div th:replace="common/footer :: footer-scripts"></div>
 	<script type="text/javascript" th:inline="javascript">
 		$(document).ready(function() {
 			/*<![CDATA[*/
-			var reload_url = /*[[@{~/teacher/new-course}]]*/"";
+			var reload_new_url = /*[[@{~/teacher/new-course}]]*/"";
+			var prefix_reload_delete_url = /*[[@{~/teacher/course/}]]*/"";
+			var suffic_reload_delete_url = "/delete";
+			
 			/*]]>*/
 			
 			$(".courseInfo").click(function() {
@@ -68,12 +73,21 @@
 		    });
 			
 			$('#btnNewCourse').click(function(){
-				$('#newCoursePanel').load(reload_url);
+				$('#newCoursePanel').load(reload_new_url);
 			});
 			
-			$('#newCoursePanel').on('hidden.bs.modal', function () {
+			$('#newCoursePanel').on('hidden.bs.modal', function () {	
 				location.reload();
 			});
+			
+			$('.courseitem').click(function(){
+				var courseIdModal =  $(this).attr("courseIdUrl");
+				$('#deleteCoursePanel').load(prefix_reload_delete_url +courseIdModal + suffic_reload_delete_url );
+			});
+			
+			//$('#deleteCoursePanel').on('hidden.bs.modal', function () {				
+				//location.reload();						
+			//});
 		});
 	
 	</script>

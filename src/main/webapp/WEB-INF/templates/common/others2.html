@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+	<div th:fragment="newCourse" class="modal-dialog model-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">New Course</h4>
+			</div>
+			<div th:if="${flashType != null}"
+				th:class="'hien-modal-alert alert alert-'+${flashType}+' fade in alert-dismissable'">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <span
+					th:text="${flashMessage}"></span>
+			</div>
+			<div class="modal-body">
+
+				<form id="myForm" action="#" th:action="@{'/teacher/new-course'}" th:object="${courseForm}"
+					method="post" class="form-control-sm">
+
+					<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputName">Course Name : *</label> <input
+							class="form-control" th:field="*{name}" type="text" id="inputName"
+							placeholder="Enter course's name" /> <span th:if="${#fields.hasErrors('name')}"
+							th:errors="*{name}" class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('description')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputDescription">Description : *</label>
+						<textarea class="form-control" th:field="*{description}" rows="3" id="inputDescription"
+							placeholder="Enter course's description"> </textarea>
+						<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+							class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('startDate')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputStartDate">Start Course Date : *</label> <input
+							class="form-control datetimepicker" th:field="*{startDate}" type="text" id="inputStartDate"
+							placeholder="Enter course's start date" /> <span th:if="${#fields.hasErrors('startDate')}"
+							th:errors="*{startDate}" class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('endDate')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputEndDate">End Course Date : *</label> <input
+							class="form-control datetimepicker" th:field="*{endDate}" type="text" id="inputEndDate"
+							placeholder="Enter course's end date" /> <span th:if="${#fields.hasErrors('endDate')}"
+							th:errors="*{endDate}" class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('startEnrollDate')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputStartEnrollDate">Start Enroll Date : *</label> <input
+							class="form-control datetimepicker" th:field="*{startEnrollDate}" type="text"
+							id="inputStartEnrollDate" placeholder="Enter course's start enroll date" /> <span
+							th:if="${#fields.hasErrors('startEnrollDate')}" th:errors="*{startEnrollDate}"
+							class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('endEnrollDate')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputEndEnrollDate">End Enroll Date : *</label> <input
+							class="form-control datetimepicker" th:field="*{endEnrollDate}" type="text"
+							id="inputEndEnrollDate" placeholder="Enter course's end enroll date" /> <span
+							th:if="${#fields.hasErrors('endEnrollDate')}" th:errors="*{endEnrollDate}"
+							class="label-important"></span>
+					</div>
+
+					<button id="btnAddCourse" type="submit" class="btn btn-primary">Create <i class="fa fa-pencil-square-o"></i></button>
+					<button id="btnClose" type="button" class="btn btn-primary" data-dismiss="modal">
+						Close <span class="glyphicon glyphicon-remove-sign"></span></button>
+				</form>
+
+				<script th:src="@{/custom/js/jquery.datetimepicker.full.min.js}"></script>
+				<script type="text/javascript" th:inline="javascript">
+					$(document).ready(function() {
+						/*<![CDATA[*/
+						var addCourse_url = /*[[@{~/teacher/new-course}]]*/"";
+						
+						/*]]>*/
+
+						var token = $("meta[name='_csrf']")
+								.attr("content");
+						var header = $(
+								"meta[name='_csrf_header']")
+								.attr("content");
+
+						$('#btnAddCourse').click(function(event) {
+							event.preventDefault();
+							$.ajax({
+								type : "POST",
+								url : addCourse_url,
+								data : $('#myForm').serialize(),
+								async : true,
+								//contentType : "application/json; charset=utf-8",
+								beforeSend : function(xhr) {
+									//xhr.setRequestHeader("Accept", "application/json");
+									//xhr.setRequestHeader("Content-Type", "application/json");
+									xhr.setRequestHeader(header,token);
+							},success : function(data) {
+								$('#newCoursePanel').html(data);
+								
+							}
+							});
+						});
+	
+						$('#inputStartDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+	
+						$('#inputEndDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+	
+						$('#inputStartEnrollDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+	
+						$('#inputEndEnrollDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+	
+				});
+				</script>
+
+			</div>
+
+		</div>
+	</div>
+
+
+	<div th:fragment="editCourse" class="modal-dialog model-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Edit Course</h4>
+			</div>
+			<div th:if="${flashType != null}"
+				th:class="'hien-modal-alert alert alert-'+${flashType}+' fade in alert-dismissable'">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <span
+					th:text="${flashMessage}"></span>
+			</div>
+			<div class="modal-body">
+
+				<form id="editCourseFormModal" th:action="@{'/teacher/course/' + ${courseId} + '/edit'}"
+					th:object="${courseForm}" method="post" class="form-control-sm">
+
+					<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputName">Course Name : *</label> <input
+							class="form-control" th:field="*{name}" type="text" id="inputName"
+							placeholder="Enter course's name" /> <span th:if="${#fields.hasErrors('name')}"
+							th:errors="*{name}" class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('description')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputDescription">Description : *</label>
+						<textarea class="form-control" th:field="*{description}" rows="3" id="inputDescription"
+							placeholder="Enter course's description"> </textarea>
+						<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"
+							class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('startDate')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputStartDate">Start Course Date : *</label> <input
+							class="form-control" th:field="*{startDate}" type="text" id="inputStartDate"
+							placeholder="Enter course's start date" /> <span th:if="${#fields.hasErrors('startDate')}"
+							th:errors="*{startDate}" class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('endDate')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputEndDate">End Course Date : *</label> <input
+							class="form-control" th:field="*{endDate}" type="text" id="inputEndDate"
+							placeholder="Enter course's end date" /> <span th:if="${#fields.hasErrors('endDate')}"
+							th:errors="*{endDate}" class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('startEnrollDate')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputStartEnrollDate">Start Enroll Date : *</label> <input
+							class="form-control" th:field="*{startEnrollDate}" type="text" id="inputStartEnrollDate"
+							placeholder="Enter course's start enroll date" /> <span
+							th:if="${#fields.hasErrors('startEnrollDate')}" th:errors="*{startEnrollDate}"
+							class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('endEnrollDate')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputEndEnrollDate">End Enroll Date : *</label> <input
+							class="form-control" th:field="*{endEnrollDate}" type="text" id="inputEndEnrollDate"
+							placeholder="Enter course's end enroll date" /> <span
+							th:if="${#fields.hasErrors('endEnrollDate')}" th:errors="*{endEnrollDate}"
+							class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('status')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputStatus">Status : *</label> <input class="form-control"
+							th:field="*{status}" type="text" id="inputStatus" placeholder="Status" /> <span
+							th:if="${#fields.hasErrors('status')}" th:errors="*{status}" class="label-important"></span>
+					</div>
+
+					<a th:if="${enrolled == null}" id="btnEditCourseSubmit" type="button" class="btn btn-primary"><i
+						class="fa fa-pencil-square-o"></i> Update</a>
+					<button id="btnClose" type="button" class="btn btn-primary" data-dismiss="modal">
+						Close <span class="glyphicon glyphicon-remove-sign"></span>
+					</button>
+				</form>
+
+				<script th:src="@{/custom/js/jquery.datetimepicker.full.min.js}"></script>
+				<script type="text/javascript" th:inline="javascript">
+					$(document).ready(function() {
+						/*<![CDATA[*/
+						var editCourse_url = /*[[@{'/teacher/course/' + ${courseId} + '/edit'}]]*/"";
+						/*]]>*/
+	
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr("content");
+						var success = 0;
+	
+						$('#btnEditCourseSubmit').click(function(event) {
+							event.preventDefault();
+							$.ajax({
+								type : "POST",
+								url : editCourse_url,
+								data : $('#editCourseFormModal').serialize(),
+								async : false,
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header,token);
+								},
+								success : function(data) {
+									$('#editCoursePanel').html(data);
+									success = 1;
+								}
+							});
+						});
+						
+						$('#editCoursePanel').on('hidden.bs.modal', function () {	
+							if(success == 1){
+								location.reload();
+								success = 0;
+							}
+						});
+	
+						$('#inputStartDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+	
+						$('#inputEndDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+	
+						$('#inputStartEnrollDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+	
+						$('#inputEndEnrollDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+	
+					});
+				</script>
+
+			</div>
+
+		</div>
+	</div>
+
+	<div th:fragment="editSession" class="modal-dialog model-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Edit Session's Information</h4>
+			</div>
+			<div th:if="${flashType != null}"
+				th:class="'hien-modal-alert alert alert-'+${flashType}+' fade in alert-dismissable'">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <span
+					th:text="${flashMessage}"></span>
+			</div>
+			<div class="modal-body">
+
+				<form id="editSessionFormModal" th:action="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySessionId} + '/edit'}"
+					th:object="${editStudySessionForm}" method="post" class="form-control-sm">
+
+					<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputName">Session Name : *</label> <input
+								class="form-control" th:field="*{name}" type="text" id="inputName"
+								placeholder="Enter session's name" /> <span th:if="${#fields.hasErrors('name')}"
+								th:errors="*{name}" class="label-important"></span>
+						</div>
+
+						<div th:class="${#fields.hasErrors('startTime')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputStartTime">Session start time (hh:mm:ss): *</label> <input
+								class="form-control" th:field="*{startTime}" type="text" id="inputStartTime"
+								placeholder="Choose session's start time" /> <span
+								th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" class="label-important"></span>
+						</div>
+
+						<div th:class="${#fields.hasErrors('endTime')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputEndTime">Session end time (hh:mm:ss): *</label> <input
+								class="form-control" th:field="*{endTime}" type="text" id="inputEndTime"
+								placeholder="Choose session's end time" /> <span th:if="${#fields.hasErrors('endTime')}"
+								th:errors="*{endTime}" class="label-important"></span>
+						</div>
+
+
+						<div th:class="${#fields.hasErrors('sessionDate')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputSessionDate">Session date (YYYY-MM-DD): *</label> <input
+								class="form-control" th:field="*{sessionDate}" type="text" id="inputSessionDate"
+								placeholder="Enter session's date" /> <span th:if="${#fields.hasErrors('sessionDate')}"
+								th:errors="*{sessionDate}" class="label-important"></span>
+						</div>
+						<div
+							th:class="${#fields.hasErrors('sessionCategory')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputSessionCategory">Session category : *</label> <input
+								class="form-control" th:field="*{sessionCategory}" type="text" id="inputSessionCategory"
+								placeholder="Session's category" /> <span th:if="${#fields.hasErrors('sessionCategory')}"
+								th:errors="*{sessionCategory}" class="label-important"></span>
+						</div>					
+
+					<a id="btnEditSessionSubmit" type="button" class="btn btn-primary"><i
+						class="fa fa-pencil-square-o"></i> Update</a>
+					<button id="btnClose" type="button" class="btn btn-primary" data-dismiss="modal">
+						Close <span class="glyphicon glyphicon-remove-sign"></span>
+					</button>
+				</form>
+
+				<script th:src="@{/custom/js/jquery.datetimepicker.full.min.js}"></script>
+				<script type="text/javascript" th:inline="javascript">
+					$(document).ready(function() {
+						/*<![CDATA[*/
+						var editCourse_url = /*[[@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySessionId} + '/edit'}]]*/"";
+						/*]]>*/
+	
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr("content");
+	
+						$('#btnEditSessionSubmit').click(function(event) {
+							event.preventDefault();
+							$.ajax({
+								type : "POST",
+								url : editCourse_url,
+								data : $('#editSessionFormModal').serialize(),
+								async : true,
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header,token);
+								},
+								success : function(data) {
+									$('#editSessionPanel').html(data);
+								}
+							});
+						});
+						
+						$('#editSessionPanel').on('hidden.bs.modal', function () {	
+							location.reload();
+						});
+	
+						$('#inputStartTime').datetimepicker({
+							timepicker : true,
+							mask : false,
+							datepicker : false,
+							format : 'H:i:s'
+						});
+
+						$('#inputEndTime').datetimepicker({
+							timepicker : true,
+							mask : false,
+							datepicker : false,
+							format : 'H:i:s'
+						});
+
+						$('#inputSessionDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+	
+					});
+				</script>
+
+			</div>
+
+		</div>
+	</div>
+	
+	<div th:fragment="changeSessionPassword" class="modal-dialog model-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Change Session's Password</h4>
+			</div>
+			<div th:if="${flashType != null}"
+				th:class="'hien-modal-alert alert alert-'+${flashType}+' fade in alert-dismissable'">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <span
+					th:text="${flashMessage}"></span>
+			</div>
+			<div class="modal-body">
+
+				<form id="changeSessionPasswordFormModal" th:action="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySessionId} + '/change-password'}"
+					th:object="${studySessionPasswordForm}" method="post" class="form-control-sm">
+
+					<div th:class="${#fields.hasErrors('password')}?  'form-group has-error' : 'form-group'">
+							<label class="control-label" for="inputPassword">Password : *</label> <input
+								class="form-control" th:field="*{password}" type="password" id="inputPassword"
+								placeholder="Session's password" /> <span th:if="${#fields.hasErrors('password')}"
+								th:errors="*{password}" class="label-important"></span>
+						</div>										
+
+					<a id="btnChangeSessionPasswordSubmit" type="button" class="btn btn-primary"><i
+						class="fa fa-pencil-square-o"></i> Update</a>
+					<button id="btnClose" type="button" class="btn btn-primary" data-dismiss="modal">
+						Close <span class="glyphicon glyphicon-remove-sign"></span>
+					</button>
+				</form>
+								
+				<script type="text/javascript" th:inline="javascript">
+					$(document).ready(function() {
+						/*<![CDATA[*/
+						var changeSessionPassword_url = /*[[@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySessionId} + '/change-password'}]]*/"";
+						/*]]>*/
+	
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr("content");
+	
+						$('#btnChangeSessionPasswordSubmit').click(function(event) {
+							event.preventDefault();
+							$.ajax({
+								type : "POST",
+								url : changeSessionPassword_url,
+								data : $('#changeSessionPasswordFormModal').serialize(),
+								async : false,
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header,token);
+								},
+								success : function(data) {
+									$('#changeSessionPasswordPanel').html(data);
+								}
+							});
+						});
+	
+					});
+				</script>
+
+			</div>
+
+		</div>
+	</div>
+	
+	<div th:fragment="deleteCourseModal" class="modal-dialog model-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Delete Course</h4>
+			</div>
+			<div th:if="${flashType != null}"
+				th:class="'hien-modal-alert alert alert-'+${flashType}+' fade in alert-dismissable'">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <span
+					th:text="${flashMessage}"></span>
+			</div>
+			<div class="modal-body">
+
+				<form id="deleteCourseFormModal" th:action="@{'/teacher/course/' + ${courseId} + '/delete'}"
+					method="post" class="form-control-sm">		
+												
+					<h4 >Do you want to delete this course ?</h4>
+					
+					<a id="btnDeleteCourseSubmit" type="button" class="btn btn-primary">Delete <span class="glyphicon glyphicon-minus-sign"></span></a>
+					<button id="btnClose" type="button" class="btn btn-primary" data-dismiss="modal">
+					
+						Close <span class="glyphicon glyphicon-remove-sign"></span>
+					</button>
+				</form>
+								
+				<script type="text/javascript" th:inline="javascript">
+					$(document).ready(function() {
+						/*<![CDATA[*/
+						var deleteCourse_url = /*[[@{'/teacher/course/' + ${courseId} + '/delete'}]]*/"";
+						var course_id = /*[[${courseId}]]*/"";
+						/*]]>*/
+	
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr("content");
+						var result = true;	
+						
+	
+						$('#btnDeleteCourseSubmit').click(function(event) {
+							event.preventDefault();
+							$.ajax({
+								type : "POST",
+								url : deleteCourse_url,
+								data :{
+									result
+								},
+								async : true,
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header,token);
+								},
+								success : function(data) {
+									$('#deleteCoursePanel').html(data);									
+									//$('.courseListItem[courseIdUrl='+course_id+']').remove();
+								}
+							});
+						});
+	
+					});
+				</script>
+
+			</div>
+
+		</div>
+	</div>
+</body>
+</html>

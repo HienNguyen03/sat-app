@@ -42,7 +42,10 @@ public class CourseDaoImpl extends AbstractDao<Integer, Course> implements Cours
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("id", id));
 		Course course = (Course) crit.uniqueResult();
-		delete(course);
+		if(course!=null){
+			delete(course);
+		}
+		
 	}
 
 	@Override

@@ -19,7 +19,7 @@
 		<div class="row">
 			
 			<div class="col-md-10 col-center">
-				<div th:class="${flashType != null}? 'panel panel-default' : 'panel panel-default animated fadeInDown'">
+				<div class="panel panel-default">
 					<div class="panel-heading">
 						<a class="pull-right btn btn-primary btn-xs small-corner-btn" th:href="@{/teacher/course/}+${courseId}"><i
 							class="fa fa-chevron-circle-left"></i> Back</a>
@@ -38,10 +38,13 @@
 									<th class="text-center">Date</th>
 									<th>Category</th>
 									<th></th>
+									<th></th>
+									<th></th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr class='studySessionInfo clickable' th:each="studySession,iterationStatus : ${studySessions}" data-toggle="modal" data-target="#sessionInfoPanel" th:attr="data-href=@{/teacher/course/}+${courseId}+'/study-session/'+${studySession.id}">
+								<tr class='studySessionInfo' th:each="studySession,iterationStatus : ${studySessions}">
 									<td class="text-center" th:text="${iterationStatus.count}"></td>
 									<td th:text="${studySession.name}"></td>
 									<td class="text-center" th:text="${studySession.startTime}"></td>
@@ -49,15 +52,23 @@
 									<td class="text-center" th:text="${studySession.sessionDate}"></td>
 									<td th:text="${studySession.sessionCategory}"></td>
 									<td class="text-right">
+										<a th:href="@{/teacher/course/}+${courseId}+'/study-session/'+${studySession.id}" class="btn btn-primary btn-right btn-xs" role="button"> <i class="fa fa-minus-square-o"></i> View </a>
+									</td>
+									<td class="text-right">
 										<a th:href="@{/teacher/course/}+${courseId}+'/study-session/'+${studySession.id}+'/delete'" class="btn btn-danger btn-right btn-xs" role="button"> <i class="fa fa-minus-square-o"></i> Delete </a>
-										<a th:href="@{/teacher/course/}+${courseId}+'/study-session/'+${studySession.id}+'/edit'" class="btn btn-primary btn-right btn-xs" role="button"> <i class="fa fa-edit"></i> Edit </a>
-										<a th:href="@{/teacher/course/}+${courseId}+'/study-session/'+${studySession.id}+'/change-password'" class="btn btn-success btn-right btn-xs" role="button"> <i class="fa fa-pencil"></i> Change password </a>
+									</td>
+									<td>
+										<a data-toggle="modal" data-target="#editSessionPanel" class="btnEditSession btn btn-default btn-right btn-xs" th:attr="data-id1=${studySession.id}" role="button"> <i class="fa fa-edit"></i> Edit</a>
+									</td>
+									<td>
+										<a data-toggle="modal" data-target="#changeSessionPasswordPanel" class="btnChangeSessionPassword btn btn-success btn-right btn-xs" th:attr="data-id2=${studySession.id}" role="button"> <i class="fa fa-pencil"></i> Change password </a>
 									</td>
 								</tr>
 							</tbody>
 						</table>
 						<h4 th:if="${studySessions.isEmpty()}" class="text-center">No session available !</h4>
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -66,21 +77,35 @@
 	
 	<!-- Modal -->
 	<div id="addNewSessionPanel" class="modal fade" role="dialog"></div>
+	<div id="editSessionPanel" class="modal fade" role="dialog"></div>
+	<div id="changeSessionPasswordPanel" class="modal fade" role="dialog"></div>
 			
 	<div th:replace="common/footer :: common-footer"></div>
 	<div th:replace="common/footer :: footer-scripts"></div>
+	
 	<script type="text/javascript" th:inline="javascript">
 		$(document).ready( function() {
 			/*<![CDATA[*/
 			var newsession_url = /*[[@{~/teacher/course/}+${courseId}+'/new-study-session']]*/"";
+			
+			var prefix_reload_url = /*[[@{'/teacher/course/' + ${courseId} + '/study-session/'}]]*/"";
+			var suffix_reload_edit_url = "/edit";			
+			var suffix_reload_changePwd__url = "/change-password";
 			/*]]>*/
 			
-			$(".studySessionInfo").click(function() {
-		        window.location = $(this).data("href");
-		    });
 			$("#btnAddNewSession").click(function() {
 		        $("#addNewSessionPanel").load(newsession_url);
 		    });
+			
+			$('.btnEditSession').click(function() {
+				var sSIdModal1 = $(this).attr("data-id1");
+				$('#editSessionPanel').load(prefix_reload_url + sSIdModal1 + suffix_reload_edit_url);
+			});
+			
+			$('.btnChangeSessionPassword').click(function() {
+				var sSIdModal2 = $(this).attr("data-id2");
+				$('#changeSessionPasswordPanel').load(prefix_reload_url + sSIdModal2 + suffix_reload_changePwd__url);
+			});
 		});
 	</script>
 </body>

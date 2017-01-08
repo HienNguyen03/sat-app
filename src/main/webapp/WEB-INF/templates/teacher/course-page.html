@@ -19,7 +19,7 @@
 		<div class="row">
 			
 			<div class="col-md-11 col-center">
-				<div class="course-panel panel panel-default animated fadeInDown">
+				<div class="course-panel panel panel-default">
 					<div class="panel-heading">
 						<!-- Trigger the modal with a button -->
 						<a class="pull-right btn btn-primary btn-xs small-corner-btn" th:href="@{/teacher}"><i
@@ -83,17 +83,15 @@
 	<div th:replace="common/footer :: common-footer"></div>
 	<div th:replace="common/footer :: footer-scripts"></div>
 	<script type="text/javascript" th:inline="javascript">
-		$(document)
-				.ready(
-						function() {
-							/*<![CDATA[*/
-							var reload_url = /*[[@{'/teacher/course/' + ${course.id} + '/edit'}]]*/"";
-							/*]]>*/
+		$(document).ready(function() {
+			/*<![CDATA[*/
+			var reload_url = /*[[@{'/teacher/course/' + ${course.id} + '/edit'}]]*/"";
+			/*]]>*/
 
-							$('#btnEditCourse').click(function() {
-								$('#editCoursePanel').load(reload_url);
-							});
-						});
+			$('#btnEditCourse').click(function() {
+				$('#editCoursePanel').load(reload_url);
+			});
+		});
 	</script>
 </body>
 </html>

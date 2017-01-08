@@ -94,7 +94,6 @@ public class CourseServiceImpl implements CourseService {
 	
 	@Override
 	public boolean deleteCourse(Integer id) {
-
 		try {
 			courseDao.deleteCourseById(id);
 			return true;
