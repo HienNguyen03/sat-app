@@ -20,7 +20,7 @@
 		</div>
 
 		<div class="row">
-			<div id="teacherHome" class="panel panel-default animated fadeInDown">
+			<div id="teacherHome" class="panel panel-default">
 
 				<div class="panel-heading">
 					<div class="span6 pull-right" style="text-align: right">
@@ -34,11 +34,11 @@
 				<div class="panel-body">
 
 					<div th:each="course : ${courses}" class="list-group">
-						<div class="list-group-item row courseListItem" th:attr="courseIdUrl=${course.id}">
+						<div class="list-group-item row courseListItem" th:attr="courseIdUrl1=${course.id}">
 							<a href="#" th:href="@{'/teacher/course/' + ${course.id} }" th:text="${course.name}">SE</a>	
 																		
 							<a data-toggle="modal" data-target="#deleteCoursePanel" 
-								class="courseitem btn btn-default pull-right" role="button" th:attr="courseIdUrl=${course.id}"> <i class="fa fa-minus-square-o"></i>
+								class="courseitem btn btn-default pull-right" role="button" th:attr="courseIdUrl2=${course.id}"> <i class="fa fa-minus-square-o"></i>
 								Delete
 							</a>
 						
@@ -77,7 +77,7 @@
 			});
 			
 			$('.courseitem').click(function(){
-				var courseIdModal =  $(this).attr("courseIdUrl");
+				var courseIdModal =  $(this).attr("courseIdUrl2");
 				$('#deleteCoursePanel').load(prefix_reload_delete_url +courseIdModal + suffic_reload_delete_url );
 			});
 			
