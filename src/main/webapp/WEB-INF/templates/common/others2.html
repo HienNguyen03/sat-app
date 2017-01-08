@@ -11,8 +11,7 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 				<h4 class="modal-title">New Course</h4>
 			</div>
-			<div th:if="${flashType != null}"
-				th:class="'hien-modal-alert alert alert-'+${flashType}+' fade in alert-dismissable'">
+			<div th:if="${flashType != null}" th:class="'hien-modal-alert alert alert-'+${flashType}+' fade in alert-dismissable'">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <span
 					th:text="${flashMessage}"></span>
 			</div>
@@ -22,8 +21,8 @@
 					method="post" class="form-control-sm">
 
 					<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputName">Course Name : *</label> <input
-							class="form-control" th:field="*{name}" type="text" id="inputName"
+						<label class="control-label" for="inputName">Course Name : *</label> 
+						<input class="form-control" th:field="*{name}" type="text" id="inputName"
 							placeholder="Enter course's name" /> <span th:if="${#fields.hasErrors('name')}"
 							th:errors="*{name}" class="label-important"></span>
 					</div>
@@ -37,29 +36,29 @@
 					</div>
 
 					<div th:class="${#fields.hasErrors('startDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputStartDate">Start Course Date : *</label> <input
-							class="form-control datetimepicker" th:field="*{startDate}" type="text" id="inputStartDate"
+						<label class="control-label" for="inputStartDate">Start Course Date (yyyy-mm-dd) : *</label>
+						<input class="form-control datetimepicker" th:field="*{startDate}" type="text" id="inputStartDate"
 							placeholder="Enter course's start date" /> <span th:if="${#fields.hasErrors('startDate')}"
 							th:errors="*{startDate}" class="label-important"></span>
 					</div>
 
 					<div th:class="${#fields.hasErrors('endDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputEndDate">End Course Date : *</label> <input
-							class="form-control datetimepicker" th:field="*{endDate}" type="text" id="inputEndDate"
+						<label class="control-label" for="inputEndDate">End Course Date (yyyy-mm-dd) : *</label> 
+						<input class="form-control datetimepicker" th:field="*{endDate}" type="text" id="inputEndDate"
 							placeholder="Enter course's end date" /> <span th:if="${#fields.hasErrors('endDate')}"
 							th:errors="*{endDate}" class="label-important"></span>
 					</div>
 
 					<div th:class="${#fields.hasErrors('startEnrollDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputStartEnrollDate">Start Enroll Date : *</label> <input
-							class="form-control datetimepicker" th:field="*{startEnrollDate}" type="text"
+						<label class="control-label" for="inputStartEnrollDate">Start Enroll Date (yyyy-mm-dd)  :*</label> 
+						<input class="form-control datetimepicker" th:field="*{startEnrollDate}" type="text"
 							id="inputStartEnrollDate" placeholder="Enter course's start enroll date" /> <span
 							th:if="${#fields.hasErrors('startEnrollDate')}" th:errors="*{startEnrollDate}"
 							class="label-important"></span>
 					</div>
 
 					<div th:class="${#fields.hasErrors('endEnrollDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputEndEnrollDate">End Enroll Date : *</label> <input
+						<label class="control-label" for="inputEndEnrollDate">End Enroll Date (yyyy-mm-dd) : *</label> <input
 							class="form-control datetimepicker" th:field="*{endEnrollDate}" type="text"
 							id="inputEndEnrollDate" placeholder="Enter course's end enroll date" /> <span
 							th:if="${#fields.hasErrors('endEnrollDate')}" th:errors="*{endEnrollDate}"
@@ -172,21 +171,21 @@
 					</div>
 
 					<div th:class="${#fields.hasErrors('startDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputStartDate">Start Course Date : *</label> <input
+						<label class="control-label" for="inputStartDate">Start Course Date (yyyy-mm-dd) : *</label> <input
 							class="form-control" th:field="*{startDate}" type="text" id="inputStartDate"
 							placeholder="Enter course's start date" /> <span th:if="${#fields.hasErrors('startDate')}"
 							th:errors="*{startDate}" class="label-important"></span>
 					</div>
 
 					<div th:class="${#fields.hasErrors('endDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputEndDate">End Course Date : *</label> <input
+						<label class="control-label" for="inputEndDate">End Course Date (yyyy-mm-dd) : *</label> <input
 							class="form-control" th:field="*{endDate}" type="text" id="inputEndDate"
 							placeholder="Enter course's end date" /> <span th:if="${#fields.hasErrors('endDate')}"
 							th:errors="*{endDate}" class="label-important"></span>
 					</div>
 
 					<div th:class="${#fields.hasErrors('startEnrollDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputStartEnrollDate">Start Enroll Date : *</label> <input
+						<label class="control-label" for="inputStartEnrollDate">Start Enroll Date (yyyy-mm-dd) : *</label> <input
 							class="form-control" th:field="*{startEnrollDate}" type="text" id="inputStartEnrollDate"
 							placeholder="Enter course's start enroll date" /> <span
 							th:if="${#fields.hasErrors('startEnrollDate')}" th:errors="*{startEnrollDate}"
@@ -194,7 +193,7 @@
 					</div>
 
 					<div th:class="${#fields.hasErrors('endEnrollDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputEndEnrollDate">End Enroll Date : *</label> <input
+						<label class="control-label" for="inputEndEnrollDate">End Enroll Date (yyyy-mm-dd) : *</label> <input
 							class="form-control" th:field="*{endEnrollDate}" type="text" id="inputEndEnrollDate"
 							placeholder="Enter course's end enroll date" /> <span
 							th:if="${#fields.hasErrors('endEnrollDate')}" th:errors="*{endEnrollDate}"
@@ -323,14 +322,14 @@
 
 
 						<div th:class="${#fields.hasErrors('sessionDate')}?  'form-group has-error' : 'form-group'">
-							<label class="control-label" for="inputSessionDate">Session date (YYYY-MM-DD): *</label> <input
+							<label class="control-label" for="inputSessionDate">Session date (yyyy-mm-dd): *</label> <input
 								class="form-control" th:field="*{sessionDate}" type="text" id="inputSessionDate"
 								placeholder="Enter session's date" /> <span th:if="${#fields.hasErrors('sessionDate')}"
 								th:errors="*{sessionDate}" class="label-important"></span>
 						</div>
 						<div
 							th:class="${#fields.hasErrors('sessionCategory')}?  'form-group has-error' : 'form-group'">
-							<label class="control-label" for="inputSessionCategory">Session category : *</label> <input
+							<label class="control-label" for="inputSessionCategory">Session category : </label> <input
 								class="form-control" th:field="*{sessionCategory}" type="text" id="inputSessionCategory"
 								placeholder="Session's category" /> <span th:if="${#fields.hasErrors('sessionCategory')}"
 								th:errors="*{sessionCategory}" class="label-important"></span>
@@ -467,6 +466,8 @@
 		</div>
 	</div>
 	
+	<div th:fragment="deleteSuccess"></div>
+	
 	<div th:fragment="deleteCourseModal" class="modal-dialog model-lg">
 
 		<!-- Modal content-->
@@ -480,6 +481,10 @@
 				th:class="'hien-modal-alert alert alert-'+${flashType}+' fade in alert-dismissable'">
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <span
 					th:text="${flashMessage}"></span>
+			</div>
+			<div class="deleteSuceed hien-modal-alert alert alert-success fade in alert-dismissable" style="display: none">
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> 
+					<span>Course was deleted sucessfully ! </span>
 			</div>
 			<div class="modal-body">
 
@@ -503,25 +508,31 @@
 						/*]]>*/
 	
 						var token = $("meta[name='_csrf']").attr("content");
-						var header = $("meta[name='_csrf_header']").attr("content");
-						var result = true;	
+						var header = $("meta[name='_csrf_header']").attr("content");		
 						
-	
 						$('#btnDeleteCourseSubmit').click(function(event) {
-							event.preventDefault();
+							event.preventDefault();							
 							$.ajax({
 								type : "POST",
 								url : deleteCourse_url,
 								data :{
-									result
+									submitResult : course_id
 								},
 								async : true,
 								beforeSend : function(xhr) {
 									xhr.setRequestHeader(header,token);
 								},
+								
 								success : function(data) {
-									$('#deleteCoursePanel').html(data);									
-									//$('.courseListItem[courseIdUrl='+course_id+']').remove();
+									if(data.length == 11){
+										
+										var deletedId = course_id;
+										$('.courseListItem[courseIdUrl1='+deletedId+']').remove();
+										$('.deleteSuceed').css('display','block');
+										
+									} else {
+										$('#deleteCoursePanel').html(data);
+									}
 								}
 							});
 						});

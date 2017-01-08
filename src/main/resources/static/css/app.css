@@ -27,6 +27,14 @@
 	font-variant: small-caps;
 }
 
+.row {
+ 	margin: 0 auto;
+ }
+
+.row > div.panel {
+	margin: 0 auto;
+}
+
 * {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;

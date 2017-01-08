@@ -6,8 +6,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.se.sat.app.dto.CourseForm;
 
-
-
 @Component
 public class CourseFormValidator extends LocalValidatorFactoryBean{
 	@Override

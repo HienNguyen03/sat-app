@@ -39,6 +39,7 @@ import com.se.sat.app.service.StudySessionService;
 import com.se.sat.app.service.TeacherService;
 import com.se.sat.app.util.AppUtil;
 import com.se.sat.app.validator.CourseFormValidator;
+import com.se.sat.app.validator.StudySessionFormValidator;
 
 @Controller
 @RequestMapping("/teacher")
@@ -50,14 +51,17 @@ public class TeacherController {
 	private CourseService courseService;
 	private StudySessionService studySessionService;
 	private CourseFormValidator courseFormValidator;
+	private	StudySessionFormValidator studySessionFormValidator;
 
 	@Autowired
 	public TeacherController(TeacherService teacherService, CourseService courseService,
-			StudySessionService studySessionService, CourseFormValidator courseFormValidator) {
+			StudySessionService studySessionService, CourseFormValidator courseFormValidator,
+			StudySessionFormValidator studySessionFormValidator) {
 		this.teacherService = teacherService;
 		this.courseService = courseService;
 		this.studySessionService = studySessionService;
 		this.courseFormValidator = courseFormValidator;
+		this.studySessionFormValidator = studySessionFormValidator;
 	}
 
 	@InitBinder
@@ -69,10 +73,14 @@ public class TeacherController {
 	}
 	
 	@InitBinder("courseForm")
-	protected void initSignupBuilder(WebDataBinder binder) {
+	protected void initCourseBuilder(WebDataBinder binder) {
 		binder.setValidator(courseFormValidator);
 	}
-
+	
+	@InitBinder("studySessionForm")
+	protected void initStudySessionBuilder(WebDataBinder binder) {
+		binder.setValidator(studySessionFormValidator);
+	}
 
 	/**
 	 * 
@@ -198,26 +206,34 @@ public class TeacherController {
 	
 	@RequestMapping(value = "/course/{courseId}/delete", method = RequestMethod.POST)
 	public String deleteCourse(@PathVariable("courseId") Integer courseId,
-			@RequestParam(value = "result", required = true) Boolean deleteCourseSubmit,
+			@RequestParam(value = "submitResult", required = true) Integer submitResult,
 			 Model model) {
-		List<Student> students = courseService.findStudentByCourse(courseId);
-		if(students != null){
-			AppUtil.flashModelAttribute(model, "danger", "course.deleteFailure");
+		
+		log.debug("submitResult"+submitResult);
+		
+		List<Student> students = courseService.findStudentByCourse(courseId);	
+		
+		if(!students.isEmpty()){ 		
+			log.debug("have student");			
+			AppUtil.flashModelAttribute(model, "danger", "course.failure.CannotDelete");
+			
+			return "common/others2 :: deleteCourseModal";
 		}
 		else{
-		boolean deleteResult = courseService.deleteCourse(courseId);
+			boolean deleteResult = courseService.deleteCourse(submitResult);
+			
+			if(deleteResult){
+				AppUtil.flashModelAttribute(model, "success", "course.success.deleteSuccess");
+				//model.addAttribute("deleted", true);
+				return "common/others2 :: deleteSuccess";
+			}
+			else {				
+				AppUtil.flashModelAttribute(model, "danger", "course.failure.deleteFailure");
+				return "common/others2 :: deleteCourseModal";
+			}		
+			
+		}	
 		
-		if(deleteResult){
-			AppUtil.flashModelAttribute(model, "success", "course.deleteSuccess");
-			//model.addAttribute("deleted", true);
-		}
-		else {
-			AppUtil.flashModelAttribute(model, "danger", "course.deleteFailure");
-		}
-		}
-		
-		return "common/others2 :: deleteCourseModal";
-
 	}
 
 	@RequestMapping(value = "/course/{courseId}/participants", method = RequestMethod.GET)

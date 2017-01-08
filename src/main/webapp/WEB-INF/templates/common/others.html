@@ -282,14 +282,14 @@
 					</div>
 
 					<div th:class="${#fields.hasErrors('startTime')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputStartTime">Session start time : *</label> <input
+						<label class="control-label" for="inputStartTime">Session start time (hh:mm:ss) : *</label> <input
 							class="form-control" th:field="*{startTime}" type="text" id="inputStartTime"
 							placeholder="Choose session's start time" /> <span
 							th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" class="label-important"></span>
 					</div>
 
 					<div th:class="${#fields.hasErrors('endTime')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputEndTime">Session end time: *</label> <input
+						<label class="control-label" for="inputEndTime">Session end time (hh:mm:ss) : *</label> <input
 							class="form-control" th:field="*{endTime}" type="text" id="inputEndTime"
 							placeholder="Choose session's end time" /> <span th:if="${#fields.hasErrors('endTime')}"
 							th:errors="*{endTime}" class="label-important"></span>
@@ -297,7 +297,7 @@
 
 
 					<div th:class="${#fields.hasErrors('sessionDate')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputSessionDate">Session date : *</label> <input
+						<label class="control-label" for="inputSessionDate">Session date (yyyy-mm-dd) : *</label> <input
 							class="form-control" th:field="*{sessionDate}" type="text" id="inputSessionDate"
 							placeholder="Enter session's date" /> <span th:if="${#fields.hasErrors('sessionDate')}"
 							th:errors="*{sessionDate}" class="label-important"></span>
@@ -312,7 +312,7 @@
 
 					<div
 						th:class="${#fields.hasErrors('sessionCategory')}?  'form-group has-error' : 'form-group'">
-						<label class="control-label" for="inputSessionCategory">Session category : *</label> <input
+						<label class="control-label" for="inputSessionCategory">Session category :</label> <input
 							class="form-control" th:field="*{sessionCategory}" type="text" id="inputSessionCategory"
 							placeholder="Session's category" /> <span th:if="${#fields.hasErrors('sessionCategory')}"
 							th:errors="*{sessionCategory}" class="label-important"></span>

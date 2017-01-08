@@ -20,9 +20,7 @@
 		</div>
 
 		<div class="row">
-
-			<div id="teacherHome" class="panel panel-default animated fadeInDown">
-
+			<div id="teacherHome" class="panel panel-default modal-lg">
 					
 				<div class="panel-heading">
 					<a id="btnNewCourse" data-toggle="modal" data-target="#newCoursePanel" class="pull-right btn btn-primary btn-xs small-corner-btn"><i
@@ -35,20 +33,21 @@
 								<th class="col-md-1 text-center">#</th>
 								<th>Course's name</th>
 								<th class="col-md-1"></th>
+								<th class="col-md-1"></th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr class='courseInfo clickable' th:each="course,iterationStatus : ${courses}"
-								th:attr="data-href=@{/teacher/course/}+${course.id}">
+							<tr class='courseListItem' th:each="course,iterationStatus : ${courses}" th:attr="courseIdUrl1=${course.id}">
 								<td class="text-center" th:text="${iterationStatus.count}"></td>
 								<td th:text="${course.name}"></td>
-								<td><a data-toggle="modal" data-target="#deleteCoursePanel" th:href="@{'/teacher/course/' + ${course.id} + '/delete'}" class="courseitem btn btn-default btn-right btn-xs" th:attr="courseIdUrl=${course.id}" role="button"> <i class="fa fa-minus-square-o"></i> Delete </a> </td>
+								<td><a th:href="@{/teacher/course/}+${course.id}" class="btn btn-info btn-right btn-xs" role="button"> <i class="fa fa-desktop"></i> View course content </a> </td>
+								<td><a data-toggle="modal" data-target="#deleteCoursePanel" class="courseitem btn btn-danger btn-right btn-xs" th:attr="courseIdUrl2=${course.id}" role="button"> <i class="fa fa-minus-square-o"></i> Delete </a> </td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-			</div>
 				
+			</div>
 		</div>
 	</div>
 	<!-- /container -->
@@ -65,12 +64,7 @@
 			var reload_new_url = /*[[@{~/teacher/new-course}]]*/"";
 			var prefix_reload_delete_url = /*[[@{~/teacher/course/}]]*/"";
 			var suffic_reload_delete_url = "/delete";
-			
 			/*]]>*/
-			
-			$(".courseInfo").click(function() {
-		        window.location = $(this).data("href");
-		    });
 			
 			$('#btnNewCourse').click(function(){
 				$('#newCoursePanel').load(reload_new_url);
@@ -81,7 +75,7 @@
 			});
 			
 			$('.courseitem').click(function(){
-				var courseIdModal =  $(this).attr("courseIdUrl");
+				var courseIdModal =  $(this).attr("courseIdUrl2");
 				$('#deleteCoursePanel').load(prefix_reload_delete_url +courseIdModal + suffic_reload_delete_url );
 			});
 			
