@@ -40,19 +40,19 @@
 						<div class="list-group-item row">
 
 							<div class="span6 pull-left">
-								<a href="#"
-									th:href="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySession.id}}"
+								<a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySession.id}}"
 									th:text="'Session : ' + ${studySession.name} + ' - Date : ' + ${studySession.sessionDate}">SE</a>
 							</div>
 
 							<div class="span3 pull-right" style="text-align: right">							
 								<a href=""	th:href="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySession.id} + '/delete'}"
 									class="btn btn-default pull-right" role="button"><i class="fa fa-minus-square-o"></i> Delete</a>
-								
-								<a href="" th:href="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySession.id} + '/edit' }"
-									class="btn btn-default pull-right" role="button"><i class="fa fa-edit"></i> Edit Infomation</a>
-								<a href="" th:href="@{'/teacher/course/' + ${courseId} + '/study-session/' + ${studySession.id} + '/change-password' }"
-									class="btn btn-default pull-right" role="button"><i class="fa fa-pencil"></i> Change Password</a>				
+									
+								<a data-toggle="modal" data-target="#editSessionPanel" href="#" 
+									class="btn btn-default pull-right btnEditSession" role="button" th:attr="data-id1=${studySession.id}"><i class="fa fa-edit"></i> Edit Infomation</a>								
+									
+								<a data-toggle="modal" data-target="#changeSessionPasswordPanel" href="#" 
+									class="btn btn-default pull-right btnChangeSessionPassword" role="button" th:attr="data-id2=${studySession.id}"><i class="fa fa-pencil"></i> Change Password</a>				
 							</div>							
 
 						</div>
@@ -64,8 +64,32 @@
 	<!-- /container -->
 			
 	<!-- Modal -->
+	<div id="editSessionPanel" class="modal fade" role="dialog"></div>
+	<div id="changeSessionPasswordPanel" class="modal fade" role="dialog"></div>
 	
 	<div th:replace="common/footer :: common-footer"></div>
-	<div th:replace="common/footer :: footer-scripts"></div>
+	<div th:replace="common/footer :: footer-scripts"></div>	
+	<script type="text/javascript" th:inline="javascript">
+		$(document).ready(function() {
+			/*<![CDATA[*/
+			var prefix_reload_url = /*[[@{'/teacher/course/' + ${courseId} + '/study-session/'}]]*/"";
+			
+			var suffix_reload_edit_url = "/edit";			
+			var suffix_reload_changePwd__url = "/change-password";
+			/*]]>*/
+			
+			$('.btnEditSession').click(function() {
+				var sSIdModal1 =  $(this).attr("data-id1");
+				$('#editSessionPanel').load(prefix_reload_url + sSIdModal1 + suffix_reload_edit_url);
+			});
+			
+			$('.btnChangeSessionPassword').click(function() {
+				var sSIdModal2 =  $(this).attr("data-id2");
+				$('#changeSessionPasswordPanel').load(prefix_reload_url + sSIdModal2 + suffix_reload_changePwd__url);
+			});
+			
+		});
+	</script>
+	
 </body>
 </html>

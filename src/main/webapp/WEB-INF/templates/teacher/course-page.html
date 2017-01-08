@@ -22,13 +22,14 @@
 
 					<div class="span6 pull-right" style="text-align: right">
 						<a class="pull-right btn btn-primary" th:href="@{/teacher}"><i
-							class="fa fa-chevron-circle-left"></i> Back</a> 
-						<a id="btnEditCourse" data-toggle="modal" data-target="#editCoursePanel" href="#"class="btn btn-primary pull-right"
-							role="button"> <i class="fa fa-edit"></i> Edit Course Information
-						</a> <a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/participants'}"
+							class="fa fa-chevron-circle-left"></i> Back</a>
+							
+						<a id="btnEditCourse" data-toggle="modal" data-target="#editCoursePanel" href="#" class="btn btn-primary pull-right"
+							role="button" > <i class="fa fa-edit"></i> Edit Course Information </a>					
+							
+						<a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/participants'}"
 							class="btn btn-primary pull-right" role="button"> <i class="fa fa-group"></i> All
-							Participants
-						</a>
+							Participants</a>
 						<a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/sessions'}"
 							class="btn btn-primary pull-right" role="button"> <span
 							class="glyphicon glyphicon-th-list"></span> All Sessions
@@ -53,10 +54,10 @@
 	<script type="text/javascript" th:inline="javascript">
 		$(document).ready(function() {
 			/*<![CDATA[*/
-			var reload_url = /*[[@{'/teacher/course/' + ${course.id} + '/edit'}]]*/"";
+			var reload_url = /*[[@{'/teacher/course/' + ${courseId} + '/edit'}]]*/"";
 			/*]]>*/
 			
-			$('#btnEditCourse').clikc(function() {
+			$('#btnEditCourse').click(function() {
 				
 				$('#editCoursePanel').load(reload_url);
 			});
