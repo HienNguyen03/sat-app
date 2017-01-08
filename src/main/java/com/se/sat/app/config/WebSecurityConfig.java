@@ -1,36 +1,28 @@
 package com.se.sat.app.config;
 
-import java.io.IOException;
-
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.se.sat.app.CustomAuthenticationSuccessHandler;
-import com.se.sat.app.ProperCookieClearingLogoutHandler;
 
 @Configuration
 @EnableWebSecurity
+@ComponentScan
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
@@ -43,27 +35,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
     private SessionRegistry sessionRegistry;
-	
-	@Bean
-	public LogoutSuccessHandler customLogoutSuccessHandler() {
-		return new LogoutSuccessHandler() {
-
-			@Override
-			public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
-					Authentication authentication) throws IOException, ServletException {
-
-				if (authentication != null) {
-					//System.out.println(authentication.getName());
-				}
-				
-				// perform other required operation
-				String URL = request.getContextPath() + "/logout";
-				response.setStatus(HttpStatus.OK.value());
-				response.sendRedirect(URL);
-
-			}
-		};
-	}
+//	
+//	@Bean
+//	public LogoutSuccessHandler customLogoutSuccessHandler() {
+//		return new LogoutSuccessHandler() {
+//
+//			@Override
+//			public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
+//					Authentication authentication) throws IOException, ServletException {
+//
+//				if (authentication != null) {
+//					//System.out.println(authentication.getName());
+//				}
+//				
+//				// perform other required operation
+//				String URL = request.getContextPath() + "/logout";
+//				response.setStatus(HttpStatus.OK.value());
+//				response.sendRedirect(URL);
+//
+//			}
+//		};
+//	}
 	
 	@Value("${rememberMe.privateKey}")
 	private String myPrivateKey;
@@ -95,7 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.invalidateHttpSession(true)
 				.clearAuthentication(true)
 				.deleteCookies("JSESSIONID")
-				.addLogoutHandler(new ProperCookieClearingLogoutHandler("JSESSIONID"))
+				//.addLogoutHandler(new ProperCookieClearingLogoutHandler("JSESSIONID"))
 				.permitAll()
 			.and()
 				.rememberMe()
