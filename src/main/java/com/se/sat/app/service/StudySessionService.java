@@ -28,4 +28,6 @@ public interface StudySessionService {
 	
 	public LinkedHashMap<StudySession, Boolean> matchStudentSessions(List<StudySession> studentSessions, List<StudySession> courseSessions);
 	public String getParticipationRate(List<StudySession> studentSessions, List<StudySession> courseSessions);
+	public Student findStudentInfoInSession(Integer studentId);
+	public StudySession findLatestStudySessionByCourse(Course course);
 }

@@ -259,4 +259,14 @@ public class StudySessionServiceImpl implements StudySessionService {
 
 	}
 
+	@Override
+	public Student findStudentInfoInSession(Integer studentId) {
+		return studentDao.findById(studentId);
+	}
+
+	@Override
+	public StudySession findLatestStudySessionByCourse(Course course) {
+		return studySessionDao.findTheLastStudySessionByCourse(course);
+	}
+
 }

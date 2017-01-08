@@ -3,6 +3,7 @@ package com.se.sat.app.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -105,8 +106,8 @@ public class TeacherController {
 	public String addCourse(Model model, @ModelAttribute("courseForm") @Valid CourseForm courseForm,
 			BindingResult result) throws ServletException {
 
-		log.info("mydata: "+ courseForm.getName());
-		
+		log.info("mydata: " + courseForm.getName());
+
 		if (result.hasErrors()) {
 			log.info(result.getAllErrors().toString());
 			model.addAttribute("courseForm", courseForm);
@@ -116,16 +117,16 @@ public class TeacherController {
 
 		boolean saveResult = courseService.insertCourse(courseForm);
 
-		if (saveResult){
+		if (saveResult) {
 			AppUtil.flashModelAttribute(model, "success", "course.success");
 			model.addAttribute(new CourseForm());
-		}else{
+		} else {
 			AppUtil.flashModelAttribute(model, "danger", "course.failure");
 			model.addAttribute(courseForm);
 		}
-		
+
 		return "/teacher/new-course-modal :: newCourse";
-		
+
 	}
 
 	@RequestMapping(value = "/course/{courseId}/edit", method = RequestMethod.GET)
@@ -192,7 +193,44 @@ public class TeacherController {
 
 		model.addAttribute("students", students);
 
-		return "/teacher/course-participants";
+		return "teacher/course-participants";
+	}
+
+	@RequestMapping(value = "/course/{courseId}/check-participation/{studentId}", method = RequestMethod.GET)
+	public String checkParticipation(Model model, @PathVariable("courseId") Integer courseId,
+			@PathVariable("studentId") Integer studentId) {
+
+		displayParticipationInfo(model, courseId, studentId);
+		return "common/others :: checkParticipation";
+	}
+
+	protected void displayParticipationInfo(Model model, Integer courseId, Integer studentId) {
+		Course course = courseService.findCourseInfo(courseId);
+		Student student = studySessionService.findStudentInfoInSession(studentId);
+		model.addAttribute("student", student);
+
+		model.addAttribute("course", course);
+
+		List<StudySession> courseSessions = course.getStudySessions();
+
+		if (!courseSessions.isEmpty()) {
+			// show 'no session found' message
+			model.addAttribute("noSessionFound", false);
+
+			List<StudySession> studentSessions = studySessionService.findStudySessionsByStudent(student);
+
+			LinkedHashMap<StudySession, Boolean> participationList = studySessionService
+					.matchStudentSessions(studentSessions, courseSessions);
+			// set participation list
+			model.addAttribute("participationList", participationList);
+
+			String participationRate = studySessionService.getParticipationRate(studentSessions, courseSessions);
+			// set participation rate
+			model.addAttribute("participationRate", participationRate);
+
+		} else {
+			model.addAttribute("noSessionFound", true);
+		}
 	}
 
 	/**
@@ -209,12 +247,12 @@ public class TeacherController {
 		if (course != null) {
 
 			model.addAttribute("course", course);
+			model.addAttribute("teacher", course.getTeacher());
 
-			return "/teacher/course-page";
-		}
-
-		else
+			return "teacher/course-page";
+		} else {
 			return "redirect:/teacher";
+		}
 
 	}
 
@@ -226,7 +264,7 @@ public class TeacherController {
 
 		model.addAttribute("studySessions", studySessions);
 
-		return "/teacher/course-sessions";
+		return "teacher/course-sessions";
 
 	}
 
@@ -236,29 +274,45 @@ public class TeacherController {
 		StudySessionForm studySessionForm = new StudySessionForm();
 		model.addAttribute("studySessionForm", studySessionForm);
 
-		return "/teacher/new-study-session";
+		return "common/others :: newStudySession";
+	}
+
+	@RequestMapping(value = "/course/{courseId}/latest-study-session", method = RequestMethod.GET)
+	public String getLatestSession(@PathVariable("courseId") Integer courseId, Model model) {
+
+		Course course = courseService.findCourseInfo(courseId);
+		StudySession studySession = studySessionService.findLatestStudySessionByCourse(course);
+		int count = studySessionService.findStudySessionByCourse(courseId).size();
+
+		model.addAttribute("studySessionCount", count);
+		model.addAttribute("course", course);
+		model.addAttribute("studySession", studySession);
+
+		return "common/others :: aNewRecordOfSession";
 	}
 
 	@RequestMapping(value = "/course/{courseId}/new-study-session", method = RequestMethod.POST)
 	public String addSession(@PathVariable("courseId") Integer courseId, Model model,
-			@ModelAttribute("studySessionForm") @Valid StudySessionForm studySessionForm, BindingResult result,
-			RedirectAttributes redirectAttributes) throws ServletException {
+			@ModelAttribute("studySessionForm") @Valid StudySessionForm studySessionForm, BindingResult result)
+			throws ServletException {
 
 		if (result.hasErrors()) {
 			// log.info(result.getAllErrors().toString());
 			model.addAttribute("studySessionForm", studySessionForm);
+			model.addAttribute("myerror", "danger");
 
-			return "/teacher/new-study-session";
+			return "common/others :: newStudySession";
 		}
 
 		boolean saveResult = studySessionService.insertStudySession(courseId, studySessionForm);
+		model.addAttribute("myerror", "success");
 
 		if (saveResult)
-			AppUtil.flash(redirectAttributes, "success", "studySession.success");
+			AppUtil.flashModelAttribute(model, "success", "studySession.success");
 		else
-			AppUtil.flash(redirectAttributes, "danger", "studySession.failure");
+			AppUtil.flashModelAttribute(model, "danger", "studySession.failure");
 
-		return "redirect:/teacher/course/{courseId}/sessions";
+		return "common/others :: newStudySession";
 	}
 
 	@RequestMapping(value = "/course/{courseId}/study-session/{studySessionId}/edit", method = RequestMethod.GET)
@@ -351,7 +405,7 @@ public class TeacherController {
 		else
 			AppUtil.flash(redirectAttributes, "danger", "studySession.deleteFailure");
 
-		return "redirect:/teacher/course/{courseId}";
+		return "redirect:/teacher/course/{courseId}/sessions";
 	}
 
 	@RequestMapping(value = "/course/{courseId}/study-session/{studySessionId}", method = RequestMethod.GET)

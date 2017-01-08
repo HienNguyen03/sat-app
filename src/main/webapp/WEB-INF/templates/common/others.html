@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
-	<div th:fragment="studentSession" class="modal-dialog model-lg">
+	<div th:fragment="studentSession" class="modal-dialog modal-lg">
 
 		<!-- Modal content-->
 		<div class="modal-content">
@@ -102,7 +102,7 @@
 
 	</div>
 	
-	<div th:fragment="courseInfo" class="modal-dialog model-lg">
+	<div th:fragment="courseInfo" class="modal-dialog">
 
 		<!-- Modal content-->
 		<div class="modal-content">
@@ -191,6 +191,202 @@
 			});
 		</script>
 
+	</div>
+	
+	
+	<div th:fragment="checkParticipation" class="modal-dialog modal-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Session history</h4>
+			</div>
+			<div th:if="${noSessionFound} == false" class="modal-body">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th class="text-center">#</th>
+							<th>Session name</th>
+							<th class="text-center">Start time</th>
+							<th class="text-center">End time</th>
+							<th class="text-center">Date</th>
+							<th>Category</th>
+							<th class="text-center">Participation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="instance,iterationStatus : ${participationList}"
+							th:class="${iterationStatus.count == iterationStatus.size and flashType == 'success'} ? 'animated bounceIn '+${flashType} : ''">
+							<td class="text-center" th:text="${iterationStatus.count}"></td>
+							<td th:text="${instance.key.name}"></td>
+							<td class="text-center" th:text="${instance.key.startTime}"></td>
+							<td class="text-center" th:text="${instance.key.endTime}"></td>
+							<td class="text-center" th:text="${instance.key.sessionDate}"></td>
+							<td th:text="${instance.key.sessionCategory}"></td>
+							<td class="text-center"><i th:if="${instance.value == true}" class="fa fa-check"></i></td>
+						</tr>
+						<tr>
+							<td class="text-center" colspan="6"><strong>Total</strong></td>
+							<td class="text-center"><strong th:text="${participationRate}"></strong></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div th:if="${noSessionFound} == true" class="modal-body">
+				<h4>No session available !</h4>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+	
+	<tr th:fragment="aNewRecordOfSession" class="studySessionInfo clickable" data-toggle="modal" data-target="#sessionInfoPanel" th:attr="data-href=@{/teacher/course/}+${course.id}+'/study-session/'+${studySession.id}">
+		<td class="text-center" th:text="${studySessionCount}"></td>
+		<td th:text="${studySession.name}"></td>
+		<td class="text-center" th:text="${studySession.startTime}"></td>
+		<td class="text-center" th:text="${studySession.endTime}"></td>
+		<td class="text-center" th:text="${studySession.sessionDate}"></td>
+		<td th:text="${studySession.sessionCategory}"></td>
+		<td class="text-right">
+			<a th:href="@{/teacher/course/}+${course.id}+'/study-session/'+${studySession.id}+'/delete'" class="btn btn-danger btn-right btn-xs" role="button"> <i class="fa fa-minus-square-o"></i> Delete </a>
+			<a th:href="@{/teacher/course/}+${course.id}+'/study-session/'+${studySession.id}+'/edit'" class="btn btn-primary btn-right btn-xs" role="button"> <i class="fa fa-edit"></i> Edit </a>
+			<a th:href="@{/teacher/course/}+${course.id}+'/study-session/'+${studySession.id}+'/change-password'" class="btn btn-success btn-right btn-xs" role="button"> <i class="fa fa-pencil"></i> Change password </a>
+		</td>
+	</tr>
+	
+	<div th:fragment="newStudySession" class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">New study session</h4>
+			</div>
+			
+			<div th:if="${flashType != null}" th:class="'hien-modal-alert alert alert-'+${flashType}+' fade in alert-dismissable'">
+				  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+				  <span th:text="${flashMessage}"></span>
+			</div>
+			
+			<div class="modal-body">
+				<form id="newStudySessionForm" th:action="@{/teacher/course/}+${courseId}+'/new-study-session'"
+						th:object="${studySessionForm}" method="post">
+					<div th:class="${#fields.hasErrors('name')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputName">Session Name : *</label> <input
+							class="form-control" th:field="*{name}" type="text" id="inputName"
+							placeholder="Enter session's name" /> <span th:if="${#fields.hasErrors('name')}"
+							th:errors="*{name}" class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('startTime')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputStartTime">Session start time : *</label> <input
+							class="form-control" th:field="*{startTime}" type="text" id="inputStartTime"
+							placeholder="Choose session's start time" /> <span
+							th:if="${#fields.hasErrors('startTime')}" th:errors="*{startTime}" class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('endTime')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputEndTime">Session end time: *</label> <input
+							class="form-control" th:field="*{endTime}" type="text" id="inputEndTime"
+							placeholder="Choose session's end time" /> <span th:if="${#fields.hasErrors('endTime')}"
+							th:errors="*{endTime}" class="label-important"></span>
+					</div>
+
+
+					<div th:class="${#fields.hasErrors('sessionDate')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputSessionDate">Session date : *</label> <input
+							class="form-control" th:field="*{sessionDate}" type="text" id="inputSessionDate"
+							placeholder="Enter session's date" /> <span th:if="${#fields.hasErrors('sessionDate')}"
+							th:errors="*{sessionDate}" class="label-important"></span>
+					</div>
+
+					<div th:class="${#fields.hasErrors('password')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputPassword">Password : *</label> <input
+							class="form-control" th:field="*{password}" type="password" id="inputPassword"
+							placeholder="Session's password" /> <span th:if="${#fields.hasErrors('password')}"
+							th:errors="*{password}" class="label-important"></span>
+					</div>
+
+					<div
+						th:class="${#fields.hasErrors('sessionCategory')}?  'form-group has-error' : 'form-group'">
+						<label class="control-label" for="inputSessionCategory">Session category : *</label> <input
+							class="form-control" th:field="*{sessionCategory}" type="text" id="inputSessionCategory"
+							placeholder="Session's category" /> <span th:if="${#fields.hasErrors('sessionCategory')}"
+							th:errors="*{sessionCategory}" class="label-important"></span>
+					</div>
+
+					<button id="btnAddNewSessionSubmit" type="submit" class="btn btn-primary">Create</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					
+				</form>
+				<span id="myerrorhidden" th:text="${myerror}" style="display:none"></span>
+				<script th:src="@{/custom/js/jquery.datetimepicker.full.min.js}"></script>
+				
+				<script type="text/javascript" th:inline="javascript">
+					$(document).ready(function() {
+						
+						/*<![CDATA[*/
+						var addSession_url = /*[[@{~/teacher/course/}+${courseId}+'/new-study-session']]*/"";
+						var lastestSession_url = /*[[@{~/teacher/course/}+${courseId}+'/latest-study-session']]*/"";
+						
+						/*]]>*/
+						
+						var token = $("meta[name='_csrf']").attr("content");
+						var header = $("meta[name='_csrf_header']").attr("content");					
+
+						$('#btnAddNewSessionSubmit').click(function(event) {	
+							event.preventDefault();
+							
+							$.ajax({
+								type : "POST",
+								url : addSession_url,
+								data : $('#newStudySessionForm').serialize(),
+								async : true,
+								beforeSend : function(xhr) {
+									xhr.setRequestHeader(header, token);
+								},
+								success : function(data) {
+									$('#addNewSessionPanel').html(data);
+									
+									var myerror = $('#myerrorhidden').text();
+									if(myerror == 'success'){
+										location.reload();
+									}
+								}
+							});
+								
+								
+						});
+						
+						$('#inputStartTime').datetimepicker({
+							timepicker : true,
+							mask : false,
+							datepicker : false,
+							format : 'H:i:s'
+						});
+			
+						$('#inputEndTime').datetimepicker({
+							timepicker : true,
+							mask : false,
+							datepicker : false,
+							format : 'H:i:s'
+						});
+			
+						$('#inputSessionDate').datetimepicker({
+							timepicker : false,
+							mask : false,
+							format : 'Y-m-d'
+						});
+			
+					});
+				</script>
+			</div>
+
+		</div>
 	</div>
 
 </body>

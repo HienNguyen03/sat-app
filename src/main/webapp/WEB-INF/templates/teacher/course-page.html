@@ -17,50 +17,83 @@
 		</div>
 
 		<div class="row">
-			<div class="panel panel-default animated fadeInDown">
-				<div class="panel-heading">
-
-					<div class="span6 pull-right" style="text-align: right">
-						<a class="pull-right btn btn-primary" th:href="@{/teacher}"><i
-							class="fa fa-chevron-circle-left"></i> Back</a> 
-						<a id="btnEditCourse" data-toggle="modal" data-target="#editCoursePanel" href="#"class="btn btn-primary pull-right"
-							role="button"> <i class="fa fa-edit"></i> Edit Course Information
-						</a> <a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/participants'}"
-							class="btn btn-primary pull-right" role="button"> <i class="fa fa-group"></i> All
-							Participants
-						</a>
-						<a href="#" th:href="@{'/teacher/course/' + ${courseId} + '/sessions'}"
-							class="btn btn-primary pull-right" role="button"> <span
-							class="glyphicon glyphicon-th-list"></span> All Sessions
-						</a>
-					</div>					
-					<h4 th:text="${course.name}"></h4>
+			
+			<div class="col-md-11 col-center">
+				<div class="course-panel panel panel-default animated fadeInDown">
+					<div class="panel-heading">
+						<!-- Trigger the modal with a button -->
+						<a class="pull-right btn btn-primary btn-xs small-corner-btn" th:href="@{/teacher}"><i
+							class="fa fa-chevron-circle-left"></i>Back</a>
+							
+						<a id="btnEditCourse" data-toggle="modal" data-target="#editCoursePanel"
+							class="pull-right btn btn-primary btn-xs small-corner-btn" href="#"><i
+							class="fa fa-edit"></i> Edit course info</a>
+						<a th:href="@{'/teacher/course/' + ${courseId} + '/participants'}"
+							class="pull-right btn btn-primary btn-xs small-corner-btn"><i
+							class="fa fa-group"></i> All participants</a>
+						<a th:href="@{'/teacher/course/' + ${courseId} + '/sessions'}"
+							class="pull-right btn btn-primary btn-xs small-corner-btn"><i
+							class="fa fa-bars"></i> All sessions</a>
+						
+						<strong th:text="${course.name}"></strong>
+					</div>
+					<div class="panel-body">
+						<table class="table table-condensed">
+							<tr>
+								<td>Course's description</td>
+								<td colspan="3" th:text="${course.description}"></td>
+							</tr>
+							<tr>
+								<td>Lecturer</td>
+								<td colspan="3"><strong th:text="${teacher.firstname}+' '+${teacher.lastname}"></strong></td>
+							</tr>
+							<tr>
+								<td>Email</td>
+								<td colspan="3" th:text="${teacher.email}"></td>
+							</tr>
+							<tr>
+								<td class="col-md-4">Start date</td>
+								<td class="col-md-3" th:text="${course.startDate}"></td>
+								<td class="col-md-3">End date</td>
+								<td class="col-md-2" th:text="${course.endDate}"></td>
+							</tr>
+							<tr>
+								<td>Start enrolling date</td>
+								<td th:text="${course.startEnrollDate}"></td>
+								<td>End enrolling date</td>
+								<td th:text="${course.endEnrollDate}"></td>
+							</tr>
+						</table>
+						<div class="jumbotron">
+							<h3>Course's content</h3>
+							<p>The content of the course will be placed here !</p>
+							<p>Content is different between courses and can be edited by teacher</p>
+						</div>
+					</div>
 				</div>
 
-				<div class="panel-body">
-					<p>Course's content</p>
-				</div>
 			</div>
 		</div>
 	</div>
 	<!-- /container -->
-	
+
 	<!-- Modal -->
 	<div id="editCoursePanel" class="modal fade" role="dialog"></div>
-	
+
 	<div th:replace="common/footer :: common-footer"></div>
 	<div th:replace="common/footer :: footer-scripts"></div>
 	<script type="text/javascript" th:inline="javascript">
-		$(document).ready(function() {
-			/*<![CDATA[*/
-			var reload_url = /*[[@{'/teacher/course/' + ${course.id} + '/edit'}]]*/"";
-			/*]]>*/
-			
-			$('#btnEditCourse').clikc(function() {
-				
-				$('#editCoursePanel').load(reload_url);
-			});
-		});
+		$(document)
+				.ready(
+						function() {
+							/*<![CDATA[*/
+							var reload_url = /*[[@{'/teacher/course/' + ${course.id} + '/edit'}]]*/"";
+							/*]]>*/
+
+							$('#btnEditCourse').click(function() {
+								$('#editCoursePanel').load(reload_url);
+							});
+						});
 	</script>
 </body>
 </html>
