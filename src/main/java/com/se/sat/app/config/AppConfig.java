@@ -1,5 +1,7 @@
 package com.se.sat.app.config;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -43,22 +45,22 @@ import com.se.sat.app.CustomAuthenticationSuccessHandler;
 public class AppConfig extends WebMvcConfigurerAdapter {
 
 	private static final Logger log = LoggerFactory.getLogger(AppConfig.class);
-	
+
 	@Bean
-    public SessionRegistry getSessionRegistry() {
-        return new SessionRegistryImpl();
-    }
-	
+	public SessionRegistry getSessionRegistry() {
+		return new SessionRegistryImpl();
+	}
+
 	@Bean
-	public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler(){
+	public CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler() {
 		return new CustomAuthenticationSuccessHandler();
 	}
-	
+
 	@Bean
-    public AuthenticationTrustResolver getAuthenticationTrustResolver() {
-        return new AuthenticationTrustResolverImpl();
-    }
-	
+	public AuthenticationTrustResolver getAuthenticationTrustResolver() {
+		return new AuthenticationTrustResolverImpl();
+	}
+
 	@Bean(name = "templateResolver")
 	public ServletContextTemplateResolver getTemplateResolver() {
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
@@ -71,11 +73,11 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		templateResolver.setCacheable(false);
 		return templateResolver;
 	}
-	
-//	@Bean(name="localValidator")
-//	public Validator getValidatorFactory(){
-//		return new LocalValidatorFactoryBean();
-//	}
+
+	// @Bean(name="localValidator")
+	// public Validator getValidatorFactory(){
+	// return new LocalValidatorFactoryBean();
+	// }
 
 	@Bean(name = "templateEngine")
 	public SpringTemplateEngine getTemplateEngine() {
@@ -113,7 +115,8 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/custom/**").addResourceLocations("classpath:static/").setCachePeriod(86400);
-		registry.addResourceHandler("/lib/**").addResourceLocations("classpath:/META-INF/resources/webjars/").setCachePeriod(86400);
+		registry.addResourceHandler("/lib/**").addResourceLocations("classpath:/META-INF/resources/webjars/")
+				.setCachePeriod(86400);
 	}
 
 	// Hibernate sector
@@ -121,7 +124,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	private Environment environment;
 
 	@Bean
-	public LocalSessionFactoryBean sessionFactory() {
+	public LocalSessionFactoryBean sessionFactory() throws URISyntaxException {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setPackagesToScan(new String[] { "com.se.sat.app.entity" });
@@ -131,12 +134,21 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public DataSource dataSource() {
+	public DataSource dataSource() throws URISyntaxException {
+		URI dbUri = new URI(System.getenv("DATABASE_URL"));
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
-		dataSource.setDriverClassName(environment.getRequiredProperty("spring.datasource.driver-class-name"));
-		dataSource.setUrl(environment.getRequiredProperty("spring.datasource.url"));
-		dataSource.setUsername(environment.getRequiredProperty("spring.datasource.username"));
-		dataSource.setPassword(environment.getRequiredProperty("spring.datasource.password"));
+
+		// dataSource.setDriverClassName(environment.getRequiredProperty("spring.datasource.driver-class-name"));
+		// dataSource.setUrl(environment.getRequiredProperty("spring.datasource.url"));
+		// dataSource.setUsername(environment.getRequiredProperty("spring.datasource.username"));
+		// dataSource.setPassword(environment.getRequiredProperty("spring.datasource.password"));
+
+		dataSource.setDriverClassName("org.postgresql.Driver");
+		dataSource.setUsername(dbUri.getUserInfo().split(":")[0]);
+		dataSource.setPassword(dbUri.getUserInfo().split(":")[1]);
+
+		String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+		dataSource.setUrl(dbUrl);
 
 		return dataSource;
 	}

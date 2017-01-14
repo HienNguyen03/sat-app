@@ -16,7 +16,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "teacher")
+@Table(name = "teacher_info")
 public class Teacher implements Serializable {
 	
 	@Id

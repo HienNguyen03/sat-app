@@ -22,7 +22,7 @@ import javax.persistence.UniqueConstraint;
 import com.se.sat.app.util.AppUtil;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_info")
 public class User implements Serializable {
 	
 	public static final int USERNAME_MIN = 2;
