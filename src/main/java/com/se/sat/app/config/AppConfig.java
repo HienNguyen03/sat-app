@@ -124,7 +124,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	private Environment environment;
 
 	@Bean
-	public LocalSessionFactoryBean sessionFactory() throws URISyntaxException {
+	public LocalSessionFactoryBean sessionFactory() {
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource());
 		sessionFactory.setPackagesToScan(new String[] { "com.se.sat.app.entity" });
@@ -134,8 +134,21 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	}
 
 	@Bean
-	public DataSource dataSource() throws URISyntaxException {
-		URI dbUri = new URI(System.getenv("DATABASE_URL"));
+	public URI dbUrl() {
+		URI uri = null;
+		
+		try {
+			uri = new URI(System.getenv("DATABASE_URL"));
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		
+		return uri;
+	}
+
+	@Bean
+	public DataSource dataSource() {
+		URI dbUri = dbUrl();
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 
 		// dataSource.setDriverClassName(environment.getRequiredProperty("spring.datasource.driver-class-name"));
